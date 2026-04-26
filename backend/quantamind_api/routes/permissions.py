@@ -15,6 +15,7 @@ MENU_ITEMS = [
     {"key": "workspace.knowledge", "label": "知识库/记忆", "path": "/workspace/knowledge", "scope": "workspace"},
     {"key": "workspace.agents", "label": "智能体", "path": "/workspace/agents", "scope": "workspace"},
     {"key": "admin.agents", "label": "后台智能体治理", "path": "/admin/agents", "scope": "admin"},
+    {"key": "admin.audit", "label": "审批/审计", "path": "/admin/audit", "scope": "admin"},
     {"key": "admin.runs", "label": "后台 Run 控制台", "path": "/admin/runs", "scope": "admin"},
     {"key": "admin.system", "label": "后台系统监控", "path": "/admin/system", "scope": "admin"},
 ]
@@ -47,6 +48,7 @@ ROLE_POLICIES = {
             "workspace.knowledge",
             "workspace.agents",
             "admin.agents",
+            "admin.audit",
             "admin.runs",
             "admin.system",
         ],
