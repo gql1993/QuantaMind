@@ -4,6 +4,13 @@
 
 本仓库为独立项目，位于 `E:\work\QuantaMind`。架构说明见 [QuantaMind 架构设计方案](docs/QuantaMind_AI中台_基于OpenClaw架构设计方案.md)。
 
+当前仓库同时保留旧版 Gateway/客户端，并新增了前后端分离改造基线：
+
+- `backend/`：分离式 FastAPI API 边界
+- `frontend/`：React + Vite 前台/后台工作台
+- `desktop/`：Electron 桌面壳，已可加载新前端构建产物
+- `docker-compose.yml`：分离式部署骨架
+
 ## 快速开始
 
 ### 1. 安装依赖
@@ -19,7 +26,7 @@ pip install -r requirements.txt
 ollama pull qwen2.5:7b
 ```
 
-### 2. 启动服务端（Gateway）
+### 2. 启动旧版服务端（Gateway）
 
 ```bash
 python run_gateway.py
@@ -29,7 +36,7 @@ python -m quantamind.server.gateway
 
 默认监听 `http://0.0.0.0:18789`。
 
-### 3. 使用客户端
+### 3. 使用旧版客户端
 
 - **桌面客户端（推荐）**：双击运行桌面软件窗口  
   `python run_desktop_client.py` 或 `python -m quantamind.client.desktop`  
@@ -37,6 +44,38 @@ python -m quantamind.server.gateway
 - **Web 客户端**：浏览器访问 `http://localhost:18789/` 或 `http://localhost:18789/client`。
 - **CLI 客户端**：另开终端执行  
   `python run_cli.py` 或 `python -m quantamind.client.cli`，按提示输入消息与 AI 对话。
+
+### 4. 启动分离式前后端工作台
+
+```powershell
+.\start_separated_dev.bat
+```
+
+默认会打开两个窗口：
+
+- Backend: `http://127.0.0.1:18789`
+- Frontend: `http://127.0.0.1:5173`
+
+也可以分别启动：
+
+```powershell
+python -m backend.quantamind_api.app
+npm --prefix frontend run dev
+```
+
+### 5. 启动新前端桌面壳
+
+```powershell
+npm --prefix frontend run build
+npm --prefix desktop start
+```
+
+开发时也可让 Electron 直接连接 Vite：
+
+```powershell
+set QUANTAMIND_DESKTOP_FRONTEND_URL=http://127.0.0.1:5173
+npm --prefix desktop start
+```
 
 ## 环境变量
 
@@ -49,6 +88,8 @@ python -m quantamind.server.gateway
 | `QUANTAMIND_LLM_MODEL` | 模型名 | `qwen2.5:7b` |
 | `QUANTAMIND_LLM_API_BASE` | Ollama API 地址 | `http://localhost:11434` |
 | `QUANTAMIND_HEARTBEAT_INTERVAL` | 心跳间隔（分钟） | `30` |
+| `VITE_API_BASE_URL` | 分离式前端 API Base，留空时走 Vite 代理 | 空 |
+| `QUANTAMIND_DESKTOP_FRONTEND_URL` | Electron 开发模式前端 URL | 空 |
 
 同名旧变量 `AETHERQ_*` 仍可作为回退读取；数据目录若仅存在 `~/.aetherq` 且无 `~/.quantamind`，启动时会继续使用前者。
 
@@ -61,6 +102,11 @@ E:\work\QuantaMind\
 ├── run_gateway.py          # 启动服务端
 ├── run_desktop_client.py   # 启动桌面客户端（软件窗口）
 ├── run_cli.py
+├── start_separated_dev.bat # 启动分离式后端 + 前端
+├── backend/                # 分离式 FastAPI API
+├── frontend/               # React + Vite 工作台
+├── desktop/                # Electron 桌面壳
+├── docker-compose.yml      # 分离式部署骨架
 ├── docs/
 │   └── QuantaMind_AI中台_基于OpenClaw架构设计方案.md
 └── quantamind/                # Python 包
@@ -75,6 +121,8 @@ E:\work\QuantaMind\
 
 ## API 摘要
 
+### 旧版 Gateway
+
 - `GET /health` — 健康检查  
 - `POST /api/v1/sessions` — 创建会话  
 - `POST /api/v1/chat` — 对话（支持 stream）  
@@ -83,6 +131,53 @@ E:\work\QuantaMind\
 - `GET /api/v1/skills` — 技能列表  
 - `GET /api/v1/tools` — 工具列表  
 - `GET /`、`GET /client` — QuantaMind Web 客户端
+
+### 分离式 API
+
+- `GET /api/v1/health` — 分离式 API 健康检查
+- `POST /api/v1/chat/stream` — AI 工作台 SSE 流式对话
+- `GET /api/v1/runs`、`GET /api/v1/runs/{id}` — Run 列表与详情
+- `POST /api/v1/runs`、`POST /api/v1/runs/{id}/cancel`、`POST /api/v1/runs/{id}/retry` — Run 操作
+- `GET /api/v1/artifacts`、`GET /api/v1/artifacts/{id}` — 产物列表与详情
+- `GET/POST /api/v1/artifacts/{id}/preview|export|share|archive` — 产物操作
+- `GET /api/v1/agents` — 智能体目录
+- `GET /api/v1/permissions/me` — 当前用户权限与动态菜单
+- `GET /api/v1/data/*` — 数据中心演示 API
+- `GET /api/v1/knowledge/*` — 知识库/记忆中心演示 API
+- `GET /api/v1/admin/*` — 后台系统、Run、智能体治理、审批/审计 API
+
+## 部署与验证
+
+### 本地验证
+
+```powershell
+python -m pytest tests/test_separated_api.py
+npm --prefix frontend run lint
+npm --prefix frontend run build
+```
+
+### Docker Compose
+
+```powershell
+docker compose up --build
+```
+
+- Frontend: `http://127.0.0.1:8080`
+- Backend: `http://127.0.0.1:18789/api/v1/health`
+
+### CI
+
+GitHub Actions 工作流位于 `.github/workflows/ci.yml`，覆盖：
+
+- 分离式 API smoke tests
+- 前端 lint/build
+- Electron 主进程脚本语法检查
+
+更多说明：
+
+- [分离式开发启动说明](docs/Separated_Dev_Startup.md)
+- [分离式部署说明](docs/Separated_Deployment.md)
+- [CI 说明](docs/CI.md)
 
 ## GitHub 上传说明
 
