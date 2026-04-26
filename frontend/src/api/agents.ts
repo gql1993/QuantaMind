@@ -24,3 +24,13 @@ export type AgentListResponse = {
 export function fetchAgents() {
   return getJson<AgentListResponse>('/api/v1/agents')
 }
+
+export type AgentResponse = {
+  success: boolean
+  data: AgentProfile
+  error: null
+}
+
+export function fetchAgent(agentId: string) {
+  return getJson<AgentResponse>(`/api/v1/agents/${agentId}`)
+}

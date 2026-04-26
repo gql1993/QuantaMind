@@ -1,4 +1,4 @@
-import { getJson } from './client'
+import { getJson, postJson } from './client'
 
 export type RunRecord = {
   run_id: string
@@ -25,6 +25,13 @@ export type RunEvent = {
   created_at: string
 }
 
+export type CreateRunPayload = {
+  run_type: string
+  origin?: string
+  owner_agent?: string
+  status_message?: string
+}
+
 export type RunListResponse = {
   success: boolean
   data: {
@@ -47,6 +54,28 @@ export function fetchRuns() {
   return getJson<RunListResponse>('/api/v1/runs')
 }
 
+export type RunResponse = {
+  success: boolean
+  data: RunRecord
+  error: null
+}
+
+export function fetchRun(runId: string) {
+  return getJson<RunResponse>(`/api/v1/runs/${runId}`)
+}
+
 export function fetchRunEvents(runId: string) {
   return getJson<RunEventsResponse>(`/api/v1/runs/${runId}/events`)
+}
+
+export function createRun(payload: CreateRunPayload) {
+  return postJson<RunResponse>('/api/v1/runs', payload)
+}
+
+export function cancelRun(runId: string) {
+  return postJson<RunResponse>(`/api/v1/runs/${runId}/cancel`, {})
+}
+
+export function retryRun(runId: string) {
+  return postJson<RunResponse>(`/api/v1/runs/${runId}/retry`, {})
 }

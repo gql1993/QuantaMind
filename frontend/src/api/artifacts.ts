@@ -22,3 +22,13 @@ export type ArtifactListResponse = {
 export function fetchArtifacts() {
   return getJson<ArtifactListResponse>('/api/v1/artifacts')
 }
+
+export type ArtifactResponse = {
+  success: boolean
+  data: ArtifactRecord
+  error: null
+}
+
+export function fetchArtifact(artifactId: string) {
+  return getJson<ArtifactResponse>(`/api/v1/artifacts/${artifactId}`)
+}
