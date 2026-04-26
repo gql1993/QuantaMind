@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? window.electronAPI?.gatewayUrl ?? ''
 
 export async function getJson<T>(path: string): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`)

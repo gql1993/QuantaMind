@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import './App.css'
 import { AppLayout } from './components/layout/AppLayout'
@@ -18,8 +18,10 @@ import { RunDetailPage } from './pages/RunDetailPage'
 import { RunsPage } from './pages/RunsPage'
 
 function App() {
+  const Router = window.electronAPI ? HashRouter : BrowserRouter
+
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route element={<AppLayout />}>
           <Route index element={<Navigate to="/workspace" replace />} />
@@ -42,7 +44,7 @@ function App() {
           <Route path="*" element={<Navigate to="/workspace" replace />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   )
 }
 

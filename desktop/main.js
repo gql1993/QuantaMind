@@ -4,6 +4,7 @@
  */
 
 const { app, BrowserWindow, shell } = require('electron');
+const fs = require('fs');
 const path = require('path');
 
 const GATEWAY_PORT = process.env.QUANTAMIND_GATEWAY_PORT || '18789';
@@ -28,8 +29,12 @@ function createWindow() {
     show: false,
   });
 
-  const indexPath = path.join(__dirname, 'ui', 'index.html');
-  mainWindow.loadFile(indexPath);
+  const frontendUrl = process.env.QUANTAMIND_DESKTOP_FRONTEND_URL;
+  if (frontendUrl) {
+    mainWindow.loadURL(frontendUrl);
+  } else {
+    mainWindow.loadFile(resolveFrontendEntry());
+  }
 
   mainWindow.once('ready-to-show', () => mainWindow.show());
   mainWindow.on('closed', () => { mainWindow = null; });
@@ -39,6 +44,19 @@ function createWindow() {
     shell.openExternal(url);
     return { action: 'deny' };
   });
+}
+
+function resolveFrontendEntry() {
+  const packagedFrontend = path.join(process.resourcesPath, 'frontend-dist', 'index.html');
+  const workspaceFrontend = path.join(__dirname, '..', 'frontend', 'dist', 'index.html');
+  const fallbackFrontend = path.join(__dirname, 'ui', 'index.html');
+
+  for (const candidate of [packagedFrontend, workspaceFrontend, fallbackFrontend]) {
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return fallbackFrontend;
 }
 
 app.whenReady().then(createWindow);

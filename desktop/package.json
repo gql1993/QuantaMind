@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
+    "start:frontend": "npm --prefix ../frontend run build && electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
@@ -19,6 +20,9 @@
     "productName": "QuantaMind",
     "directories": { "output": "dist" },
     "files": ["main.js", "preload.js", "ui/**"],
+    "extraResources": [
+      { "from": "../frontend/dist", "to": "frontend-dist", "filter": ["**/*"] }
+    ],
     "win": {
       "target": ["nsis"]
     },
