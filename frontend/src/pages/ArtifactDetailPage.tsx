@@ -1,12 +1,25 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-import { fetchArtifact, type ArtifactRecord } from '../api/artifacts'
+import {
+  archiveArtifact,
+  exportArtifact,
+  fetchArtifact,
+  previewArtifact,
+  shareArtifact,
+  type ArtifactActionResult,
+  type ArtifactPreview,
+  type ArtifactRecord,
+} from '../api/artifacts'
 
 export function ArtifactDetailPage() {
   const { artifactId } = useParams<{ artifactId: string }>()
   const [artifact, setArtifact] = useState<ArtifactRecord | null>(null)
+  const [preview, setPreview] = useState<ArtifactPreview | null>(null)
+  const [actionResult, setActionResult] = useState<ArtifactActionResult | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
+  const [loadingAction, setLoadingAction] = useState<string | null>(null)
 
   useEffect(() => {
     if (!artifactId) {
@@ -26,6 +39,33 @@ export function ArtifactDetailPage() {
 
     load()
   }, [artifactId])
+
+  async function runAction(action: 'preview' | 'export' | 'share' | 'archive') {
+    if (!artifactId) {
+      return
+    }
+    setLoadingAction(action)
+    setActionError(null)
+    try {
+      if (action === 'preview') {
+        const data = await previewArtifact(artifactId)
+        setPreview(data.data)
+        setActionResult(null)
+        return
+      }
+      const data =
+        action === 'export'
+          ? await exportArtifact(artifactId)
+          : action === 'share'
+            ? await shareArtifact(artifactId)
+            : await archiveArtifact(artifactId)
+      setActionResult(data.data)
+    } catch (loadError) {
+      setActionError(loadError instanceof Error ? loadError.message : 'Unknown API error')
+    } finally {
+      setLoadingAction(null)
+    }
+  }
 
   if (error) {
     return (
@@ -60,8 +100,30 @@ export function ArtifactDetailPage() {
             <span className="card-kicker">Artifact Detail</span>
             <h2>{artifact.title}</h2>
           </div>
-          <span className="badge">{artifact.artifact_type}</span>
+          <div className="detail-actions">
+            <span className="badge">{artifact.artifact_type}</span>
+            <button type="button" className="secondary-action" onClick={() => runAction('preview')}>
+              {loadingAction === 'preview' ? '预览中...' : '预览'}
+            </button>
+            <button type="button" className="secondary-action" onClick={() => runAction('export')}>
+              {loadingAction === 'export' ? '导出中...' : '导出'}
+            </button>
+            <button type="button" className="secondary-action" onClick={() => runAction('share')}>
+              {loadingAction === 'share' ? '分享中...' : '分享'}
+            </button>
+            <button type="button" className="primary-action" onClick={() => runAction('archive')}>
+              {loadingAction === 'archive' ? '归档中...' : '归档'}
+            </button>
+          </div>
         </div>
+        {actionError && <div className="error-banner">产物操作失败：{actionError}</div>}
+        {actionResult && (
+          <div className="info-banner">
+            操作完成：{actionResult.action} / {actionResult.status}
+            {actionResult.download_url ? ` / ${actionResult.download_url}` : ''}
+            {actionResult.share_url ? ` / ${actionResult.share_url}` : ''}
+          </div>
+        )}
 
         <div className="detail-fields">
           <div>
@@ -88,6 +150,12 @@ export function ArtifactDetailPage() {
           <span>摘要</span>
           <p>{artifact.summary || '暂无摘要'}</p>
         </div>
+        {preview && (
+          <div className="status-message">
+            <span>预览内容</span>
+            <pre className="inline-json-viewer">{JSON.stringify(preview.content, null, 2)}</pre>
+          </div>
+        )}
       </article>
 
       <aside className="panel detail-side">

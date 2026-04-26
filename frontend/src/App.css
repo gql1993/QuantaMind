@@ -865,6 +865,19 @@ th {
   white-space: pre-wrap;
 }
 
+.inline-json-viewer {
+  max-height: 260px;
+  margin: 8px 0 0;
+  padding: 12px;
+  overflow: auto;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #dbeafe;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
 .detail-section {
   margin-top: 18px;
 }
