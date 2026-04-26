@@ -8,6 +8,7 @@ from backend.quantamind_api.routes.agents import router as agents_router
 from backend.quantamind_api.routes.artifacts import router as artifacts_router
 from backend.quantamind_api.routes.chat import router as chat_router
 from backend.quantamind_api.routes.health import router as health_router
+from backend.quantamind_api.routes.permissions import router as permissions_router
 from backend.quantamind_api.routes.runs import router as runs_router
 from backend.quantamind_api.routes.system import router as system_router
 from backend.quantamind_api.services.chat_service import ChatService
@@ -37,6 +38,7 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     _configure_state(app)
     app.include_router(health_router)
     app.include_router(system_router)
+    app.include_router(permissions_router)
     app.include_router(chat_router)
     app.include_router(runs_router)
     app.include_router(artifacts_router)

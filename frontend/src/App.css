@@ -18,6 +18,27 @@
   font-weight: 700;
 }
 
+.user-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(96, 165, 250, 0.12);
+}
+
+.user-card span,
+.user-card small {
+  color: #93a4bd;
+  font-size: 12px;
+}
+
+.user-card strong {
+  color: #ffffff;
+  font-size: 14px;
+}
+
 .sidebar nav {
   display: flex;
   flex-direction: column;
