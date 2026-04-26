@@ -4,6 +4,7 @@ import './App.css'
 import { AppLayout } from './components/layout/AppLayout'
 import { AgentDetailPage } from './pages/AgentDetailPage'
 import { AgentsPage } from './pages/AgentsPage'
+import { AdminAgentsPage } from './pages/AdminAgentsPage'
 import { AdminSystemPage } from './pages/AdminSystemPage'
 import { AiWorkbenchPage } from './pages/AiWorkbenchPage'
 import { ArtifactDetailPage } from './pages/ArtifactDetailPage'
@@ -32,6 +33,7 @@ function App() {
           <Route path="/workspace/knowledge" element={<KnowledgeMemoryPage />} />
           <Route path="/workspace/agents" element={<AgentsPage />} />
           <Route path="/workspace/agents/:agentId" element={<AgentDetailPage />} />
+          <Route path="/admin/agents" element={<AdminAgentsPage />} />
           <Route path="/admin/runs" element={<RunsPage admin />} />
           <Route path="/admin/runs/:runId" element={<RunDetailPage admin />} />
           <Route path="/admin/system" element={<AdminSystemPage />} />

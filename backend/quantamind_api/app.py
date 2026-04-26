@@ -4,6 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.quantamind_api.routes.admin_agents import router as admin_agents_router
 from backend.quantamind_api.routes.agents import router as agents_router
 from backend.quantamind_api.routes.artifacts import router as artifacts_router
 from backend.quantamind_api.routes.chat import router as chat_router
@@ -40,6 +41,7 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     _configure_state(app)
     app.include_router(health_router)
     app.include_router(system_router)
+    app.include_router(admin_agents_router)
     app.include_router(permissions_router)
     app.include_router(chat_router)
     app.include_router(runs_router)
