@@ -249,6 +249,7 @@ td a,
 .artifact-card a,
 .agent-card a,
 .detail-fields a,
+.inline-link,
 .back-link {
   color: #2563eb;
   font-weight: 700;
@@ -259,6 +260,7 @@ td a:hover,
 .artifact-card a:hover,
 .agent-card a:hover,
 .detail-fields a:hover,
+.inline-link:hover,
 .back-link:hover {
   text-decoration: underline;
 }
@@ -357,6 +359,89 @@ th {
   margin-bottom: 0;
   color: #526174;
   line-height: 1.7;
+}
+
+.role-hero {
+  margin-bottom: 18px;
+  padding: 28px;
+  border: 1px solid #dbe3ef;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.role-hero p,
+.role-main-card p {
+  color: #526174;
+  line-height: 1.7;
+}
+
+.role-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.role-tabs button {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #334155;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.role-tabs button.active,
+.role-tabs button:hover {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.role-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 18px;
+}
+
+.role-section {
+  margin-top: 20px;
+}
+
+.role-duty-grid,
+.quick-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.role-duty-grid article {
+  padding: 14px;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.role-duty-grid span {
+  display: block;
+  margin-bottom: 6px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.quick-action-grid a {
+  padding: 14px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.quick-action-grid a:hover {
+  background: #dbeafe;
 }
 
 .system-grid {
@@ -666,6 +751,16 @@ th {
   font-weight: 700;
 }
 
+.tag-list.allow span {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tag-list.deny span {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 @media (max-width: 960px) {
   .app-shell {
     flex-direction: column;
@@ -680,6 +775,9 @@ th {
   .grid,
   .detail-grid,
   .detail-fields,
+  .role-layout,
+  .role-duty-grid,
+  .quick-action-grid,
   .run-form,
   .metric-grid,
   .system-grid,

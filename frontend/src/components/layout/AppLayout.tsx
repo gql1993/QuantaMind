@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 const navItems = [
   { to: '/workspace', label: '工作台总览', end: true },
+  { to: '/workspace/roles', label: '角色首页' },
   { to: '/workspace/ai', label: 'AI 工作台' },
   { to: '/workspace/tasks', label: '我的任务' },
   { to: '/workspace/artifacts', label: '产物中心' },

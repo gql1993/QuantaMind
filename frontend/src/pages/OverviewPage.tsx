@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { fetchAgents } from '../api/agents'
 import { fetchHealth, type HealthResponse } from '../api/health'
@@ -64,6 +65,9 @@ export function OverviewPage() {
           <span className="card-kicker">Workspace</span>
           <h3>角色化前台</h3>
           <p>面向芯片设计、测控、数据分析和项目经理，提供不同首页与默认入口。</p>
+          <Link to="/workspace/roles" className="inline-link">
+            查看角色首页
+          </Link>
         </article>
         <article className="card">
           <span className="card-kicker">Runs</span>

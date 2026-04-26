@@ -9,6 +9,7 @@ import { AiWorkbenchPage } from './pages/AiWorkbenchPage'
 import { ArtifactDetailPage } from './pages/ArtifactDetailPage'
 import { ArtifactsPage } from './pages/ArtifactsPage'
 import { OverviewPage } from './pages/OverviewPage'
+import { RoleWorkspacePage } from './pages/RoleWorkspacePage'
 import { RunDetailPage } from './pages/RunDetailPage'
 import { RunsPage } from './pages/RunsPage'
 
@@ -19,6 +20,7 @@ function App() {
         <Route element={<AppLayout />}>
           <Route index element={<Navigate to="/workspace" replace />} />
           <Route path="/workspace" element={<OverviewPage />} />
+          <Route path="/workspace/roles" element={<RoleWorkspacePage />} />
           <Route path="/workspace/ai" element={<AiWorkbenchPage />} />
           <Route path="/workspace/tasks" element={<RunsPage />} />
           <Route path="/workspace/tasks/:runId" element={<RunDetailPage />} />
