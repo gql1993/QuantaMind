@@ -1,0 +1,315 @@
+{
+  "timestamp": "2026-04-10T18:58:20.841792",
+  "summary": {
+    "report_count": 44,
+    "archive_count": 17,
+    "index_count": 61
+  },
+  "entries": [
+    {
+      "category": "report",
+      "file": "docs/reports/phase10_quality_gate_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase10_quality_gate_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase6_v1_v2_baseline_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_backfill_archive_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_biweekly_stability_review_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_biweekly_stability_review_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_canary_library_baseline.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_canary_rollout_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_observability_guard_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_pre_cutover_drill_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_quarterly_regression_audit_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_quarterly_regression_audit_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_quarterly_regression_signoff_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_rollback_drill_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_version_accountability_trace_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_version_change_audit_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase7_version_change_audit_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_dependency_compat_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_dependency_compat_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_dependency_compat_signoff_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_fault_drill_improvement_ledger_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_fault_drill_scoring_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_fault_drill_scoring_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_oncall_handbook_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_oncall_handbook_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_oncall_handoff_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_ops_metrics_dashboard_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_ops_metrics_dashboard_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_release_cadence_arbitration_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_release_cadence_arbitration_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_wave_rollout_backpressure_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_wave_rollout_backpressure_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase8_wave_rollout_execution_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_daily_ops_bundle_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_daily_ops_bundle_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_executive_weekly_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_executive_weekly_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_ops_budget_linkage_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_ops_budget_linkage_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_policy_drift_latest.json",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/phase9_policy_drift_latest.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/postmortem-pack/20260409_切换后复盘报告.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/postmortem-pack/20260409_复盘行动项台账.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "report",
+      "file": "docs/reports/postmortem-pack/20260409_问题分级与改进跟踪.md",
+      "note": "runtime/generated report"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/ARCHIVE_INDEX.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/drills/phase7_canary_rollout_latest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/drills/phase7_observability_guard_latest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/drills/phase7_pre_cutover_drill_latest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/drills/phase7_rollback_drill_latest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/manifest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/postmortem/20260409_切换后复盘报告.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/postmortem/20260409_复盘行动项台账.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/postmortem/20260409_问题分级与改进跟踪.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_biweekly_stability_review_latest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_biweekly_stability_review_latest.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_audit_latest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_audit_latest.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_signoff_latest.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_version_accountability_trace_latest.md",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_version_change_audit_latest.json",
+      "note": "archived evidence"
+    },
+    {
+      "category": "archive",
+      "file": "docs/archive/phase7/20260410/reviews/phase7_version_change_audit_latest.md",
+      "note": "archived evidence"
+    }
+  ]
+}

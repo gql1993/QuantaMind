@@ -1,0 +1,506 @@
+TITLE_FILE: automating quantum simulations
+PAGES: 76
+
+===== PAGE 1 =====
+corre
+El Agente Cuántico:
+Automating quantum simulations
+Ignacio Gustin1,Luis Mantilla Calderón 2,6,Juan B. Pérez-Sánchez 1,Jérôme F. Gonthier 8,Yuma
+Nakamura2,5,6,Karthik Panicker 1,Manav Ramprasad 2,6,Zijian Zhang 2,6,Yunheng Zou 2,6,Varinia
+Bernales1,2,5,∗,Alán Aspuru-Guzik 1,2,3,4,5,6,7,8,∗
+1Department of Chemistry, University of Toronto, 80 St. George St., Toronto, ON M5S 3H6, Canada
+2Department of Computer Science, University of Toronto, 40 St George St., Toronto, ON M5S 2E4,
+Canada
+3Department of Materials Science & Engineering, University of Toronto, 184 College St., Toronto, ON
+M5S 3E4, Canada
+4Department of Chemical Engineering & Applied Chemistry, University of Toronto, 200 College St.,
+Toronto, ON M5S 3E5, Canada
+5Acceleration Consortium, 700 University Ave., Toronto, ON M7A 2S4, Canada
+6Vector Institute for Artificial Intelligence, W1140-108 College St., Schwartz Reisman Innovation
+Campus, Toronto, ON M5G 0C6, Canada
+7Canadian Institute for Advanced Research (CIFAR), 661 University Ave., Toronto, ON M5G 1M1,
+Canada
+8NVIDIA, 431 King St W #6th, Toronto, ON M5V 1K4, Canada
+Quantum simulation is central to understanding and designing quantum systems across physics and
+chemistry. Yet it has barriers to access from both computational complexity and computational
+perspectives, due to the exponential growth of Hilbert space and the complexity of modern software
+tools. Here we introduceEl Agente Cuántico, a multi-agent AI system that automates quantum-
+simulation workflows by translating natural-language scientific intent into executed and validated
+computations across heterogeneous quantum-software frameworks. By reasoning directly over library
+documentation and APIs, our agentic system dynamically assembles end-to-end simulations spanning
+state preparation, closed- and open-system dynamics, tensor-network methods, quantum control,
+quantum error correction, and quantum resource estimation. The developed system unifies traditionally
+distinct simulation paradigms behind a single natural-language interface. Beyond reducing technical
+barriers, this approach opens a path toward scalable, adaptive, and increasingly autonomous quantum
+simulation, enabling faster exploration of physical models, rapid hypothesis testing, and closer
+integration between theory, simulation, and emerging quantum hardware.
+Date:December 23, 2025
+Correspondence:Alán Aspuru-Guzikalan@aspuru.com
+and Varinia Bernalesvarinia@bernales.org
+Contents
+1 Introduction 2
+2 Architecture ofEl Agente Cuántico4
+3 Experiments for quantum simulations 4
+3.1 State preparation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+3.1.1 Variational quantum eigensolver (VQE) . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+1
+arXiv:2512.18847v1  [quant-ph]  21 Dec 2025
+
+===== PAGE 2 =====
+3.1.2 Bell state preparation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+3.1.3 Thermal states via imaginary-time evolution . . . . . . . . . . . . . . . . . . . . . . . 8
+3.2 Time-independent Hamiltonian simulation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+3.2.1 Trotter decomposition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+3.2.2 Open systems dynamics using the Lindblad approximation . . . . . . . . . . . . . . . 11
+3.2.3 Hierarchical equations of motion (HEOM) . . . . . . . . . . . . . . . . . . . . . . . . . 13
+3.3 Time-dependent Hamiltonians . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+3.3.1 Quantum optimal control . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+3.3.2 Time-dependent product formulas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+3.3.3 Time-evolving block decimation (TEBD) . . . . . . . . . . . . . . . . . . . . . . . . . 16
+4 Beyond quantum simulation 18
+4.1 Phase diagrams of quantum systems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+4.2 Bell-state correlations under depolarizing noise . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+4.3 Estimating qubit requirements for quantum simulation . . . . . . . . . . . . . . . . . . . . . . 20
+4.4 Quantum error correction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+5 Discussion 23
+5.1El Agente Cuánticoroadmap . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+6 Conclusions 26
+A Supporting information 37
+A.1 Agents and tools . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+A.2 Log sessions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+1 Introduction
+Figure 1Schematic overview of El Agente Cuántico,
+detailing its capabilities (upper half) and the integrated
+high-performance software stack and tools (bottom half).
+The simulation of quantum systems is central to
+modern science, providing a systematic way to pre-
+dict, interpret, and design phenomena governed
+by quantum mechanics. Across quantum chem-
+istry (1; 2), condensed-matter physics (3; 4; 5),
+quantum optics (6; 7), high-energy (8; 9), and ma-
+terials science (10; 11), a wide range of experi-
+mentally relevant observables ultimately require
+solving, exactly or approximately, the dynamics
+and/or stationary properties of an underlying quan-
+tum system Hamiltonian. In this sense, quantum
+simulation serves as a computational substrate that
+connects Hamiltonian models to measurable out-
+comes, enables systematic validation and refine-
+ment of theoretical approximations, and provides
+access to regimes otherwise inaccessible to direct
+analysis or experiments.
+Despite its importance, quantum simulation re-
+mains difficult to access broadly (12). A core ob-
+stacle is that the problem size grows exponentially
+with system size, making realistic calculations in-
+feasible without strong approximations, careful nu-
+merical checks, and substantial computing resources (13; 14). Furthermore, even when powerful techniques
+are available, such as tensor network methods in suitable many-body regimes (15; 16; 17), efficient open
+system solvers (18; 19; 20), and variational approaches (21; 22; 23; 24; 25; 2), implementing them requires
+specialized expertise, usually, the users are not all-around specialists in the theory or software ecosystem, and
+2
+
+===== PAGE 3 =====
+even experts rarely know how to employ right off-the-bat every part of an end-to-end toolchain. As a result,
+researchers must invest substantial effort in learning new packages, assembling workflows, diagnosing failures,
+maintaining compatibility across environments, and adapting to different tool interfaces (26; 27; 28). This
+overhead often exceeds the time spent on the scientific question itself, and it slows the path from a concrete
+idea to a working simulation whose results can be trusted.
+Large language models (LLMs) offer a potential path to lowering the entry barrier to performing quantum
+simulations (29; 30). Through large-scale pretraining and post-training methods such as reinforcement learning,
+modern models acquire broad technical knowledge and can apply it through in-context learning (31; 32; 33).
+This makes it possible to express simulation intent in natural language and have the system map that intent to
+concrete implementation choices, including algorithms, software libraries, parameter settings, and correctness
+checks (34; 35; 36). Reasoning models have further improved multi-step planning, code synthesis, and iterative
+self-correction (37; 34; 36). Representative examples include OpenAI o1 (38), DeepSeek R1 (39), Gemini
+2.5 (40), and Nemotron 4 (41), together with detailed system and model cards that document training
+procedures, capabilities, and limitations for the GPT-5 series (42), Gemini models (43), and the Claude
+family (44). As a result, LLMs are increasingly able to support workflows in which the model does not merely
+describe what to do but helps execute the steps that turn a scientific question into a working simulation.
+In parallel, a rapidly expanding ecosystem of scientific agent systems has emerged (45). General-purpose
+agents now demonstrate end-to-end research loops that integrate reasoning with tool use, encompassing
+literature survey, hypothesis generation, verification, implementation, and reporting.(46) NovelSeek (47) is
+an early example that explores end-to-end hypothesis generation and validation. PaperQA (48) advances
+literature search and retrieval by enabling question answering over full-text scientific papers. The Kosmos
+agent (49) spans literature search, ideation, implementation, and report generation across domains such
+as biology and materials science. The Virtual Lab (50) demonstrates collaborative AI agents that design
+and experimentally validate scientific discoveries. The AI Scientist (51; 52) executes independent research
+workflows in machine learning tasks.
+Alongside these general-purpose systems, domain-specific agents are gaining traction in settings that demand
+specialized tools and deep expertise. In scientific research orchestration, ORGANA (53) is a domain-specific
+agent that structures and coordinates complex research workflows by operating over formalized scientific
+artifacts, objectives, and constraints, rather than acting as an unconstrained general-purpose assistant.
+In chemistry, early systems such as ChemCrow (54) and Coscientist (55) demonstrated the potential of
+tool-using agents, while more recent work, including ChemAgent (56), extends this paradigm through multi-
+agent coordination for literature reasoning and complex laboratory operations. In quantum chemistry and
+electronic structure, El Agente Q (57) targets ab initio simulation workflows by translating high-level scientific
+objectives into executable computational pipelines. In mathematics, Ax Prover (58) is a multi-agent system
+for automated theorem proving that can operate autonomously or in collaboration with human experts. In
+astronomy, StarWhisper Telescope (59) automates observational planning and data processing. In scholarly
+communication and biological research, DORA (60) is a domain-specific agent for academic writing, producing
+publication-ready manuscripts from structured scientific sources.
+In quantum computing and hardware, AI for quantum computing and agent-based approaches to quantum-
+physics research have been gaining traction.(61; 62) For example,k-agents (63) provide a framework for
+autonomously calibrating superconducting qubit experimental devices, QCR-LLM (64) integrates quantum
+algorithms for combinatorial problems in the reasoning process of LLMs, and PhIDO (65) addresses automated
+design of integrated photonic circuits. Furthermore, Saggio et al.(66) report an experimental reinforcement-
+learning demonstration on a programmable integrated nanophotonic platform, Elliott et al.(67) introduce
+quantum adaptive agents with efficient long-term memory for learning in partially observed/non-Markovian
+environments, Thompson et al.(68) analyze energetic advantages for quantum agents executing complex
+online strategies and Yun et al.(69) propose multi-agent reinforcement learning using variational quantum
+circuits. Quantum-agentic platforms that define quantum agents and outline hybrid architectures have also
+been proposed.(70) Lemma(71), a commercial tool developed by Axiomatic uses an agentic system to create
+mathematical models (digital twins) of physics publications. Similarly, Kipu Quantum outlines a roadmap
+toward market-ready QC and QC+AI products built around platform-based solutions and iterative customer
+feedback.(72)
+3
+
+===== PAGE 4 =====
+Motivated by these developments, and leveraging our previous work and infrastructure on El Agente Q(57), we
+introduce El Agente Cuántico, a multi-agent system designed to automate quantum simulation workflows
+by translating natural language prompts into executed and validated computations over a high-performance
+quantum software stack (see Fig. 1). The system is grounded in the surrounding software ecosystem through
+direct access to library documentation and usage examples, which it leverages to recover the relevant APIs
+and implementation details needed to generate and run code end-to-end. More broadly, this reasoning guided
+deep research into documentation, which offers an efficient mechanism for software adaptation, enabling the
+agent to rapidly align with new libraries, evolving interfaces, and domain-specific conventions.
+The remainder of the paper is organized as follows. Section 2 presents the architecture and overall design of
+the multi-agent system. Section 3 tackles representative examples across a broad range of quantum simulation
+tasks. Section 5 discusses the broader implications and limitations of the proposed approach, and outlines a
+strategic roadmap forEl Agente Cuántico. Finally, in Section 6, we present the concluding remarks.
+2 Architecture ofEl Agente Cuántico
+El Agente Cuántico uses the cognitive architecture of El Agente (57), designed to enhance the agent’s
+reasoning, execution, and long-term operation. As a novelty, we deliberately employ a minimalist agent
+architecture designed to exploit the intrinsic reasoning and execution capabilities of state-of-the-art large
+language models (LLMs), rather than constraining behaviour through extensive human-crafted tools, prompts,
+or rigid workflows. The system consists of a set of high-capacity LLM nodes, one per software, connected
+through a central orchestrator that solely coordinates data exchange, inter-software execution, and user
+interfacing (see Fig. 2).
+Our agent’s architecture incorporates expert agents on quantum software frameworks and platforms, including
+the general-purpose CUDA-Q(73) programming platform for high-performance quantum simulation workflows,
+PennyLane for quantum and hybrid programming (74), Qiskit for quantum circuit development and execu-
+tion (75), QuTiP for general open and closed quantum systems simulation (76), TeNPy for tensor-network
+simulations (77), andTequilafor flexible quantum algorithm design (78)
+Each agent consists of an LLM that operates with minimal persistent context and without a domain-specific
+tool or engineered cognition (79; 80; 81). Instead, agents dynamically invoke targeted web search to retrieve
+software documentation or scientific literature, and Python code for execution. This design contrasts with many
+other agentic frameworks that rely on large libraries of human-engineered tools, long contextual instructions
+or reasoning workflows, and task-specific decomposition policies, which can inadvertently limit adaptability
+and induce brittle behavior when confronted with unanticipated scientific questions. By keeping the agents
+comparatively “free” of imposed structure, our approach emphasizes model-internal abstraction and on-demand
+knowledge acquisition from primary sources, aligning more closely with how human researchers interact with
+computational tools and documentation. In this sense, our architecture exploits intrinsic LLM capabilities for
+task execution while being optimized for method discovery in open-ended research settings.
+Current quantum-simulation software can be combined, but typically only through workflows that are fixed
+in advance by developers or users. For example, a researcher may decide ahead of time which program is
+responsible for generating a circuit, which one runs the simulation, and which one analyzes the results, and
+then manually connect these steps. InEl Agente Cuántico, the “quantum simulations expert” instead
+makes these decisions at runtime based on the scientific goal, choosing how to connect available tools on
+demand. This allows simulation workflows to adapt to the problem rather than being constrained by predefined
+software pipelines.
+3 Experiments for quantum simulations
+Quantum simulation refers to the use of computational methods to predict properties and dynamics of
+quantum systems from an underlying Hamiltonian description. Depending on the physical setting and the
+observable of interest, this may involve state preparation, time evolution, or the evaluation of expectation
+values under unitary or non-unitary dynamics.
+4
+
+===== PAGE 5 =====
+Figure 2Multiagentic architecture of El Agente Cuántico. The central agent orchestrates different experts capable
+of designing and executing code using a specific quantum simulation package.
+For closed quantum systems, time evolution is commonly expressed through the Schrödinger equation,
+iℏ ∂
+∂t |ψ(t)⟩=H(t)|ψ(t)⟩,(1)
+To solve Equation (1), one requires initial conditions,|ψ(0)⟩, and a HamiltonianH(t), which may be time-
+dependent or time-independent. In practice, the exponential growth of Hilbert space with system size precludes
+exact solutions for all but the smallest systems, motivating the use of approximation methods tailored to
+specific regimes.
+In this section, we investigate the ability ofEl Agente Cuántico to autonomously translate natural-
+language scientific intent into executed and validated quantum-simulation workflows. Rather than providing
+a comprehensive review of the underlying techniques, each subsection focuses on a concrete simulation
+task and evaluates whether the agent can identify appropriate algorithms, software tools, and validation
+strategies directly from the prompt. The examples are organized by task type — state preparation, time-
+independent dynamics, and time-dependent dynamics — and together span a representative cross-section of
+quantum-simulation methodologies used in current practice.
+For each example, we first introduce the scientific task posed to the agent. For clarity, the agent’s response
+shown in the purple box corresponds to a lightly edited version of its original output, modified solely for
+conciseness. The whole, unedited interaction, including intermediate reasoning steps, is provided in the log
+sessions in the Supporting Information.
+5
+
+===== PAGE 6 =====
+3.1 State preparation
+3.1.1 Variational quantum eigensolver (VQE)
+This method provides a practical approach for computing molecular ground states on noisy intermediate-scale
+quantum hardware (21). The method begins by selecting a parametrized ansatz|ψ(θ)⟩, where θ denotes the
+set of variational parameters that control the quantum circuit used to prepare the state. The algorithm relies
+on the variational principle,
+E(θ) =⟨ψ(θ)|H|ψ(θ)⟩ ≥E 0,
+which states that the expectation value of the HamiltonianH over any trial state provides an upper bound to
+the exact ground-state energyE0. MinimizingE(θ)overθtherefore approximates the true ground state.
+To evaluate the energy on a quantum device, the electronic Hamiltonian is mapped to a qubit Hamiltonian
+through a fermion-to-qubit encoding such as Jordan–Wigner (82; 14; 83) or Bravyi–Kitaev (84). This yields
+an operator decomposition of the form
+H=
+X
+i
+hiPi,
+where the coefficientshi are real scalars determined by the one- and two-electron integrals, and thePi are
+tensor products of Pauli operators acting on the qubit register. The corresponding expectation values⟨Pi⟩θ
+are obtained by repeated measurement of the ansatz state on the quantum device.
+The VQE algorithm proceeds iteratively: (1) prepare the parametrized state|ψ(θ)⟩ on the quantum hardware,
+(2) measure the expectation values⟨Pi⟩θ and reconstruct the energyE(θ), (3) compute a classical update of
+the parametersθusing an optimization routine, and (4) repeat until convergence.
+For molecular benchmarks, we employ the unitary coupled-cluster singles and doubles (UCCSD) ansatz, which
+incorporates electron correlation through an anti-Hermitian excitation operator (85; 86; 87),
+|ψ(θ)⟩=e T(θ)−T †(θ)|ϕHF⟩,
+where|ϕ HF⟩is the Hartree–Fock reference state and
+T(θ) =
+X
+ai
+θai a†
+aai + 1
+4
+X
+abij
+θabij a†
+aa†
+bajai
+contains the single- and double-excitation operators in second quantization. Here,i, j label occupied orbitals,
+a, b label virtual orbitals, anda†
+p/ap denote fermionic creation and annihilation operators. The unitary form
+ensures norm preservation and provides a systematically improvable, chemically motivated ansatz.
+What we asked.We asked El Agente Cuántico to read the CUDA-Q manual and compute the VQE
+ground-state energy of H2 over bond distances from 0.4 to 2.2 Å, benchmark against the exact energies, and
+generate/interpret a dissociation-curve plot.
+What this showcases.This example tests end-to-end autonomy for a standard chemistry workflow: selecting
+an ansatz (UCCSD), executing a parameter sweep, validating against a reference method, and producing
+publication-quality plots plus a physically meaningful error analysis.
+Used agent/tools:quantum scientist agent, cudaq expert agent, deepsearch, python REPL, submit python
+jobs and view png file, see supplementary information for detailed description. The answer was verified to be
+correct.
+Prompt Read the CUDA-Q manual and compute the VQE energy ofH2 over bond distances from 0.4 to
+2.2 Å and compare against the exact answer. For the plot, create a figure of the dissociation curve and
+explain the physical meaning and where the curve deviates from exact energies.
+6
+
+===== PAGE 7 =====
+Response
+Left panel, PES.Morse-like potential with equilibrium at 0.70 Å. VQE (coral circles) perfectly overlaps
+Exact (navy dots) while HF (teal) diverges catastrophically at stretched geometries.
+Right panel, Errors.Log scale (10 −6 to10 4 mHa) reveals 5 orders of magnitude separating VQE errors
+(∼10 −4 mHa) from HF errors (∼102 mHa), with chemical accuracy threshold clearly in between.
+Static correlation.HF fails because a single Slater determinant cannot represent the entangled superposi-
+tion needed for correct dissociation. VQE’s UCCSD ansatz captures this physics exactly.
+Figure 3Plots generated by El Agente Cuántico. On the left, potential energy surface (PES) ofH2 computed
+via VQE with the UCCSD ansatz, compared to FCI and HF. On the right, absolute energy errors on a log scale.
+3.1.2 Bell state preparation
+Bell states are canonical examples of maximally entangled two-qubit states and serve as foundational resources
+in quantum information science (88). The state( |00⟩ + |11⟩)/
+√
+2, first discussed in the context of quantum
+nonlocality by Bell (89), exhibits perfect correlations in both the Z and X measurement bases. Individual
+outcomes remain random, while joint statistics cannot be explained by any classical model that assumes local
+realism. Owing to this structure, Bell states support central quantum protocols such as quantum teleportation
+(90), superdense coding (91), and a wide range of entanglement-based benchmarking methods (92). They
+therefore provide a minimal and analytically transparent setting for studying entanglement, coherence, and
+two-qubit observables using quantum hardware or simulators.
+What we asked.We asked El Agente Cuántico to read theCUDA-Q manual and implement a 2-qubit
+circuit that prepares the Bell state(|00⟩+ |11⟩)/
+√
+2, then estimate⟨Z⊗Z⟩ (computational basis) and⟨X⊗X⟩
+(X basis) from 4096-shot measurements, and plot/analyze the results.
+What this showcases.This example probes whether the agent can translate a minimal entanglement task into
+correct circuit construction, basis changes, statistics-to-observables postprocessing, and sanity-checking via
+the known ideal correlations.
+Used agent/tools:quantum scientist agent, cudaq expert agent, deepsearch, python REPL, submit python
+jobs and view png file, see supplementary information for detailed description. The answer was verified to be
+correct.
+Prompt Read the CUDA-Q manual and create a 2-qubit quantum circuit that prepares a Bell state
+(|00⟩ + |11⟩)/
+√
+2. Start in|00⟩. Apply a Hadamard gate on qubit 0 and then a CNOT with control qubit
+0 and target qubit 1. Measure both qubits in the computational⟨Z⟩ basis with 4096 shots and return
+the measurement counts. From those counts, compute and return the expectation value ofZ⊗Z . Then
+also estimate the expectation value ofX⊗X by measuring in the X basis, again with 4096 shots, and
+return both the counts and the estimated⟨X⊗X⟩. Plot and analyze the results.
+7
+
+===== PAGE 8 =====
+Response
+Left panel 1, Z-basis measurements.The outcomes are nearly equally split between|00⟩ (51.4%) and |11⟩
+(48.6%), with no occurrences of|01⟩ or |10⟩. The slight imbalance from a 50/50 distribution is consistent
+with finite sampling noise from 4096 shots.
+Left panel 2, X-basis measurements.The near-50 /50split persists in the X basis, confirming strong
+correlations in multiple measurement bases. Unlike classically correlated states, which appear uncorrelated
+in X, the Bell state exhibits correlations in both bases, enabling violations of Bell inequalities.
+Left panel 3, Expectation values. ⟨Z⊗Z⟩ = +1 (perfect correlation in Z-basis),⟨X⊗X⟩ = +1(perfect
+correlation in X-basis),⟨Y⊗Y⟩ = −1(perfect anti-correlation in Y-basis). The combination(+1, +1,− 1)
+uniquely identifies|Φ +⟩among the four Bell states.
+Figure 4Plots generated by El Agente Cuántico characterizing a 2-qubit Bell state prepared on a quantum
+simulator. The left and center panels show measurement counts inZ and X bases. The right panel shows the
+qubit correlations⟨Z⊗Z⟩,⟨X⊗X⟩, and⟨Y⊗Y⟩.
+3.1.3 Thermal states via imaginary-time evolution
+Preparing thermal states of interacting many-body systems is a central task in quantum simulation. At inverse
+temperatureβ= 1/T, the equilibrium state is described by the Gibbs density matrix,
+ρ(β) = e−βH
+Z , Z= Tr
+
+e−βH
+,
+which encodes the thermodynamic and correlation properties of the system. For lattice models such as the
+one-dimensional Hubbard Hamiltonian (93),
+H=−t
+X
+⟨i,j⟩,σ
+
+c†
+iσcjσ + h.c.
+
++U
+X
+i
+ni↑ni↓,
+imaginary-time evolution (94; 95) provides a practical classical approach to approximatingρ(β)by evolving
+an initial state undere−βH. The resulting state can be validated by examining thermodynamic observables
+such as the temperature dependence of the energy and local occupancies.
+What we asked.We asked El Agente Cuántico to read theTenPymanual and compute the entanglement
+entropy for the 1D Bose–Hubbard model using purification-based imaginary-time evolution with a second-order
+Trotterization.
+What this showcases.This example evaluates whether the agent can move beyond simple state preparation
+and correctly set up tensor-network finite-temperature machinery (purification + imaginary time), while
+producing a quantitative observable (entanglement entropy) from the resulting state.
+Used agent/tools:quantum scientist agent, tenpy expert agent, deepsearch, python REPL, submit python
+jobs and view png file, see supplementary information for detailed description. The answer was verified to be
+correct.
+8
+
+===== PAGE 9 =====
+Prompt Prepare a Gibbs state of a 1D Hubbard model on a classical computer using imaginary-time
+evolution. Consider a 10-site Hubbard chain with open boundary conditions, hoppingt = 1, on-site
+interaction U = 4, and half filling. Target an inverse temperature1/T = 2. Explain how to validate that
+the resulting state is thermal by checking energies and occupancies.
+Response
+Panel (a), energy vs 1/T.As temperature decreases, the Boltzmann distribution favors lower-energy states,
+so the average energy drops monotonically toward the ground state.
+Panel (b), site occupancy.The canonical ensemble at fixedN = 10electrons maintains exactly one electron
+per site on average, as expected for half-filling.
+Panel (c), double occupancy.The strong on-site repulsion U = 4suppresses double occupancy by 64%.
+This is the hallmark of Hubbard physics—electrons avoid sharing sites due to Coulomb repulsion.
+Panel (d), entanglement entropy.Von Neumann entropy S at each bond cutting the chain. The purification
+MPS has entanglement from both quantum correlations and thermal mixing. Higher entropy at the
+center is typical for finite systems with open boundaries.
+Figure 5Plots generated by El Agente Cuántico preparing and validating a thermal state of a 10-site
+Hubbard chain using imaginary-time evolution.
+3.2 Time-independent Hamiltonian simulation
+3.2.1 Trotter decomposition
+When simulating the dynamics of Hamiltonians of the formH = H1 + H2 + · · · + Hn, where[ Hi, Hj] ̸= 0for
+i̸ = j and each Hi is easily diagonalizable, it is common to perform Trotterization (96). This method is a
+standard technique for simulation using quantum computers and approximates the exponential ofH by r
+9
+
+===== PAGE 10 =====
+repetitions of the individual dynamics of eachHj,
+eiHt ≈
+ nY
+k=0
+eiHkt/r
+!r
+.
+There are multiple ways to compute the products of single-term exponentials to obtain a better approximation
+of eiHt. For example, high-order product formulas (97) or corrected product formulas (98) achieve better
+error scaling than the first-order approximation mentioned before.
+What we asked.We asked El Agente Cuántico to simulate closed-system time evolution for a time-
+independent Hamiltonian using a Trotterized product-formula approach, including an explicit comparison/val-
+idation against a reference evolution where possible.
+What this showcases.This example focuses on method selection for Hamiltonian simulation (product formulas)
+and tests whether the agent can reason about algorithmic accuracy (step size/Trotter error), implement the
+workflow in a concrete software stack, and validate dynamics with a controlled benchmark.
+Used agent/tools:quantum scientist agent, cudaq expert agent, deepsearch, python REPL, submit python
+jobs and view png file, see supplementary information for detailed description. The answer was verified to be
+correct.
+Prompt Read the CUDA-Q manual and implement a simulation of the transverse-field Ising model for a
+10-qubit chain with open boundary conditions. Compute the dynamics of the magnetization⟨Z⟩ for two
+parameter regimes, Jcoup = 10 J with h = 0.1 J, and Jcoup = 0.1 J with h = 10 J. Start the evolution
+from a Haar-random initial state and simulate the dynamics over a total time of 10 seconds using a
+second-order product formula with 1000 time steps. Generate a heatmap where the x-axis corresponds
+to qubit position, the y-axis to time, and the color scale to theZ-magnetization, for each of these two
+phases. Analyze the resulting magnetization dynamics between the two parameter choices.
+10
+
+===== PAGE 11 =====
+Response
+Left panel, strong coupling.Slow, smooth dynamics dominated by ZZ interactions; coherent spatial
+correlations across the chain; and spatial structure reflecting collective behavior.
+Right panel, strong field.Fast oscillatory dynamics with horizontal banding; nearly independent qubit
+precession at frequency∼ 2h; rapid oscillation period around0.06s; and weak inter-qubit correlations
+due to small coupling.
+The contrast clearly illustrates the quantum phase transition behavior of the Transverse-field Ising model:
+the ferromagnetic phase (strong coupling) vs. the paramagnetic phase (strong field).
+Figure 6Plots generated by El Agente Cuántico time evolving a 10-qubit transverse-field Ising chain using
+Trotterization in two parameter regimes: strong coupling (left) and strong field (right).
+3.2.2 Open systems dynamics using the Lindblad approximation
+Realistic quantum systems interact with surrounding degrees of freedom, which leads to decoherence (99; 100;
+101; 102; 103) and dissipation (104; 105; 106; 107; 108) that cannot be captured by unitary evolution. In
+such cases, the dynamics of the reduced density matrixρ(t)aquantummasterequationdescribes. Under the
+assumptions of complete positivity, trace preservation, and Markovianity, the generator of the evolution takes
+the Gorini–Kossakowski–Sudarshan–Lindblad (GKSL) form (109; 110; 111)
+dρ
+dt =−i[H, ρ] +
+X
+k
+D[Ck](ρ),(2)
+where the dissipator is defined as
+D[C](ρ) =CρC † − 1
+2
+
+C †C, ρ
+	
+.(3)
+The operators Ck represent environmental channels and determine how populations and coherences decay.
+The GKSL structure ensures that the evolution remains physical and preserves positivity and the trace of the
+density matrix.
+For a single qubit, the Lindblad equation provides a clear description of how coherent Bloch sphere motion
+competes with irreversible relaxation. A standard example is amplitude damping generated byC = √γ σ−,
+which drives population from the excited state to the ground state at rateγ while attenuating coherences.
+The expectation value
+⟨Z(t)⟩= Tr[ρ(t)Z](4)
+highlights the contrast between closed- and open-system evolution. Unitary dynamics generates undamped
+oscillations, whereas in the presence of dissipation, the trajectories decay toward the stationary state.
+11
+
+===== PAGE 12 =====
+QuTiP (76) provides efficient solvers for the numerical propagation of Schrödinger and Lindblad equations.
+The following example illustrates howEl Agente Cuántico uses this functionality to model dissipative
+single-qubit dynamics.
+What we asked.We asked El Agente Cuántico to read the QuTiP manual and compare a single qubit’s
+dynamics under (i) unitary evolution and (ii) Lindblad evolution, forH = σx + 1
+2 σz, initial X eigenstates
+|+⟩,|−⟩, and a decay channelC= √γσ− withγ= 0.2, reporting⟨Z⟩(t)overt∈[0,40].
+What this showcases.This example tests solver/tool choice (Schrödinger vs. master equation), correct handling
+of collapse operators and expectations, and the agent’s ability to present a clear closed-vs-open comparison
+plot and interpretation.
+Used agent/tools:quantum scientist agent, qutip expert agent, deepsearch, python REPL, submit python
+jobs and view png file, see supplementary information for detailed description. The answer was verified to be
+correct.
+Prompt Read the QuTiP manual and compare the dynamics of a single qubit under unitary evolution
+and under open system Lindblad evolution using:
+Hamiltonian: H = σx + 1
+2 σz,Initial condition:Use the plus and minus eigenstates of X.Dissipation:Use a
+collapse operator C = √γσ−, with γ = 0.2.Evolution:Use a time range from t = [0, 40]with 400 time
+steps.Output:Plot the expectation value of Z as a function of time for each initial state and compare
+closed and open dynamics.
+Response
+Panel (a), Unitary Evolution:Shows persistent Rabi-like oscillations for both|+⟩ (dark blue, solid) and|−⟩
+(light blue, dashed) initial states with amplitude∼0.4
+Panel (b), Lindblad Evolution:Shows damped oscillations converging to a steady state with a horizontal
+dashed line at⟨Z⟩ ≈-0.33
+Physical interpretation:The Hamiltonian H = σx + 0.5σz creates a tilted effective magnetic field causing
+Rabi-like precession. The collapse operatorC = √γσ− induces spontaneous emission (|1⟩ → |0⟩ decay).
+Competition between coherent driving (H) and dissipation (γ) produces a non-trivial steady state where
+∼ 67%population is in |0⟩. Crucially, the steady state is unique. Both initial states converge to the
+same value, demonstrating loss of memory of initial conditions (a hallmark of open quantum systems).
+Figure 7Plots generated by El Agente Cuántico comparing the oscillatory behaviour of unitary and Lindblad
+dynamics on a single qubit.
+12
+

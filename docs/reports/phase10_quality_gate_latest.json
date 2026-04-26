@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-04-10T10:58:25.694327Z",
+  "result": "BLOCK",
+  "summary": "result=BLOCK, blocks=4, warns=2.",
+  "blocks": [
+    "依赖兼容性结果为 BLOCK",
+    "发布波次决策为 ROLLBACK",
+    "故障演练评分为 D",
+    "管理周报等级为 D"
+  ],
+  "warns": [
+    "每日巡检批任务为 ATTENTION",
+    "策略漂移建议 ADJUST_REQUIRED"
+  ],
+  "inputs": {
+    "dep_report": "docs/reports/phase8_dependency_compat_latest.json",
+    "wave_report": "docs/reports/phase8_wave_rollout_backpressure_latest.json",
+    "drill_report": "docs/reports/phase8_fault_drill_scoring_latest.json",
+    "weekly_report": "docs/reports/phase9_executive_weekly_latest.json",
+    "bundle_report": "docs/reports/phase9_daily_ops_bundle_latest.json",
+    "drift_report": "docs/reports/phase9_policy_drift_latest.json"
+  }
+}

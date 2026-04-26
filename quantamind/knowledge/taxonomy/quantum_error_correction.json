@@ -1,0 +1,105 @@
+{
+  "topic_id": "quantum_error_correction",
+  "library_id": "taxonomy_engineer_qec_v1",
+  "system_label": "量子纠错技术体系",
+  "library_label": "技术体系工程师 v1",
+  "library_summary": "面向编码、syndrome 提取、解码与容错执行的离线体系库，用于将新论文快速落到纠错路线中的具体技术点。",
+  "review_sources": [
+    {
+      "id": "surface_decoder_review_2023",
+      "title": "Review on the decoding algorithms for surface codes",
+      "url": "https://browse.arxiv.org/html/2307.14989v4",
+      "kind": "review"
+    },
+    {
+      "id": "surface_decoder_accuracy_2023",
+      "title": "Testing the Accuracy of Surface Code Decoders",
+      "url": "https://arxiv.org/abs/2311.12503v1",
+      "kind": "decoder"
+    },
+    {
+      "id": "surface_decoder_improved_2026",
+      "title": "Improved decoding algorithms for surface codes under independent bit-flip and phase-flip errors",
+      "url": "https://arxiv.org/abs/2601.00972",
+      "kind": "decoder"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "code_family",
+      "label": "编码与逻辑结构",
+      "keywords": ["surface code", "qldpc", "logical qubit", "bosonic"],
+      "modules": [
+        {
+          "id": "code_design",
+          "label": "编码家族",
+          "keywords": ["surface code", "ldpc", "bosonic", "subsystem code"],
+          "points": [
+            {"id": "surface_code", "label": "表面码与平面码", "keywords": ["surface code", "surface-code", "planar code"]},
+            {"id": "qldpc_codes", "label": "qLDPC/稀疏编码", "keywords": ["qldpc", "ldpc", "hypergraph product"]},
+            {"id": "bosonic_codes", "label": "玻色编码与猫码", "keywords": ["bosonic", "cat code", "gkp"]}
+          ]
+        },
+        {
+          "id": "logical_architecture",
+          "label": "逻辑比特架构",
+          "keywords": ["logical qubit", "distance", "overhead"],
+          "points": [
+            {"id": "logical_qubit_layout", "label": "逻辑比特布局与距离设计", "keywords": ["logical qubit", "code distance", "distance scaling"]},
+            {"id": "resource_overhead", "label": "资源开销与可扩展性评估", "keywords": ["overhead", "resource estimation", "scalability"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "syndrome_measurement",
+      "label": "Syndrome 提取",
+      "keywords": ["syndrome", "measurement", "stabilizer", "ancilla"],
+      "modules": [
+        {
+          "id": "stabilizer_extraction",
+          "label": "稳定子测量",
+          "keywords": ["stabilizer", "ancilla", "syndrome extraction"],
+          "points": [
+            {"id": "stabilizer_circuits", "label": "稳定子测量电路", "keywords": ["stabilizer", "syndrome extraction", "ancilla", "parity check"]},
+            {"id": "fault_measurement", "label": "容错测量与 hook error 抑制", "keywords": ["hook error", "fault-tolerant measurement", "measurement schedule"]}
+          ]
+        },
+        {
+          "id": "measurement_noise",
+          "label": "测量噪声处理",
+          "keywords": ["measurement error", "leakage", "bias"],
+          "points": [
+            {"id": "measurement_noise", "label": "测量噪声与泄漏抑制", "keywords": ["measurement error", "readout error", "leakage", "bias"]},
+            {"id": "flag_qubits", "label": "Flag qubit 与辅助检测机制", "keywords": ["flag qubit", "flag syndrome", "ancilla flag"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decoder_ftops",
+      "label": "解码与容错执行",
+      "keywords": ["decoder", "lattice surgery", "magic state", "threshold"],
+      "modules": [
+        {
+          "id": "decoder_design",
+          "label": "解码器",
+          "keywords": ["decoder", "syndrome decoding", "matching"],
+          "points": [
+            {"id": "matching_decoder", "label": "匹配/图搜索解码器", "keywords": ["matching decoder", "mwpm", "graph matching", "decoder"]},
+            {"id": "ml_decoder", "label": "机器学习解码器", "keywords": ["ml decoder", "neural decoder", "reinforcement decoder"]}
+          ]
+        },
+        {
+          "id": "fault_tolerant_ops",
+          "label": "容错逻辑操作",
+          "keywords": ["lattice surgery", "magic state", "threshold", "fault-tolerant"],
+          "points": [
+            {"id": "lattice_surgery", "label": "Lattice Surgery 与逻辑门", "keywords": ["lattice surgery", "logical gate", "merge", "split"]},
+            {"id": "magic_state", "label": "Magic State 与门限分析", "keywords": ["magic state", "distillation", "threshold", "fault-tolerant"]}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# 向后兼容：历史工具名 doris_* 均映射到 hands_warehouse（OLAP 适配层）
+from quantamind.server.hands_warehouse import (  # noqa: F401
+    SCHEMA,
+    cross_domain_query,
+    export_training_dataset,
+    get_capabilities,
+    get_default_sink_label,
+    list_domains,
+    list_tables,
+    query_design_simulation_summary,
+    query_pipeline_history,
+    query_qubit_characterization,
+    query_sql,
+    query_step_records,
+    query_yield_trend,
+    save_design_params,
+    save_measurement_results,
+    save_pipeline_run,
+    save_pipeline_steps,
+)

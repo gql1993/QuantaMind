@@ -1,0 +1,1265 @@
+{
+  "exp1_hamiltonian": {
+    "model_id": "ham_9a0ca1b4",
+    "device_graph_id": "dg_c119fea7",
+    "quantization_method": "EPR",
+    "truncation_dim": 4,
+    "include_parasitic": true,
+    "qubit_params": [
+      {
+        "qubit_id": "Q1",
+        "freq_01_GHz": 5.1739,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 13.778,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q2",
+        "freq_01_GHz": 5.2154,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.166,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q3",
+        "freq_01_GHz": 5.2361,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.349,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q4",
+        "freq_01_GHz": 5.3487,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 13.918,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q5",
+        "freq_01_GHz": 5.5925,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.284,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q6",
+        "freq_01_GHz": 5.5336,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.788,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q7",
+        "freq_01_GHz": 5.6542,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.081,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q8",
+        "freq_01_GHz": 5.7827,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.35,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q9",
+        "freq_01_GHz": 5.8425,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 13.922,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q10",
+        "freq_01_GHz": 5.895,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.337,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q11",
+        "freq_01_GHz": 5.8878,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.103,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q12",
+        "freq_01_GHz": 6.0782,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.227,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q13",
+        "freq_01_GHz": 6.0989,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.095,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q14",
+        "freq_01_GHz": 6.2104,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.318,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q15",
+        "freq_01_GHz": 6.33,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 13.801,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q16",
+        "freq_01_GHz": 6.4227,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.498,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q17",
+        "freq_01_GHz": 6.4216,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.171,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q18",
+        "freq_01_GHz": 6.521,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 13.865,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q19",
+        "freq_01_GHz": 6.5955,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.833,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      },
+      {
+        "qubit_id": "Q20",
+        "freq_01_GHz": 6.7132,
+        "anharmonicity_MHz": -260.0,
+        "EJ_GHz": 14.424,
+        "EC_GHz": 0.26,
+        "EJ_EC_ratio": 54.7
+      }
+    ],
+    "coupler_params": [
+      {
+        "coupler_id": "C0",
+        "q1": "Q1",
+        "q2": "Q2",
+        "g_MHz": 11.2,
+        "ZZ_kHz": -53.4,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C1",
+        "q1": "Q2",
+        "q2": "Q3",
+        "g_MHz": 8.01,
+        "ZZ_kHz": -35.5,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C2",
+        "q1": "Q3",
+        "q2": "Q4",
+        "g_MHz": 14.97,
+        "ZZ_kHz": -53.4,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C3",
+        "q1": "Q4",
+        "q2": "Q5",
+        "g_MHz": 13.97,
+        "ZZ_kHz": -57.1,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C4",
+        "q1": "Q5",
+        "q2": "Q6",
+        "g_MHz": 14.02,
+        "ZZ_kHz": -40.3,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C5",
+        "q1": "Q6",
+        "q2": "Q7",
+        "g_MHz": 13.81,
+        "ZZ_kHz": -60.4,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C6",
+        "q1": "Q7",
+        "q2": "Q8",
+        "g_MHz": 13.61,
+        "ZZ_kHz": -78.8,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C7",
+        "q1": "Q8",
+        "q2": "Q9",
+        "g_MHz": 11.78,
+        "ZZ_kHz": -51.4,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C8",
+        "q1": "Q9",
+        "q2": "Q10",
+        "g_MHz": 13.38,
+        "ZZ_kHz": -18.0,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C9",
+        "q1": "Q10",
+        "q2": "Q11",
+        "g_MHz": 12.4,
+        "ZZ_kHz": -51.7,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C10",
+        "q1": "Q11",
+        "q2": "Q12",
+        "g_MHz": 12.5,
+        "ZZ_kHz": -55.9,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C11",
+        "q1": "Q12",
+        "q2": "Q13",
+        "g_MHz": 7.59,
+        "ZZ_kHz": -76.3,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C12",
+        "q1": "Q13",
+        "q2": "Q14",
+        "g_MHz": 10.08,
+        "ZZ_kHz": -47.1,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C13",
+        "q1": "Q14",
+        "q2": "Q15",
+        "g_MHz": 10.75,
+        "ZZ_kHz": -80.8,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C14",
+        "q1": "Q15",
+        "q2": "Q16",
+        "g_MHz": 12.64,
+        "ZZ_kHz": -23.8,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C15",
+        "q1": "Q16",
+        "q2": "Q17",
+        "g_MHz": 14.96,
+        "ZZ_kHz": -63.0,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C16",
+        "q1": "Q17",
+        "q2": "Q18",
+        "g_MHz": 10.65,
+        "ZZ_kHz": -84.1,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C17",
+        "q1": "Q18",
+        "q2": "Q19",
+        "g_MHz": 15.59,
+        "ZZ_kHz": -70.7,
+        "chi_kHz": 76.0
+      },
+      {
+        "coupler_id": "C18",
+        "q1": "Q19",
+        "q2": "Q20",
+        "g_MHz": 12.68,
+        "ZZ_kHz": -61.3,
+        "chi_kHz": 76.0
+      }
+    ],
+    "readout_params": [
+      {
+        "resonator_id": "R_Q1",
+        "freq_GHz": 6.8008,
+        "kappa_MHz": 1.38,
+        "chi_dispersive_MHz": 0.44
+      },
+      {
+        "resonator_id": "R_Q2",
+        "freq_GHz": 6.8183,
+        "kappa_MHz": 0.99,
+        "chi_dispersive_MHz": -0.22
+      },
+      {
+        "resonator_id": "R_Q3",
+        "freq_GHz": 6.8283,
+        "kappa_MHz": 1.17,
+        "chi_dispersive_MHz": 0.03
+      },
+      {
+        "resonator_id": "R_Q4",
+        "freq_GHz": 6.8573,
+        "kappa_MHz": 1.78,
+        "chi_dispersive_MHz": 0.23
+      },
+      {
+        "resonator_id": "R_Q5",
+        "freq_GHz": 6.873,
+        "kappa_MHz": 1.37,
+        "chi_dispersive_MHz": 0.04
+      },
+      {
+        "resonator_id": "R_Q6",
+        "freq_GHz": 6.8924,
+        "kappa_MHz": 1.18,
+        "chi_dispersive_MHz": -0.16
+      },
+      {
+        "resonator_id": "R_Q7",
+        "freq_GHz": 6.926,
+        "kappa_MHz": 1.67,
+        "chi_dispersive_MHz": -0.13
+      },
+      {
+        "resonator_id": "R_Q8",
+        "freq_GHz": 6.9471,
+        "kappa_MHz": 1.25,
+        "chi_dispersive_MHz": -0.1
+      },
+      {
+        "resonator_id": "R_Q9",
+        "freq_GHz": 6.952,
+        "kappa_MHz": 2.46,
+        "chi_dispersive_MHz": 0.24
+      },
+      {
+        "resonator_id": "R_Q10",
+        "freq_GHz": 6.9843,
+        "kappa_MHz": 1.04,
+        "chi_dispersive_MHz": -0.1
+      },
+      {
+        "resonator_id": "R_Q11",
+        "freq_GHz": 6.9917,
+        "kappa_MHz": 1.67,
+        "chi_dispersive_MHz": 0.06
+      },
+      {
+        "resonator_id": "R_Q12",
+        "freq_GHz": 7.0133,
+        "kappa_MHz": 1.36,
+        "chi_dispersive_MHz": -0.09
+      },
+      {
+        "resonator_id": "R_Q13",
+        "freq_GHz": 7.0388,
+        "kappa_MHz": 1.73,
+        "chi_dispersive_MHz": 0.26
+      },
+      {
+        "resonator_id": "R_Q14",
+        "freq_GHz": 7.0607,
+        "kappa_MHz": 1.17,
+        "chi_dispersive_MHz": 0.31
+      },
+      {
+        "resonator_id": "R_Q15",
+        "freq_GHz": 7.0738,
+        "kappa_MHz": 1.29,
+        "chi_dispersive_MHz": 0.02
+      },
+      {
+        "resonator_id": "R_Q16",
+        "freq_GHz": 7.1008,
+        "kappa_MHz": 1.26,
+        "chi_dispersive_MHz": 0.03
+      },
+      {
+        "resonator_id": "R_Q17",
+        "freq_GHz": 7.1066,
+        "kappa_MHz": 1.77,
+        "chi_dispersive_MHz": -0.15
+      },
+      {
+        "resonator_id": "R_Q18",
+        "freq_GHz": 7.1345,
+        "kappa_MHz": 1.84,
+        "chi_dispersive_MHz": -0.09
+      },
+      {
+        "resonator_id": "R_Q19",
+        "freq_GHz": 7.1652,
+        "kappa_MHz": 1.78,
+        "chi_dispersive_MHz": 0.02
+      },
+      {
+        "resonator_id": "R_Q20",
+        "freq_GHz": 7.1783,
+        "kappa_MHz": 1.05,
+        "chi_dispersive_MHz": 0.18
+      }
+    ],
+    "collision_warnings": [
+      {
+        "type": "frequency_collision",
+        "qubits": [
+          "Q1",
+          "Q2"
+        ],
+        "delta_GHz": 0.0415,
+        "severity": "HIGH"
+      },
+      {
+        "type": "frequency_collision",
+        "qubits": [
+          "Q2",
+          "Q3"
+        ],
+        "delta_GHz": 0.0207,
+        "severity": "HIGH"
+      },
+      {
+        "type": "frequency_collision",
+        "qubits": [
+          "Q9",
+          "Q11"
+        ],
+        "delta_GHz": 0.0453,
+        "severity": "HIGH"
+      },
+      {
+        "type": "frequency_collision",
+        "qubits": [
+          "Q10",
+          "Q11"
+        ],
+        "delta_GHz": 0.0072,
+        "severity": "HIGH"
+      },
+      {
+        "type": "frequency_collision",
+        "qubits": [
+          "Q12",
+          "Q13"
+        ],
+        "delta_GHz": 0.0207,
+        "severity": "HIGH"
+      },
+      {
+        "type": "frequency_collision",
+        "qubits": [
+          "Q16",
+          "Q17"
+        ],
+        "delta_GHz": 0.0011,
+        "severity": "HIGH"
+      }
+    ],
+    "approximations": {
+      "two_level_valid": true,
+      "RWA_valid": true,
+      "dispersive_valid": true
+    },
+    "model_sensitivity": {
+      "most_sensitive_to": "EJ (junction energy)",
+      "freq_sensitivity_to_EJ": "∂f/∂EJ ≈ +0.03 GHz per 1% EJ change",
+      "anharmonicity_sensitivity_to_EC": "∂α/∂EC ≈ -1 MHz per 1% EC change"
+    },
+    "created_at": "2026-03-19T10:01:58"
+  },
+  "exp2_noise": {
+    "noise_id": "noise_9e712c54",
+    "hamiltonian_model_id": "ham_9a0ca1b4",
+    "T1_breakdown_us": {
+      "measured": 45.0,
+      "theory_total": 30.0,
+      "Purcell": 193.3,
+      "dielectric_loss": 76.0,
+      "TLS": 115.6,
+      "quasiparticle": 407.1,
+      "radiation": 255.9
+    },
+    "T2_breakdown_us": {
+      "measured": 30.0,
+      "theory_total": 24.8,
+      "T1_limit": 60.0,
+      "flux_noise_Tphi": 56.1,
+      "thermal_photon_Tphi": 205.0,
+      "charge_noise_Tphi": 1078.9
+    },
+    "dominant_noise_ranking": [
+      {
+        "mechanism": "介质损耗 (dielectric loss)",
+        "contribution_pct": 39.5,
+        "category": "T1限制"
+      },
+      {
+        "mechanism": "TLS 缺陷",
+        "contribution_pct": 25.9,
+        "category": "T1限制"
+      },
+      {
+        "mechanism": "1/f 磁通噪声",
+        "contribution_pct": 22.1,
+        "category": "T2限制"
+      },
+      {
+        "mechanism": "Purcell 损耗",
+        "contribution_pct": 15.5,
+        "category": "T1限制"
+      },
+      {
+        "mechanism": "准粒子 (quasiparticle)",
+        "contribution_pct": 7.4,
+        "category": "T1限制"
+      },
+      {
+        "mechanism": "热光子退相干",
+        "contribution_pct": 6.1,
+        "category": "T2限制"
+      }
+    ],
+    "gate_error_budget": {
+      "single_qubit_gate": {
+        "coherence_limited": 0.067,
+        "leakage": 0.013,
+        "control_error": 0.01,
+        "total_pct": 0.09
+      },
+      "two_qubit_CZ": {
+        "coherence_limited": 0.667,
+        "ZZ_residual": 0.053,
+        "leakage": 0.122,
+        "flux_noise_dephasing": 0.126,
+        "total_pct": 0.968
+      }
+    },
+    "sensitivity_matrix": {
+      "description": "改哪个参数最划算",
+      "top_recommendations": [
+        {
+          "parameter": "介质损耗 tan_δ",
+          "action": "改善衬底清洁度/换低损耗衬底",
+          "expected_T1_gain_pct": 20
+        },
+        {
+          "parameter": "磁通噪声 A_Φ",
+          "action": "改善磁屏蔽/优化 SQUID loop 面积",
+          "expected_T2_gain_pct": 30
+        },
+        {
+          "parameter": "Purcell 滤波",
+          "action": "增加 Purcell 滤波器/调整读出耦合",
+          "expected_T1_gain_pct": 15
+        }
+      ]
+    },
+    "temperature_mK": 15.0,
+    "created_at": "2026-03-19T10:01:58"
+  },
+  "exp3_diagnosis": {
+    "gate_error": {
+      "diagnosis_id": "diag_180b61a5",
+      "anomaly_type": "gate_error_high",
+      "anomaly_description": "双比特门保真度低于目标",
+      "observed_metrics": {
+        "fidelity_pct": 98.5
+      },
+      "root_cause_ranking": [
+        {
+          "rank": 1,
+          "root_cause": "CZ 工作点附近频率碰撞（非计算态泄漏）",
+          "confidence": 0.5,
+          "supporting_evidence": [
+            "Chevron 图显示工作点附近有避免交叉",
+            "泄漏测量偏高"
+          ],
+          "against_evidence": [
+            "单比特门保真度正常"
+          ],
+          "verification_experiment": "高分辨 Chevron 扫描 + 泄漏态布居测量"
+        },
+        {
+          "rank": 2,
+          "root_cause": "磁通偏置线漂移导致有效失谐波动",
+          "confidence": 0.35,
+          "supporting_evidence": [
+            "Ramsey 测量显示频率漂移",
+            "门误差时变性强"
+          ],
+          "against_evidence": [
+            "Echo 未显著改善"
+          ],
+          "verification_experiment": "长时间 Ramsey 频率跟踪 + 偏置源稳定性测试"
+        },
+        {
+          "rank": 3,
+          "root_cause": "封装寄生模与高激发态混合",
+          "confidence": 0.13,
+          "supporting_evidence": [
+            "宽频谱扫描有异常模态"
+          ],
+          "against_evidence": [
+            "低比特数芯片无此问题"
+          ],
+          "verification_experiment": "封装模频扫 + 温度依赖频率测量"
+        }
+      ],
+      "shortest_verification_path": [
+        "高分辨 Chevron 扫描 + 泄漏态布居测量",
+        "长时间 Ramsey 频率跟踪 + 偏置源稳定性测试"
+      ],
+      "repair_priority": [
+        {
+          "action": "短期：调整控制参数（脉冲幅度/相位/工作点）",
+          "effort": "低",
+          "expected_gain": "中"
+        },
+        {
+          "action": "中期：优化 coupler/读出链参数",
+          "effort": "中",
+          "expected_gain": "高"
+        },
+        {
+          "action": "长期：下一版芯片 redesign",
+          "effort": "高",
+          "expected_gain": "高"
+        }
+      ],
+      "confidence_note": "以上排序基于当前可用证据，建议按优先级执行反证实验以提高置信度",
+      "created_at": "2026-03-19T10:01:58"
+    },
+    "t1_degradation": {
+      "diagnosis_id": "diag_17f64e3a",
+      "anomaly_type": "t1_degradation",
+      "anomaly_description": "T1 显著下降",
+      "observed_metrics": {
+        "T1_us": 25
+      },
+      "root_cause_ranking": [
+        {
+          "rank": 1,
+          "root_cause": "表面介质损耗恶化（TLS 激活）",
+          "confidence": 0.4,
+          "supporting_evidence": [
+            "T1 有频率依赖性",
+            "降温后未恢复"
+          ],
+          "against_evidence": [],
+          "verification_experiment": "T1 vs 频率扫描 + 功率依赖 T1"
+        },
+        {
+          "rank": 2,
+          "root_cause": "Purcell 损耗增强（读出耦合变化）",
+          "confidence": 0.25,
+          "supporting_evidence": [
+            "读出频率附近 T1 最差"
+          ],
+          "against_evidence": [
+            "远离读出频率时 T1 也差"
+          ],
+          "verification_experiment": "调谐读出频率观察 T1 变化"
+        },
+        {
+          "rank": 3,
+          "root_cause": "准粒子浓度升高",
+          "confidence": 0.2,
+          "supporting_evidence": [
+            "升温实验后 T1 下降",
+            "Parity switching 增多"
+          ],
+          "against_evidence": [],
+          "verification_experiment": "注入准粒子实验 + 温度依赖 T1"
+        }
+      ],
+      "shortest_verification_path": [
+        "T1 vs 频率扫描 + 功率依赖 T1",
+        "调谐读出频率观察 T1 变化"
+      ],
+      "repair_priority": [
+        {
+          "action": "短期：调整控制参数（脉冲幅度/相位/工作点）",
+          "effort": "低",
+          "expected_gain": "中"
+        },
+        {
+          "action": "中期：优化 coupler/读出链参数",
+          "effort": "中",
+          "expected_gain": "高"
+        },
+        {
+          "action": "长期：下一版芯片 redesign",
+          "effort": "高",
+          "expected_gain": "高"
+        }
+      ],
+      "confidence_note": "以上排序基于当前可用证据，建议按优先级执行反证实验以提高置信度",
+      "created_at": "2026-03-19T10:01:58"
+    },
+    "frequency_drift": {
+      "diagnosis_id": "diag_41f7e8f2",
+      "anomaly_type": "frequency_drift",
+      "anomaly_description": "频率持续漂移",
+      "observed_metrics": {
+        "drift_MHz_per_hour": 0.5
+      },
+      "root_cause_ranking": [
+        {
+          "rank": 1,
+          "root_cause": "1/f 磁通噪声（表面磁缺陷/吸附 O₂）",
+          "confidence": 0.5,
+          "supporting_evidence": [
+            "Echo 改善有限",
+            "低频噪声谱呈 1/f"
+          ],
+          "against_evidence": [],
+          "verification_experiment": "CPMG 噪声谱测量 + 磁屏蔽测试"
+        },
+        {
+          "rank": 2,
+          "root_cause": "TLS 慢跳变",
+          "confidence": 0.25,
+          "supporting_evidence": [
+            "频率出现离散跳变",
+            "长时间观察有电报噪声特征"
+          ],
+          "against_evidence": [
+            "连续漂移而非跳变"
+          ],
+          "verification_experiment": "长时间连续 Ramsey 监测 + 功率依赖"
+        },
+        {
+          "rank": 3,
+          "root_cause": "偏置源不稳定",
+          "confidence": 0.15,
+          "supporting_evidence": [
+            "相邻比特同步漂移"
+          ],
+          "against_evidence": [
+            "各比特漂移不相关"
+          ],
+          "verification_experiment": "偏置源噪声直接测量 + 换源对比"
+        }
+      ],
+      "shortest_verification_path": [
+        "CPMG 噪声谱测量 + 磁屏蔽测试",
+        "长时间连续 Ramsey 监测 + 功率依赖"
+      ],
+      "repair_priority": [
+        {
+          "action": "短期：调整控制参数（脉冲幅度/相位/工作点）",
+          "effort": "低",
+          "expected_gain": "中"
+        },
+        {
+          "action": "中期：优化 coupler/读出链参数",
+          "effort": "中",
+          "expected_gain": "高"
+        },
+        {
+          "action": "长期：下一版芯片 redesign",
+          "effort": "高",
+          "expected_gain": "高"
+        }
+      ],
+      "confidence_note": "以上排序基于当前可用证据，建议按优先级执行反证实验以提高置信度",
+      "created_at": "2026-03-19T10:01:58"
+    },
+    "readout_error": {
+      "diagnosis_id": "diag_97255f41",
+      "anomaly_type": "readout_error_high",
+      "anomaly_description": "读出错误率偏高",
+      "observed_metrics": {
+        "readout_fidelity_pct": 96.5
+      },
+      "root_cause_ranking": [
+        {
+          "rank": 1,
+          "root_cause": "读出功率/频率非最优",
+          "confidence": 0.35,
+          "supporting_evidence": [
+            "IQ 云重叠度高"
+          ],
+          "against_evidence": [],
+          "verification_experiment": "读出功率+频率二维扫描优化"
+        },
+        {
+          "rank": 2,
+          "root_cause": "残余热激发（有效温度高）",
+          "confidence": 0.3,
+          "supporting_evidence": [
+            "|1⟩态布居非零"
+          ],
+          "against_evidence": [],
+          "verification_experiment": "热激发态占比测量"
+        },
+        {
+          "rank": 3,
+          "root_cause": "放大链噪声/增益不稳",
+          "confidence": 0.2,
+          "supporting_evidence": [
+            "系统噪声温度偏高"
+          ],
+          "against_evidence": [],
+          "verification_experiment": "放大链增益稳定性测试"
+        }
+      ],
+      "shortest_verification_path": [
+        "读出功率+频率二维扫描优化",
+        "热激发态占比测量"
+      ],
+      "repair_priority": [
+        {
+          "action": "短期：调整控制参数（脉冲幅度/相位/工作点）",
+          "effort": "低",
+          "expected_gain": "中"
+        },
+        {
+          "action": "中期：优化 coupler/读出链参数",
+          "effort": "中",
+          "expected_gain": "高"
+        },
+        {
+          "action": "长期：下一版芯片 redesign",
+          "effort": "高",
+          "expected_gain": "高"
+        }
+      ],
+      "confidence_note": "以上排序基于当前可用证据，建议按优先级执行反证实验以提高置信度",
+      "created_at": "2026-03-19T10:01:58"
+    }
+  },
+  "exp4_plans": {
+    "noise": {
+      "plan_id": "exp_plan_df6ccebe",
+      "objective": "identify_dominant_noise",
+      "calibrated_state_id": null,
+      "budget_hours": 8.0,
+      "scheduled_experiments": [
+        {
+          "priority": 1,
+          "experiment": "T1 vs frequency (flux sweep)",
+          "purpose": "区分 Purcell 与介质损耗",
+          "duration_min": 60,
+          "expected_info_gain": "高：可定位 T1 主导机理"
+        },
+        {
+          "priority": 2,
+          "experiment": "T2 Ramsey vs T2 Echo 对比",
+          "purpose": "分离 T2* 中的低频噪声贡献",
+          "duration_min": 30,
+          "expected_info_gain": "高：T2E-T2R差越大→低频噪声越强"
+        },
+        {
+          "priority": 3,
+          "experiment": "Noise spectroscopy (CPMG序列)",
+          "purpose": "提取噪声功率谱密度",
+          "duration_min": 90,
+          "expected_info_gain": "中：可识别 1/f 或白噪声特征"
+        },
+        {
+          "priority": 4,
+          "experiment": "温度依赖 T1 测量",
+          "purpose": "区分准粒子与热光子",
+          "duration_min": 120,
+          "expected_info_gain": "中：非平衡准粒子有特征温度依赖"
+        },
+        {
+          "priority": 5,
+          "experiment": "热激发态占比测量",
+          "purpose": "评估残余热光子水平",
+          "duration_min": 20,
+          "expected_info_gain": "低但重要：直接测有效温度"
+        }
+      ],
+      "total_duration_hours": 5.3,
+      "stopping_criteria": [
+        "Top-1 根因置信度 > 0.8",
+        "参数后验不确定性下降 > 50%",
+        "实验预算耗尽"
+      ],
+      "adaptive_policy": "每完成一个实验后更新后验，若最高假设置信度>0.85则提前停止",
+      "created_at": "2026-03-19T10:01:58"
+    },
+    "gate": {
+      "plan_id": "exp_plan_a1eac651",
+      "objective": "gate_error_diagnosis",
+      "calibrated_state_id": null,
+      "budget_hours": 6.0,
+      "scheduled_experiments": [
+        {
+          "priority": 1,
+          "experiment": "Interleaved RB (单/双门)",
+          "purpose": "快速估计平均门误差",
+          "duration_min": 45
+        },
+        {
+          "priority": 2,
+          "experiment": "Gate Set Tomography (GST)",
+          "purpose": "自洽门集+SPAM表征",
+          "duration_min": 180
+        },
+        {
+          "priority": 3,
+          "experiment": "高分辨 Chevron 扫描",
+          "purpose": "定位泄漏与碰撞区域",
+          "duration_min": 60
+        },
+        {
+          "priority": 4,
+          "experiment": "ZZ 交互作用测量",
+          "purpose": "量化残余 ZZ 串扰",
+          "duration_min": 30
+        },
+        {
+          "priority": 5,
+          "experiment": "DRAG 参数优化扫描",
+          "purpose": "抑制单比特泄漏",
+          "duration_min": 30
+        }
+      ],
+      "total_duration_hours": 5.8,
+      "stopping_criteria": [
+        "Top-1 根因置信度 > 0.8",
+        "参数后验不确定性下降 > 50%",
+        "实验预算耗尽"
+      ],
+      "adaptive_policy": "每完成一个实验后更新后验，若最高假设置信度>0.85则提前停止",
+      "created_at": "2026-03-19T10:01:58"
+    },
+    "readout": {
+      "plan_id": "exp_plan_ac29c562",
+      "objective": "readout_optimization",
+      "calibrated_state_id": null,
+      "budget_hours": 3.0,
+      "scheduled_experiments": [
+        {
+          "priority": 1,
+          "experiment": "读出功率扫描 + IQ 分析",
+          "purpose": "优化信噪比",
+          "duration_min": 30
+        },
+        {
+          "priority": 2,
+          "experiment": "读出频率精细扫描",
+          "purpose": "定位最优读出频点",
+          "duration_min": 30
+        },
+        {
+          "priority": 3,
+          "experiment": "QND 性测试",
+          "purpose": "评估测量回注效应",
+          "duration_min": 45
+        }
+      ],
+      "total_duration_hours": 1.8,
+      "stopping_criteria": [
+        "Top-1 根因置信度 > 0.8",
+        "参数后验不确定性下降 > 50%",
+        "实验预算耗尽"
+      ],
+      "adaptive_policy": "每完成一个实验后更新后验，若最高假设置信度>0.85则提前停止",
+      "created_at": "2026-03-19T10:01:58"
+    }
+  },
+  "exp5_simulation": {
+    "chip": "20bit_tunable_coupler",
+    "qubits_simulated": [
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4",
+      "Q5"
+    ],
+    "simulations": [
+      {
+        "qubit": "Q1",
+        "q3d_summary": {
+          "C_self_fF": 56.8,
+          "g_nearest_MHz": 4.27
+        },
+        "lom_summary": {
+          "freq_GHz": 8.5443,
+          "EC_MHz": 400.0,
+          "EJ_GHz": 25
+        },
+        "epr_summary": {
+          "p_junction": 0.9276,
+          "T1_dielectric_us": 150.0
+        },
+        "eigenmode_summary": {
+          "freq_GHz": 5.1991,
+          "Q_factor": 44907
+        }
+      },
+      {
+        "qubit": "Q2",
+        "q3d_summary": {
+          "C_self_fF": 60.11,
+          "g_nearest_MHz": 1.72
+        },
+        "lom_summary": {
+          "freq_GHz": 8.5443,
+          "EC_MHz": 400.0,
+          "EJ_GHz": 25
+        },
+        "epr_summary": {
+          "p_junction": 0.93373,
+          "T1_dielectric_us": 174.5
+        },
+        "eigenmode_summary": {
+          "freq_GHz": 4.6401,
+          "Q_factor": 55241
+        }
+      },
+      {
+        "qubit": "Q3",
+        "q3d_summary": {
+          "C_self_fF": 66.48,
+          "g_nearest_MHz": 1.07
+        },
+        "lom_summary": {
+          "freq_GHz": 8.5443,
+          "EC_MHz": 400.0,
+          "EJ_GHz": 25
+        },
+        "epr_summary": {
+          "p_junction": 0.96189,
+          "T1_dielectric_us": 303.6
+        },
+        "eigenmode_summary": {
+          "freq_GHz": 5.1632,
+          "Q_factor": 46520
+        }
+      },
+      {
+        "qubit": "Q4",
+        "q3d_summary": {
+          "C_self_fF": 48.28,
+          "g_nearest_MHz": 3.49
+        },
+        "lom_summary": {
+          "freq_GHz": 8.5443,
+          "EC_MHz": 400.0,
+          "EJ_GHz": 25
+        },
+        "epr_summary": {
+          "p_junction": 0.96311,
+          "T1_dielectric_us": 356.6
+        },
+        "eigenmode_summary": {
+          "freq_GHz": 4.6648,
+          "Q_factor": 65095
+        }
+      },
+      {
+        "qubit": "Q5",
+        "q3d_summary": {
+          "C_self_fF": 54.65,
+          "g_nearest_MHz": 1.3
+        },
+        "lom_summary": {
+          "freq_GHz": 8.5443,
+          "EC_MHz": 400.0,
+          "EJ_GHz": 25
+        },
+        "epr_summary": {
+          "p_junction": 0.94786,
+          "T1_dielectric_us": 221.5
+        },
+        "eigenmode_summary": {
+          "freq_GHz": 5.1735,
+          "Q_factor": 47095
+        }
+      }
+    ]
+  },
+  "exp6_optimization": {
+    "pulse_X": {
+      "gate": "X (π pulse)",
+      "pulse_type": "Gaussian + DRAG",
+      "duration_ns": 20,
+      "DRAG_coefficient": 0.46,
+      "amplitude_V": 0.1599,
+      "predicted_fidelity": 0.99925,
+      "predicted_leakage": 0.00011,
+      "virtual_Z_correction_rad": -0.0044,
+      "optimization_method": "DRAG",
+      "hardware_constraints_considered": [
+        "AWG 采样率 1 GSa/s",
+        "带宽限制 500 MHz",
+        "上升沿最小 2 ns",
+        "FPGA 时间精度 1 ns"
+      ],
+      "robustness_analysis": {
+        "frequency_drift_tolerance_MHz": 1.11,
+        "amplitude_error_tolerance_pct": 2.37
+      }
+    },
+    "pulse_CZ": {
+      "gate": "CZ (controlled-Z)",
+      "pulse_type": "flux pulse + net-zero",
+      "duration_ns": 160,
+      "flux_amplitude_Phi0": 0.3685,
+      "rise_time_ns": 5,
+      "predicted_fidelity": 0.9984,
+      "predicted_leakage": 0.0022,
+      "ZZ_residual_kHz": 5.8,
+      "phase_correction": {
+        "target_qubit_rad": 0.1342,
+        "spectator_qubits_rad": 0.0108
+      },
+      "optimization_method": "GRAPE",
+      "hardware_constraints_considered": [
+        "AWG 采样率 1 GSa/s",
+        "带宽限制 500 MHz",
+        "上升沿最小 2 ns",
+        "FPGA 时间精度 1 ns"
+      ],
+      "robustness_analysis": {
+        "frequency_drift_tolerance_MHz": 1.33,
+        "amplitude_error_tolerance_pct": 2.12
+      }
+    },
+    "design_proposal": {
+      "proposal_id": "prop_8993272b",
+      "targets": {
+        "gate_fidelity": 0.999,
+        "T1_us": 80
+      },
+      "frequency_planning": {
+        "strategy": "非均匀频率排布，避免二阶碰撞",
+        "recommended_spread_GHz": [
+          4.8,
+          5.5
+        ],
+        "min_neighbor_detuning_MHz": 150,
+        "readout_resonator_spacing_MHz": 20
+      },
+      "coupler_optimization": {
+        "type": "tunable coupler",
+        "target_residual_ZZ_kHz": "<5",
+        "coupler_freq_range_GHz": [
+          6.5,
+          7.5
+        ],
+        "recommended_g_MHz": [
+          12,
+          18
+        ]
+      },
+      "layout_modifications": [
+        {
+          "item": "增加 airbridge 密度",
+          "reason": "抑制槽模和接地不连续",
+          "priority": "高"
+        },
+        {
+          "item": "优化 Purcell 滤波器设计",
+          "reason": "T1 Purcell 限制贡献 >15%",
+          "priority": "高"
+        },
+        {
+          "item": "缩小 SQUID loop 面积",
+          "reason": "降低磁通噪声敏感度",
+          "priority": "中"
+        },
+        {
+          "item": "改善衬底清洗工艺",
+          "reason": "降低介质损耗 tan_δ",
+          "priority": "中"
+        },
+        {
+          "item": "增加封装模抑制结构",
+          "reason": "抑制寄生模耦合",
+          "priority": "低"
+        }
+      ],
+      "pareto_analysis": {
+        "trade_off_axes": [
+          "T1 (相干性)",
+          "门速度",
+          "制造良率",
+          "频率拥挤度"
+        ],
+        "recommended_operating_point": "偏向高 T1 + 中等门速度",
+        "rationale": "当前瓶颈为相干时间而非门速度"
+      },
+      "risk_assessment": {
+        "high_risk": "频率规划依赖 JJ 参数精度，当前批次间变异 ~3%",
+        "mitigation": "设计时预留 ±50 MHz 频率调谐余量"
+      },
+      "implementation_phases": [
+        {
+          "phase": "立即可执行",
+          "actions": [
+            "调整读出频点",
+            "优化脉冲参数",
+            "调整 bias 工作点"
+          ]
+        },
+        {
+          "phase": "中期（下批次）",
+          "actions": [
+            "调整 coupler 参数",
+            "增加 airbridge",
+            "改善滤波链"
+          ]
+        },
+        {
+          "phase": "下一版芯片",
+          "actions": [
+            "全新频率规划",
+            "新版图布局",
+            "新封装方案"
+          ]
+        }
+      ],
+      "created_at": "2026-03-19T10:01:58"
+    }
+  }
+}

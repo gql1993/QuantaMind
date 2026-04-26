@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-04-10T18:58:25.729328",
+  "scenario_id": "DR-001",
+  "tasks": [
+    {
+      "title": "rollback_drill",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase7_rollback_drill.py"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase7-rollback] ready=False report=docs\\reports\\phase7_rollback_drill_latest.json",
+      "stderr_tail": ""
+    },
+    {
+      "title": "wave_backpressure",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase8_wave_rollout_backpressure.py"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase8-wave-rollout] decision=ROLLBACK json=E:\\work\\QuantaMind\\docs\\reports\\phase8_wave_rollout_backpressure_latest.json plan=E:\\work\\QuantaMind\\docs\\reports\\phase8_wave_rollout_backpressure_latest.md log=E:\\work\\QuantaMind\\docs\\reports\\phase8_wave_rollout_execution_latest.md",
+      "stderr_tail": ""
+    },
+    {
+      "title": "quality_gate",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase10_quality_gate.py"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase10-gate] result=BLOCK json=E:\\work\\QuantaMind\\docs\\reports\\phase10_quality_gate_latest.json markdown=E:\\work\\QuantaMind\\docs\\reports\\phase10_quality_gate_latest.md",
+      "stderr_tail": ""
+    }
+  ],
+  "checks": {
+    "rollback_ready": false,
+    "wave_decision": "ROLLBACK",
+    "quality_gate": "BLOCK"
+  },
+  "passed": false
+}

@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-04-10T19:07:11.856516",
+  "summary": "clusters=5, samples=14.",
+  "clusters": {
+    "alerting": [
+      "观测守护存在 critical 告警。"
+    ],
+    "capacity_pressure": [
+      "容量指标出现压力（pending approvals / timeout tasks）。"
+    ],
+    "other": [
+      "未获取到 failed_run_ratio，当前可用性按目标值占位。",
+      "容量实时指标不完整，当前结果为部分数据。",
+      "ops dashboard 为 RED",
+      "dependency compatibility 为 BLOCK",
+      "pre-cutover 通过率不足（0/4）。",
+      "canary 通过率不足（0/2）。",
+      "当前 on-call 级别偏高（P1）。",
+      "ops 看板状态为 RED。"
+    ],
+    "rollback_risk": [
+      "observability guard 判定 rollback_now",
+      "rollback drill 未就绪。",
+      "建议提升 on-call 值班密度并提前预热回退预案。"
+    ],
+    "policy_drift": [
+      "建议将错误预算预警阈值下调 0.05，提前触发干预。"
+    ]
+  }
+}

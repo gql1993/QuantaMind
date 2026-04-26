@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-04-10T19:07:13.726496",
+  "benefit_score": 10.149999999999999,
+  "result": "LOW",
+  "summary": "benefit=10.1, weekly=34.5, strategy=43.0, gate=BLOCK.",
+  "rows": [
+    [
+      "weekly_score",
+      "34.5",
+      "周度经营表现"
+    ],
+    [
+      "strategy_score",
+      "43.0",
+      "策略学习动作=TIGHTEN"
+    ],
+    [
+      "quality_gate",
+      "BLOCK",
+      "门禁结果对收益折算"
+    ]
+  ]
+}

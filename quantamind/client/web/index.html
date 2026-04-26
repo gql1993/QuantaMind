@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>QuantaMind 量智大脑</title>
+  <style>
+:root{
+  --bg:#0d1117;--surface:#161b22;--surface2:#1c2129;--border:#30363d;
+  --text:#e6edf3;--muted:#8b949e;--accent:#58a6ff;--accent-dim:rgba(56,139,253,.15);
+  --ok:#3fb950;--warn:#d29922;--danger:#f85149;--running:#a371f7;
+  --radius:8px;--card-radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button{font-family:inherit;cursor:pointer}
+.app{display:flex;flex-direction:column;height:100vh}
+
+.topbar{height:52px;padding:0 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface);flex-shrink:0}
+.topbar .logo{font-weight:700;color:var(--accent);font-size:1.1rem;letter-spacing:.5px}
+.topbar .meta{display:flex;align-items:center;gap:16px;font-size:.85rem;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.dot.ok{background:var(--ok)}.dot.off{background:var(--danger)}.dot.warn{background:var(--warn)}
+
+.layout{display:flex;flex:1;overflow:hidden}
+.sidebar{width:200px;background:var(--surface);border-right:1px solid var(--border);padding:12px 0;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto}
+.nav-group{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:14px 20px 4px;font-weight:600}
+.nav-item{padding:9px 20px;cursor:pointer;border-radius:var(--radius);margin:1px 8px;color:var(--muted);transition:background .15s,color .15s;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.nav-item:hover{color:var(--text);background:var(--accent-dim)}
+.nav-item.active{color:var(--accent);background:var(--accent-dim);font-weight:600}
+.sidebar-footer{margin-top:auto;padding:12px 20px;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border)}
+
+.content{flex:1;overflow-y:auto;padding:24px}
+.page{display:none}.page.active{display:block}
+
+.grid{display:grid;gap:16px}.grid-1{grid-template-columns:1fr}.grid-2{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:960px){.grid-1,.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--card-radius);padding:20px}
+.card-title{font-size:1rem;font-weight:600;margin-bottom:2px}
+.card-sub{font-size:.8rem;color:var(--muted)}
+.stat-card{text-align:center;padding:22px 14px}
+.stat-label{font-size:.8rem;color:var(--muted);margin-bottom:4px}
+.stat-value{font-size:1.5rem;font-weight:700}
+.stat-value.ok{color:var(--ok)}.stat-value.warn{color:var(--warn)}.stat-value.danger{color:var(--danger)}.stat-value.running{color:var(--running)}
+.stat-hint{font-size:.72rem;color:var(--muted);margin-top:3px}
+
+.platform-list{list-style:none}.platform-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.9rem}
+.platform-item:last-child{border-bottom:none}.platform-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.platform-dot.ok{background:var(--ok)}.platform-dot.mock{background:var(--warn)}.platform-dot.off{background:var(--danger)}
+.platform-name{flex:1;font-weight:500}.platform-msg{color:var(--muted);font-size:.8rem}
+
+.tab-bar{display:flex;gap:6px;margin-bottom:16px}
+.tab-btn{padding:7px 14px;border-radius:var(--radius);color:var(--muted);background:transparent;border:1px solid var(--border);font-size:.85rem;transition:all .15s}
+.tab-btn:hover{color:var(--text)}.tab-btn.active{background:var(--accent-dim);color:var(--accent);border-color:var(--accent)}
+
+table.dtable{width:100%;border-collapse:collapse}
+.dtable th,.dtable td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:.88rem}
+.dtable th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.dtable tr:hover td{background:var(--surface2)}
+.badge{padding:3px 10px;border-radius:12px;font-size:.76rem;font-weight:600;display:inline-block}
+.badge.pending{background:rgba(210,153,34,.15);color:var(--warn)}
+.badge.running{background:rgba(163,113,247,.15);color:var(--running)}
+.badge.completed{background:rgba(63,185,80,.12);color:var(--ok)}
+.badge.failed{background:rgba(248,81,73,.12);color:var(--danger)}
+.badge.approval{background:rgba(248,81,73,.15);color:var(--danger);border:1px solid var(--danger)}
+.btn{padding:6px 14px;border-radius:var(--radius);border:1px solid var(--border);background:transparent;color:var(--text);font-size:.82rem;transition:all .15s}
+.btn:hover{background:var(--accent-dim);color:var(--accent);border-color:var(--accent)}
+.btn-ok{border-color:var(--ok);color:var(--ok)}.btn-ok:hover{background:rgba(63,185,80,.12)}
+.btn-no{border-color:var(--danger);color:var(--danger)}.btn-no:hover{background:rgba(248,81,73,.12)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn-primary:hover{opacity:.85}
+
+/* chat */
+.chat-layout{display:flex;height:calc(100vh - 100px)}
+.chat-side{width:220px;border-right:1px solid var(--border);padding:12px;overflow-y:auto;background:var(--surface);border-radius:var(--card-radius) 0 0 var(--card-radius)}
+.chat-side .item{padding:9px 10px;cursor:pointer;border-radius:var(--radius);margin-bottom:2px;color:var(--muted);font-size:.86rem;display:flex;justify-content:space-between;align-items:center}
+.chat-side .item:hover,.chat-side .item.active{color:var(--text);background:var(--accent-dim)}
+.chat-side .item .del{opacity:0;color:var(--danger);cursor:pointer;font-size:.8rem}.chat-side .item:hover .del{opacity:1}
+.chat-new{color:var(--accent);padding:10px;cursor:pointer;border-bottom:1px solid var(--border);margin-bottom:8px;font-size:.86rem}
+.chat-main{flex:1;display:flex;flex-direction:column;background:var(--surface);border-radius:0 var(--card-radius) var(--card-radius) 0}
+.chat-msgs{flex:1;overflow-y:auto;padding:20px}
+.msg{margin-bottom:14px;max-width:82%}.msg.user{margin-left:auto}
+.msg-role{font-size:.72rem;color:var(--muted);margin-bottom:3px}
+.msg-bubble{padding:12px 16px;border-radius:12px;line-height:1.55;font-size:.92rem;white-space:pre-wrap}
+.msg.user .msg-bubble{background:var(--accent);color:#fff}
+.msg.assistant .msg-bubble{background:var(--surface2);border:1px solid var(--border)}
+.msg-tool{font-size:.8rem;color:var(--accent);margin-top:8px;padding:8px 10px;background:var(--bg);border-radius:var(--radius);font-family:monospace}
+.chat-input{display:flex;gap:8px;padding:14px;border-top:1px solid var(--border)}
+.chat-input input{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.9rem;outline:none}
+.chat-input input:focus{border-color:var(--accent)}
+.chat-input button{padding:11px 22px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-weight:600;font-size:.9rem}
+
+/* agent cards */
+.agent-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.agent-card{padding:14px;border:1px solid var(--border);border-radius:var(--card-radius);background:var(--surface);display:flex;flex-direction:column;gap:0;transition:border-color .15s,box-shadow .15s}
+.agent-card.selected{border-color:var(--accent);box-shadow:0 0 0 1px rgba(88,166,255,.18)}
+.agent-card-compact{cursor:pointer;border-radius:var(--radius);padding:2px;margin:-2px;transition:background .12s}
+.agent-card-compact:hover{background:rgba(88,166,255,.06)}
+.agent-card.is-collapsed .agent-card-compact:hover .name{color:var(--accent)}
+.agent-card-main{display:flex;flex-direction:column;gap:12px;cursor:pointer}
+.agent-card-main:hover .name{color:var(--accent)}
+.agent-head{display:flex;gap:12px;align-items:flex-start}
+.agent-emoji{font-size:1.85rem;line-height:1}
+.agent-info{flex:1;min-width:0}.agent-info .name{font-weight:600;font-size:.92rem;margin-bottom:2px;line-height:1.25}
+.agent-info .role{font-size:.76rem;color:var(--accent);margin-bottom:6px}
+.agent-info .desc{font-size:.82rem;color:var(--muted);line-height:1.45;margin-bottom:8px;word-break:break-word}
+.agent-card.is-collapsed .agent-info .desc{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.agent-info .platforms{font-size:.74rem;color:var(--muted)}
+.agent-hint-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:2px}
+.agent-mini-meta{font-size:.74rem;color:var(--muted)}
+.agent-card-expand-btn,.agent-card-collapse-btn{font-size:.78rem;padding:4px 12px}
+.agent-card.is-collapsed .agent-card-collapse-wrap{display:none}
+.agent-card:not(.is-collapsed) .agent-card-expand-btn{display:none}
+.agent-card.is-collapsed .agent-card-expanded{display:none !important}
+.agent-card-expanded{display:flex;flex-direction:column;gap:12px}
+.agent-card-collapse-wrap{display:flex;justify-content:flex-end;margin-bottom:8px}
+.agent-card:not(.is-collapsed) .agent-hint-row .agent-mini-meta{display:none}
+.agent-subagents{margin-top:4px}
+.agent-subagents > .stat-label{margin-bottom:8px}
+.agent-subagent-block{padding:12px 14px;margin-bottom:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+.agent-subagent-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.agent-subagent-name{font-weight:600;font-size:.88rem;color:var(--text)}
+.agent-subagent-role{font-size:.74rem;color:var(--accent)}
+.agent-subagent-desc{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:10px}
+.agent-subagent-block .agent-meta-block{margin-top:8px}
+.agent-subagent-block .agent-meta-block:first-of-type{margin-top:0}
+#ad-subagents-section .agent-subagent-block:last-child{margin-bottom:0}
+.agent-subagent-badge-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 6px}
+.agent-subagent-badge{font-size:.7rem;padding:2px 8px;border-radius:999px;background:rgba(88,166,255,.18);color:var(--accent);border:1px solid rgba(88,166,255,.28)}
+.agent-subagent-hint{font-size:.7rem;color:var(--muted)}
+.agent-status{font-size:.76rem;padding:3px 8px;border-radius:10px}
+.agent-status.active{background:rgba(63,185,80,.12);color:var(--ok)}
+.agent-status.standby{background:rgba(210,153,34,.12);color:var(--warn)}
+.agent-meta-block{display:flex;flex-direction:column;gap:6px}
+.agent-chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.agent-chip{padding:4px 10px;border-radius:999px;border:1px solid transparent;background:var(--surface2);font-size:.76rem;line-height:1.35;cursor:pointer;transition:all .15s}
+.agent-chip.tool{color:var(--running);border-color:rgba(163,113,247,.28);background:rgba(163,113,247,.12)}
+.agent-chip.skill{color:var(--ok);border-color:rgba(63,185,80,.24);background:rgba(63,185,80,.12)}
+.agent-chip:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.agent-chip.unavailable{color:var(--muted);border-color:var(--border);background:rgba(255,255,255,.02);cursor:not-allowed;filter:none}
+.agent-chip.unavailable:hover{transform:none}
+.agent-empty{font-size:.82rem;color:var(--muted)}
+.agent-actions{display:flex;gap:8px;flex-wrap:wrap}
+.agent-detail-actions{display:flex;gap:8px;flex-wrap:wrap}
+.agent-quick-actions{display:flex;gap:8px;flex-wrap:wrap}
+.agent-quick-btn{font-size:.78rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:disabled:hover{background:transparent;color:var(--text);border-color:var(--border)}
+
+/* discovery */
+.disc-cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.disc-card{padding:18px;border:1px solid var(--border);border-radius:var(--card-radius);background:var(--surface)}
+.disc-card h4{margin:0 0 4px;font-size:.95rem;color:var(--accent)}
+.disc-card .meta{font-size:.76rem;color:var(--muted);margin-bottom:8px}
+.disc-card .summary{font-size:.86rem;line-height:1.5}
+.disc-card .link{margin-top:10px;color:var(--accent);cursor:pointer;font-size:.82rem}
+.disc-top{display:flex;align-items:flex-start;gap:8px;justify-content:space-between;margin-bottom:8px}
+.disc-badges{display:flex;gap:6px;flex-wrap:wrap}
+.disc-badge{font-size:.72rem;padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:var(--bg);color:var(--muted)}
+.disc-badge.high{background:rgba(248,81,73,.12);color:var(--danger);border-color:rgba(248,81,73,.25)}
+.disc-badge.medium{background:rgba(210,153,34,.12);color:var(--warn);border-color:rgba(210,153,34,.25)}
+.disc-badge.info{background:rgba(87,148,242,.12);color:var(--accent);border-color:rgba(87,148,242,.25)}
+.disc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.disc-entity{font-size:.78rem;color:var(--muted);margin-bottom:6px}
+.disc-reco{margin-top:8px;padding:10px;border-radius:var(--radius);background:var(--bg);font-size:.82rem;line-height:1.5;color:var(--text)}
+.disc-stats-row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.disc-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 10px;min-width:0;text-align:center;cursor:pointer;transition:border-color .15s,transform .15s}
+.disc-stat-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.disc-stat-label{font-size:.78rem;color:var(--muted);margin-bottom:6px}
+.disc-stat-value{font-size:1.6rem;font-weight:700;line-height:1}
+.disc-stat-hint{font-size:.74rem;color:var(--muted);margin-top:6px}
+
+/* intel */
+.intel-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.intel-meta-card{padding:12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+.intel-meta-label{font-size:.76rem;color:var(--muted);margin-bottom:6px}
+.intel-meta-value{font-size:.9rem;font-weight:600;line-height:1.4;word-break:break-word}
+.intel-chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.intel-chip{padding:4px 10px;border-radius:999px;background:var(--accent-dim);color:var(--accent);font-size:.76rem;border:1px solid rgba(88,166,255,.18)}
+.intel-list{display:grid;gap:10px;margin-top:14px}
+.intel-item{padding:14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+.intel-item-title{font-size:.9rem;font-weight:600;line-height:1.45}
+.intel-item-meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.intel-item-summary{font-size:.82rem;color:var(--muted);line-height:1.6}
+.intel-item-link{display:inline-block;margin-top:8px;font-size:.8rem;color:var(--accent);text-decoration:none}
+.intel-route-card{margin-top:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface2)}
+.intel-route-title{font-size:.88rem;font-weight:700;margin-bottom:4px;color:var(--text)}
+.intel-route-subtitle{font-size:.78rem;color:var(--muted);line-height:1.4;margin-bottom:6px}
+.intel-route-components{font-size:.72rem;color:var(--muted);margin-bottom:10px}
+.intel-route-flow{display:flex;align-items:stretch;gap:4px;flex-wrap:wrap;justify-content:flex-start}
+.intel-route-step{flex:1;min-width:100px;max-width:220px;padding:10px 8px;border-radius:10px;border:2px solid;font-size:.74rem;line-height:1.45;box-sizing:border-box}
+.intel-route-step .step-label{font-weight:700;margin-bottom:6px;font-size:.7rem;opacity:.95}
+.intel-route-step .step-text{color:var(--text);word-break:break-word}
+.intel-route-arrow{align-self:center;color:var(--muted);font-size:.85rem;padding:0 2px;flex-shrink:0}
+@media(max-width:960px){.intel-meta{grid-template-columns:1fr};.intel-route-step{max-width:none}}
+.intel-empty{padding:16px;border:1px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-size:.84rem;text-align:center;margin-top:12px}
+
+/* skills */
+.skills-nav-sticky{
+  position:sticky;
+  top:0;
+  z-index:20;
+  margin-bottom:14px;
+  padding-bottom:10px;
+  transition:filter .18s ease,transform .18s ease;
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg) calc(100% - 10px),rgba(13,17,23,0) 100%);
+}
+.skills-nav-sticky .card{margin-bottom:0}
+.skills-nav-sticky.is-stuck{
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,.24));
+}
+.skills-nav-sticky.is-stuck .card{
+  border-color:rgba(88,166,255,.35);
+  box-shadow:0 0 0 1px rgba(88,166,255,.08),0 8px 24px rgba(0,0,0,.26);
+}
+.skills-nav-row{display:flex;gap:10px;flex-wrap:wrap}
+.skill-nav-btn{
+  transition:transform .15s ease,box-shadow .18s ease,background .15s ease,border-color .15s ease,color .15s ease,opacity .15s ease;
+}
+.skill-nav-btn:hover{
+  transform:translateY(-1px);
+}
+.skill-nav-btn.btn-primary,
+.skill-nav-btn[aria-current="true"]{
+  color:#fff;
+  border-color:#6cb6ff;
+  background:linear-gradient(180deg,#58a6ff 0%,#3d8bfd 100%);
+  box-shadow:0 0 0 1px rgba(108,182,255,.28),0 0 0 4px rgba(88,166,255,.12),0 10px 22px rgba(45,126,255,.22);
+  font-weight:700;
+}
+.skill-section-anchor{scroll-margin-top:88px}
+.skill-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.skill-card{padding:16px;border:1px solid var(--border);border-radius:var(--card-radius);background:var(--surface)}
+.skill-card .name{font-weight:600;margin-bottom:3px}.skill-card .desc{font-size:.84rem;color:var(--muted);margin-bottom:6px;line-height:1.4}
+.skill-card .trigger{font-size:.76rem;color:var(--accent);margin-bottom:6px}
+
+/* logs */
+.log-controls{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+.log-controls select,.log-controls input{padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem}
+.log-table{width:100%;border-collapse:collapse;font-family:"Cascadia Code","Consolas",monospace;font-size:.82rem}
+.log-table td{padding:5px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.log-time{color:var(--muted);white-space:nowrap;width:180px}
+.log-level{width:60px;font-weight:600;text-transform:uppercase}
+.log-level.INFO{color:var(--accent)}.log-level.WARNING{color:var(--warn)}.log-level.ERROR{color:var(--danger)}.log-level.DEBUG{color:var(--muted)}
+.log-sub{color:var(--muted);width:160px}
+.log-msg{color:var(--text);word-break:break-all}
+
+/* debug */
+.debug-section{margin-bottom:20px}
+.debug-section h3{font-size:.9rem;color:var(--muted);margin-bottom:8px}
+.debug-json{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;font-family:"Cascadia Code","Consolas",monospace;font-size:.82rem;white-space:pre-wrap;max-height:300px;overflow-y:auto;color:var(--text)}
+.debug-rpc{display:flex;gap:8px;margin-top:12px}
+.debug-rpc input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.86rem;font-family:monospace}
+
+/* settings */
+.settings-card{max-width:520px}
+.settings-card label{display:block;margin-bottom:12px;font-size:.88rem}
+.settings-card label span{display:block;margin-bottom:4px;color:var(--muted);font-size:.8rem}
+.settings-card input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.88rem}
+
+.page-title{font-size:1.15rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.page-title .time{font-size:.78rem;color:var(--muted);font-weight:400}
+
+.clickable-card{cursor:pointer;transition:transform .15s,border-color .15s}
+.clickable-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.topbar .logo{cursor:pointer}
+
+.toast{position:fixed;top:60px;right:20px;padding:12px 20px;border-radius:var(--radius);color:#fff;font-size:.88rem;z-index:9999;animation:toastIn .3s ease;max-width:360px}
+.toast.ok{background:var(--ok)}.toast.warn{background:var(--warn)}.toast.danger{background:var(--danger)}.toast.info{background:var(--accent)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+.loading-dot::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse .8s infinite;margin-left:6px}
+
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:9000;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--card-radius);padding:24px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.modal-title{font-size:1.05rem;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{cursor:pointer;color:var(--muted);font-size:1.2rem;padding:4px 8px;border-radius:var(--radius)}
+.modal-close:hover{color:var(--text);background:var(--accent-dim)}
+.modal-row{display:flex;padding:10px 0;border-bottom:1px solid var(--border);font-size:.88rem}
+.modal-row:last-child{border-bottom:none}
+.modal-label{width:100px;flex-shrink:0;color:var(--muted);font-weight:600;font-size:.82rem}
+.modal-val{flex:1;word-break:break-all}
+.modal-json{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-family:"Cascadia Code","Consolas",monospace;font-size:.8rem;white-space:pre-wrap;max-height:200px;overflow-y:auto;margin-top:8px;color:var(--text)}
+
+/* agent tool/skill drawer */
+.drawer-overlay{position:fixed;inset:0;z-index:9400;display:flex;justify-content:flex-end;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .22s ease,visibility .22s ease}
+.drawer-overlay.open{pointer-events:auto;visibility:visible;opacity:1}
+.drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.drawer-panel{position:relative;width:min(440px,100vw);max-width:100%;height:100%;background:var(--surface);border-left:1px solid var(--border);box-shadow:-12px 0 40px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.drawer-overlay.open .drawer-panel{transform:translateX(0)}
+.drawer-header{padding:16px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.drawer-close{float:right;margin:-4px -6px 0 8px;font-size:1.35rem;line-height:1;padding:4px 10px;border:none;background:transparent;color:var(--muted);border-radius:var(--radius)}
+.drawer-close:hover{color:var(--text);background:var(--accent-dim)}
+.drawer-title{font-size:1.05rem;font-weight:700;line-height:1.35;word-break:break-all;padding-right:36px}
+.drawer-subtitle{font-size:.78rem;color:var(--muted);margin-top:6px;line-height:1.4}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 18px;font-size:.88rem;line-height:1.55}
+.drawer-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;background:rgba(0,0,0,.12)}
+.drawer-section{margin-bottom:14px}
+.drawer-section h4{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.drawer-kv{display:grid;gap:8px;font-size:.84rem}
+.drawer-kv div{display:flex;gap:8px;flex-wrap:wrap}
+.drawer-kv span:first-child{color:var(--muted);min-width:72px}
+
+/* tool/skill standalone detail pages */
+.detail-breadcrumb{font-size:.82rem;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.detail-breadcrumb a{color:var(--accent);cursor:pointer;text-decoration:none}
+.detail-breadcrumb a:hover{text-decoration:underline}
+.detail-body{margin-top:14px;font-size:.88rem;line-height:1.65;color:var(--text);white-space:pre-wrap;word-break:break-word}
+.detail-meta-grid{display:grid;gap:10px;margin-top:12px}
+.detail-meta-row{display:flex;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding:8px 0;font-size:.86rem}
+.detail-meta-row:last-child{border-bottom:none}
+.detail-meta-label{color:var(--muted);min-width:88px}
+
+/* run console */
+.rc-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.rc-toolbar .left,.rc-toolbar .right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rc-toolbar select{padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem}
+.rc-hint{font-size:.8rem;color:var(--muted)}
+.rc-layout{display:grid;grid-template-columns:minmax(360px,44%) minmax(0,1fr);gap:14px}
+@media(max-width:1160px){.rc-layout{grid-template-columns:1fr}}
+.rc-table-wrap{max-height:420px;overflow:auto}
+.rc-run-row.selected td{background:rgba(88,166,255,.12)}
+.rc-mono{font-family:"Cascadia Code","Consolas",monospace;font-size:.78rem}
+.rc-empty{padding:14px;color:var(--muted);text-align:center;font-size:.82rem}
+.rc-detail-main{display:flex;flex-direction:column;gap:12px}
+.rc-pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.rc-pill{font-size:.74rem;padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:var(--bg);color:var(--muted)}
+.rc-status-message{font-size:.86rem;line-height:1.6;color:var(--text)}
+.rc-times{font-size:.78rem;color:var(--muted)}
+.rc-events{max-height:220px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.rc-event-item{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+.rc-event-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.rc-event-type{font-size:.78rem;color:var(--accent);font-weight:600}
+.rc-event-time{font-size:.76rem;color:var(--muted)}
+.rc-pre{margin-top:6px;padding:8px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface2);font-family:"Cascadia Code","Consolas",monospace;font-size:.78rem;white-space:pre-wrap;word-break:break-word;max-height:220px;overflow:auto}
+.rc-artifact-preview{min-height:120px}
+.rc-shortcuts{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.rc-shortcut-item{padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+.rc-shortcut-name{font-size:.88rem;font-weight:600;margin-bottom:4px}
+.rc-shortcut-desc{font-size:.8rem;color:var(--muted);line-height:1.55;min-height:38px}
+.rc-shortcut-meta{font-size:.75rem;color:var(--muted);margin:8px 0}
+
+/* approvals */
+.ap-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.ap-toolbar .left,.ap-toolbar .right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ap-toolbar select,.ap-toolbar input,.ap-toolbar textarea{
+  padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem;
+}
+.ap-toolbar textarea{min-height:68px;resize:vertical}
+.ap-hint{font-size:.8rem;color:var(--muted)}
+.ap-layout{display:grid;grid-template-columns:minmax(380px,46%) minmax(0,1fr);gap:14px}
+@media(max-width:1160px){.ap-layout{grid-template-columns:1fr}}
+.ap-table-wrap{max-height:420px;overflow:auto}
+.ap-row.selected td{background:rgba(88,166,255,.12)}
+.ap-empty{padding:14px;color:var(--muted);text-align:center;font-size:.82rem}
+.ap-mono{font-family:"Cascadia Code","Consolas",monospace;font-size:.78rem}
+.ap-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:960px){.ap-detail-grid{grid-template-columns:1fr}}
+
+/* task center */
+.tc-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.tc-toolbar .left,.tc-toolbar .right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tc-toolbar select{padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem}
+.tc-hint{font-size:.8rem;color:var(--muted)}
+.tc-layout{display:grid;grid-template-columns:minmax(420px,50%) minmax(0,1fr);gap:14px}
+@media(max-width:1160px){.tc-layout{grid-template-columns:1fr}}
+.tc-table-wrap{max-height:430px;overflow:auto}
+.tc-row.selected td{background:rgba(88,166,255,.12)}
+.tc-empty{padding:14px;color:var(--muted);text-align:center;font-size:.82rem}
+.tc-mono{font-family:"Cascadia Code","Consolas",monospace;font-size:.78rem}
+.tc-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:960px){.tc-detail-grid{grid-template-columns:1fr}}
+
+/* artifact viewer */
+.av-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.av-toolbar .left,.av-toolbar .right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.av-toolbar select,.av-toolbar input{padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem}
+.av-hint{font-size:.8rem;color:var(--muted)}
+.av-layout{display:grid;grid-template-columns:minmax(440px,52%) minmax(0,1fr);gap:14px}
+@media(max-width:1200px){.av-layout{grid-template-columns:1fr}}
+.av-table-wrap{max-height:430px;overflow:auto}
+.av-row.selected td{background:rgba(88,166,255,.12)}
+.av-empty{padding:14px;color:var(--muted);text-align:center;font-size:.82rem}
+.av-mono{font-family:"Cascadia Code","Consolas",monospace;font-size:.78rem}
+.av-pill{font-size:.74rem;padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:var(--bg);color:var(--muted)}
+.av-pill-row{display:flex;gap:8px;flex-wrap:wrap}
+.av-card{padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+.av-card-title{font-size:.82rem;color:var(--accent);font-weight:700;margin-bottom:8px}
+.av-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(max-width:960px){.av-grid{grid-template-columns:1fr}}
+.av-grid div{padding:8px;border:1px dashed var(--border);border-radius:var(--radius);background:rgba(255,255,255,.01)}
+.av-grid span{display:block;font-size:.72rem;color:var(--muted);margin-bottom:4px}
+.av-grid b{font-size:.82rem;color:var(--text);word-break:break-word}
+
+/* pipeline */
+.pl-stage-card{padding:14px;border:1px solid var(--border);border-radius:var(--card-radius);background:var(--surface);display:inline-flex;align-items:center;gap:10px;margin-right:10px;margin-bottom:8px;min-width:180px;transition:border-color .3s}
+.pl-stage-card.active{border-color:var(--accent);box-shadow:0 0 12px var(--accent-dim)}
+.pl-stage-card.done{border-color:var(--ok)}.pl-stage-card.pending{opacity:.5}
+.pl-stage-card .emoji{font-size:1.4rem}.pl-stage-card .info{font-size:.84rem}
+.pl-stage-card .info .name{font-weight:600}.pl-stage-card .info .agent{color:var(--muted);font-size:.76rem}
+.pl-stage-card .count{margin-left:auto;font-size:.76rem;color:var(--muted)}
+
+.tl-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.84rem;align-items:flex-start}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.tl-dot.completed{background:var(--ok)}.tl-dot.running{background:var(--running);animation:pulse 1s infinite}
+.tl-dot.failed{background:var(--danger)}.tl-dot.pending{background:var(--border)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.tl-body{flex:1;min-width:0}
+.tl-title{font-weight:600;margin-bottom:2px}
+.tl-meta{color:var(--muted);font-size:.76rem}
+.tl-result{font-size:.78rem;color:var(--muted);margin-top:4px;background:var(--bg);padding:6px 8px;border-radius:var(--radius);max-height:80px;overflow:hidden;font-family:monospace;word-break:break-all}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <span class="logo" id="logo-home" title="回到运转看板">QuantaMind 量智大脑</span>
+    <div class="meta">
+      <span><span class="dot" id="conn-dot"></span><span id="conn-text">连接中...</span></span>
+      <span id="gw-capability-mode" class="badge pending" title="等待能力探测">能力模式：探测中</span>
+      <span id="uptime-text"></span>
+    </div>
+  </header>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="nav-group">主入口</div>
+      <div class="nav-item active" data-page="overview"><span>◉</span>运转看板</div>
+      <div class="nav-item" data-page="chat"><span>💬</span>对话</div>
+      <div class="nav-group" id="nav-group-capability">能力</div>
+      <div class="nav-item" data-page="agents"><span>🤖</span>Agent 团队</div>
+      <div class="nav-item" data-page="skills"><span>🛠</span>技能</div>
+      <div class="nav-group" id="nav-group-operations">运营</div>
+      <div class="nav-item" data-page="pipeline"><span>🧭</span>流水线</div>
+      <div class="nav-item" data-page="tasks"><span>📌</span>任务</div>
+      <div class="nav-item" data-page="run-console"><span>🖥</span>Run Console</div>
+      <div class="nav-item" data-page="approvals"><span>✅</span>审批中心</div>
+      <div class="nav-item" data-page="task-center"><span>📦</span>后台任务中心</div>
+      <div class="nav-item" data-page="artifact-viewer"><span>🧾</span>Artifact Viewer</div>
+      <div class="nav-item" data-page="discovery"><span>🔍</span>自主发现</div>
+      <div class="nav-group">数据</div>
+      <div class="nav-item" data-page="library"><span>📁</span>项目资料库</div>
+      <div class="nav-item" data-page="datahub"><span>🗄</span>数据中台</div>
+      <div class="nav-group">系统</div>
+      <div class="nav-item" data-page="sessions"><span>🧾</span>会话管理</div>
+      <div class="nav-item" data-page="logs"><span>📜</span>日志</div>
+      <div class="nav-item" data-page="debug"><span>🧪</span>调试</div>
+      <div class="nav-item" data-page="settings"><span>⚙</span>设置</div>
+      <div class="sidebar-footer">QuantaMind v0.1 · Gateway :18789</div>
+    </nav>
+    <main class="content">
+
+<!-- ══════ 运转看板 ══════ -->
+<div id="page-overview" class="page active">
+  <div class="page-title">运转看板 <span class="time" id="dash-time">--</span></div>
+  <section class="grid grid-2" style="margin-bottom:16px">
+    <div class="card clickable-card" data-goto="sessions">
+      <div class="card-title">网关状态</div>
+      <div class="card-sub">Gateway 连接与服务 · 点击管理会话</div>
+      <div class="grid grid-2" style="margin-top:12px">
+        <div><div class="stat-label">状态</div><div class="stat-value ok" id="gw-st">--</div></div>
+        <div><div class="stat-label">会话数</div><div class="stat-value" id="gw-sess">--</div></div>
+  </div>
+    </div>
+    <div class="card clickable-card" data-goto="discovery">
+      <div class="card-title">心跳 · 自主任务</div>
+      <div class="card-sub">Heartbeat 调度 · 点击查看发现</div>
+      <div class="grid grid-2" style="margin-top:12px">
+        <div><div class="stat-label">层级</div><div id="hb-lvl" style="font-size:1rem;font-weight:600">--</div></div>
+        <div><div class="stat-label">间隔</div><div id="hb-int" style="font-size:1rem;font-weight:600">--</div></div>
+      </div>
+    </div>
+  </section>
+  <section class="grid grid-4" style="margin-bottom:16px">
+    <div class="card stat-card clickable-card" data-goto="tasks"><div class="stat-label">总任务</div><div class="stat-value" id="s-total">--</div><div class="stat-hint">点击查看详情</div></div>
+    <div class="card stat-card clickable-card" data-goto="tasks"><div class="stat-label">待办</div><div class="stat-value warn" id="s-pending">--</div><div class="stat-hint">点击查看详情</div></div>
+    <div class="card stat-card clickable-card" data-goto="tasks"><div class="stat-label">进行中</div><div class="stat-value running" id="s-running">--</div><div class="stat-hint">点击查看详情</div></div>
+    <div class="card stat-card clickable-card" data-goto="tasks"><div class="stat-label">已完成</div><div class="stat-value ok" id="s-done">--</div><div class="stat-hint">点击查看详情</div></div>
+  </section>
+  <section class="grid grid-4" style="margin-bottom:16px">
+    <div class="card stat-card clickable-card" data-goto="tasks"><div class="stat-label">待审批</div><div class="stat-value danger" id="s-appr">--</div><div class="stat-hint">点击查看详情</div></div>
+    <div class="card stat-card clickable-card" data-goto="agents"><div class="stat-label">Agent</div><div class="stat-value" id="s-agents">--</div><div class="stat-hint">点击查看详情</div></div>
+    <div class="card stat-card clickable-card" data-goto="skills"><div class="stat-label">技能</div><div class="stat-value" id="s-skills">--</div><div class="stat-hint">点击查看详情</div></div>
+    <div class="card stat-card clickable-card" data-goto="skills"><div class="stat-label">工具</div><div class="stat-value" id="s-tools">--</div><div class="stat-hint">点击查看详情</div></div>
+  </section>
+  <section class="card" style="margin-bottom:16px">
+    <div class="card-title">六大平台运转状态</div>
+    <div class="card-sub">量子科技全生命周期平台</div>
+    <ul class="platform-list" id="plat-list" style="margin-top:10px"></ul>
+  </section>
+  <section class="card" style="margin-bottom:16px">
+    <div class="card-title">外部情报面板</div>
+    <div class="card-sub">展示最近日报来源分布、检索通道与精选论文</div>
+    <div class="intel-meta">
+      <div class="intel-meta-card">
+        <div class="intel-meta-label">下次检索</div>
+        <div class="intel-meta-value" id="intel-next-run">--</div>
+      </div>
+      <div class="intel-meta-card">
+        <div class="intel-meta-label">最近日报</div>
+        <div class="intel-meta-value" id="intel-last-report">--</div>
+      </div>
+      <div class="intel-meta-card">
+        <div class="intel-meta-label">收录论文</div>
+        <div class="intel-meta-value" id="intel-papers-count">--</div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="stat-label">来源分布</div>
+      <div class="intel-chip-row" id="intel-source-summary"></div>
+    </div>
+    <div style="margin-top:10px">
+      <div class="stat-label">检索通道</div>
+      <div class="intel-chip-row" id="intel-backend-summary"></div>
+    </div>
+    <div class="intel-list" id="intel-paper-list"></div>
+    <div class="intel-empty" id="intel-empty" style="display:none">暂无情报日报或近期论文数据</div>
+  </section>
+  <section class="card">
+    <div class="card-title">快速了解</div>
+    <div class="grid grid-3" style="margin-top:12px">
+      <div class="clickable-card" data-goto="chat" style="padding:12px;border-radius:var(--radius)"><div style="font-weight:600;margin-bottom:3px">对话入口</div><div style="font-size:.82rem;color:var(--muted)">与 AI 科学家团队自然语言对话，支持流式输出和工具调用展示</div></div>
+      <div class="clickable-card" data-goto="tasks" style="padding:12px;border-radius:var(--radius)"><div style="font-weight:600;margin-bottom:3px">任务与审批</div><div style="font-size:.82rem;color:var(--muted)">异步任务、待办、进行中、已完成、待审批，一键审批通过或拒绝</div></div>
+      <div class="clickable-card" data-goto="discovery" style="padding:12px;border-radius:var(--radius)"><div style="font-weight:600;margin-bottom:3px">自主发现</div><div style="font-size:.82rem;color:var(--muted)">Heartbeat 产出的文献推荐、实验建议、假设验证与周报</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════ 对话 ══════ -->
+<div id="page-chat" class="page">
+  <div class="chat-layout">
+    <div class="chat-side">
+      <div class="chat-new" id="chat-new">+ 新建会话</div>
+      <div id="chat-session-list"></div>
+    </div>
+    <div class="chat-main">
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="msg assistant"><div class="msg-role">QuantaMind</div><div class="msg-bubble">已就绪。输入消息与 AI 科学家团队对话。</div></div>
+      </div>
+      <div class="chat-input"><input id="chat-in" placeholder="输入消息，与 AI 科学家对话..." /><button id="chat-send">发送</button></div>
+    </div>
+  </div>
+  <!-- 对话流水线实时面板 -->
+  <div id="chat-pipeline-panel" style="display:none;margin-top:12px">
+    <div class="card" style="max-height:320px;overflow-y:auto">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div class="card-title" style="margin:0">
+          <span id="cp-status" class="badge running" style="margin-right:6px">运行中</span>
+          <span id="cp-title" style="font-size:.9rem">对话流水线</span>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn" id="cp-view-full" style="font-size:.78rem">在流水线页查看</button>
+          <span id="cp-progress" style="font-size:.78rem;color:var(--muted)"></span>
+        </div>
+      </div>
+      <div id="cp-steps" style="font-size:.84rem"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 流水线可视化 ══════ -->
+<div id="page-pipeline" class="page">
+  <div class="page-title">多 Agent 协同流水线</div>
+
+  <!-- 流水线模板 -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">流水线模板</div>
+    <div class="card-sub" style="margin-bottom:12px">选择模板启动端到端流水线，或从历史记录中查看已运行的流水线</div>
+    <table class="dtable">
+      <thead><tr><th>模板名称</th><th>说明</th><th>Agent</th><th>阶段</th><th>操作</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600">单比特标准芯片 (1bitV2.00)</td>
+          <td style="font-size:.84rem;color:var(--muted)">10mm, 5 Xmon@4.5GHz, Q3D 电容矩阵已有，真实设计资料</td>
+          <td>3 Agent</td>
+          <td>3 阶段</td>
+          <td><button class="btn btn-primary" style="font-size:.82rem" onclick="startPipeline('1bit_standard')">启动</button></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">双比特可调耦合器 (V2.00)</td>
+          <td style="font-size:.84rem;color:var(--muted)">10mm, Q1=4.69G/Q2=5.20G + 2 耦合器，含 Python 版图代码</td>
+          <td>4 Agent</td>
+          <td>3 阶段</td>
+          <td><button class="btn btn-primary" style="font-size:.82rem" onclick="startPipeline('2bit_coupler')">启动</button></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">20 比特可调耦合器 (CT20Q)</td>
+          <td style="font-size:.84rem;color:var(--muted)">12.5mm 一维链, 20 Xmon + 19 耦合器, 48 管脚, 真实设计</td>
+          <td>7 Agent</td>
+          <td>6 阶段</td>
+          <td><button class="btn btn-primary" style="font-size:.82rem" onclick="startPipeline('20bit_tunable_coupler')">启动</button></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">100 比特可调耦合器芯片</td>
+          <td style="font-size:.84rem;color:var(--muted)">20mm 二维网格, 基于 QEDA 100 比特设计规范</td>
+          <td>7 Agent</td>
+          <td>6 阶段</td>
+          <td><button class="btn btn-primary" style="font-size:.82rem" onclick="startPipeline('100bit_tunable_coupler')">启动</button></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">105 比特可调耦合器 (FT105Q V2)</td>
+          <td style="font-size:.84rem;color:var(--muted)">18 cells, 10 layers, 95K shapes, 真实 GDS 已有</td>
+          <td>7 Agent</td>
+          <td>6 阶段</td>
+          <td><button class="btn btn-primary" style="font-size:.82rem" onclick="startPipeline('105bit_tunable_coupler')">启动</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:8px"><label style="font-size:.82rem;display:flex;align-items:center;gap:6px;color:var(--accent)"><input type="checkbox" id="pipeline-gate-check"> 启用阶段间人工审批门</label></div>
+  </div>
+
+  <!-- 流水线历史 -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title" style="margin-bottom:10px">运行历史</div>
+    <table class="dtable"><thead><tr><th>ID</th><th>名称</th><th>类型</th><th>状态</th><th>步骤</th><th>时间</th><th>操作</th></tr></thead>
+    <tbody id="pl-history-tb"></tbody></table>
+  </div>
+
+  <div id="pipeline-empty" style="display:none"></div>
+  <div id="pipeline-view" style="display:none">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <span id="pl-status" class="badge running">运行中</span>
+      <span id="pl-name" style="font-weight:600"></span>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="btn" id="pl-pause" title="暂停">暂停</button>
+        <button class="btn" id="pl-resume" title="恢复" style="display:none">恢复</button>
+        <button class="btn btn-ok" id="pl-approve-gate" title="审批通过" style="display:none">审批通过</button>
+        <button class="btn btn-no" id="pl-abort" title="终止">终止</button>
+        <button class="btn" id="pl-download-word" title="下载 Word 报告">📄 Word 报告</button>
+        <button class="btn" id="pl-download-md" title="下载 Markdown 报告">📝 MD 报告</button>
+      </div>
+    </div>
+    <div id="pl-progress-text" style="font-size:.82rem;color:var(--muted);margin-bottom:12px"></div>
+    <!-- 阶段进度 -->
+    <div id="pl-stages" style="display:flex;gap:4px;margin-bottom:20px;height:6px;border-radius:3px;overflow:hidden;background:var(--border)"></div>
+    <!-- 阶段卡片 -->
+    <div id="pl-stage-cards" style="margin-bottom:20px"></div>
+    <!-- 步骤时间 -->
+    <div class="card" style="max-height:500px;overflow-y:auto">
+      <div class="card-title">执行时间线</div>
+      <div id="pl-timeline" style="margin-top:12px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════任务 ══════-->
+<div id="page-tasks" class="page">
+  <div class="page-title">任务</div>
+  <div class="tab-bar" id="task-tabs">
+    <div class="tab-btn active" data-f="all">全部</div>
+    <div class="tab-btn" data-f="pending_approval">待我审批</div>
+    <div class="tab-btn" data-f="completed">已完成</div>
+  </div>
+  <table class="dtable"><thead><tr><th>类型</th><th>标题</th><th>来源</th><th>状态</th><th>审批</th><th>操作</th></tr></thead><tbody id="task-tb"></tbody></table>
+</div>
+
+<!-- ══════ Run Console（V2） ══════ -->
+<div id="page-run-console" class="page">
+  <div class="page-title">Run Console（V2）</div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="rc-toolbar">
+      <div class="left">
+        <label style="font-size:.82rem;color:var(--muted)">状态筛选</label>
+        <select id="rc-state-filter">
+          <option value="">全部</option>
+          <option value="queued">queued</option>
+          <option value="running">running</option>
+          <option value="completed">completed</option>
+          <option value="failed">failed</option>
+          <option value="cancelled">cancelled</option>
+        </select>
+        <button class="btn" id="rc-refresh">刷新</button>
+      </div>
+      <div class="right">
+        <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted)">
+          <input type="checkbox" id="rc-auto-refresh" checked>
+          自动刷新（5s）
+        </label>
+      </div>
+    </div>
+    <div class="rc-hint" id="rc-hint">准备就绪。</div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">Shortcut Launcher</div>
+    <div class="card-sub">调用 `POST /api/v2/tasks/shortcuts/{name}` 以后台任务方式触发。</div>
+    <div class="rc-shortcuts" id="rc-shortcuts" style="margin-top:12px"></div>
+  </div>
+
+  <div class="rc-layout">
+    <div class="card">
+      <div class="card-title">Run 列表</div>
+      <div class="card-sub">来源：`GET /api/v2/console/runs`</div>
+      <div class="rc-table-wrap" style="margin-top:10px">
+        <table class="dtable">
+          <thead><tr><th>Run ID</th><th>类型</th><th>状态</th><th>阶段</th><th>Owner</th><th>E/A</th><th>更新时间</th><th>操作</th></tr></thead>
+          <tbody id="rc-runs-tb"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card rc-detail-main">
+      <div id="rc-detail-empty" class="rc-empty">请先从左侧选择一条 Run。</div>
+      <div id="rc-detail-content" style="display:none">
+        <div>
+          <div class="card-title" id="rc-run-title">—</div>
+          <div class="rc-pill-row" id="rc-run-main-meta"></div>
+          <div class="rc-status-message" id="rc-run-status-message" style="margin-top:8px"></div>
+          <div class="rc-times" id="rc-run-times" style="margin-top:6px"></div>
+        </div>
+        <div>
+          <div class="stat-label" style="margin-bottom:6px">事件轨迹</div>
+          <div id="rc-events" class="rc-events"></div>
+        </div>
+        <div>
+          <div class="stat-label" style="margin-bottom:6px">快照（Snapshot）</div>
+          <pre id="rc-snapshot" class="rc-pre"></pre>
+        </div>
+        <div>
+          <div class="stat-label" style="margin-bottom:6px">Artifacts</div>
+          <div class="rc-table-wrap">
+            <table class="dtable">
+              <thead><tr><th>ID</th><th>类型</th><th>标题</th><th>创建时间</th><th>操作</th></tr></thead>
+              <tbody id="rc-artifacts-tb"></tbody>
+            </table>
+          </div>
+          <pre id="rc-artifact-preview" class="rc-pre rc-artifact-preview" style="margin-top:10px">暂无可预览 artifact。</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ Approval Center（V2） ══════ -->
+<div id="page-approvals" class="page">
+  <div class="page-title">Approval Center（V2）</div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">创建审批请求（占位）</div>
+    <div class="card-sub">调用 `POST /api/v2/approvals`，用于验证审批链路。</div>
+    <div class="ap-toolbar" style="margin-top:12px">
+      <div class="left" style="flex:1;min-width:280px">
+        <input id="ap-create-run-id" placeholder="run_id（必填）" style="min-width:220px;flex:1">
+        <select id="ap-create-type">
+          <option value="shell">shell</option>
+          <option value="external_delivery">external_delivery</option>
+          <option value="file_mutation">file_mutation</option>
+          <option value="database_mutation">database_mutation</option>
+          <option value="device_command">device_command</option>
+          <option value="mes_operation">mes_operation</option>
+        </select>
+      </div>
+      <div class="right">
+        <button class="btn btn-primary" id="ap-create-btn">创建审批</button>
+      </div>
+    </div>
+    <div class="ap-toolbar" style="margin-top:4px">
+      <div class="left" style="flex:1;min-width:280px">
+        <input id="ap-create-summary" placeholder="summary（必填）" style="min-width:320px;flex:1">
+      </div>
+    </div>
+    <textarea id="ap-create-details" placeholder='details JSON（可选），如 {"channel":"feishu"}' style="width:100%;margin-top:8px"></textarea>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="ap-toolbar">
+      <div class="left">
+        <label style="font-size:.82rem;color:var(--muted)">状态筛选</label>
+        <select id="ap-status-filter">
+          <option value="">全部</option>
+          <option value="pending">pending</option>
+          <option value="approved">approved</option>
+          <option value="rejected">rejected</option>
+        </select>
+        <button class="btn" id="ap-refresh">刷新</button>
+      </div>
+      <div class="right"></div>
+    </div>
+    <div id="ap-hint" class="ap-hint">准备就绪。</div>
+  </div>
+
+  <div class="ap-layout">
+    <div class="card">
+      <div class="card-title">审批请求列表</div>
+      <div class="card-sub">来源：`GET /api/v2/approvals`</div>
+      <div class="ap-table-wrap" style="margin-top:10px">
+        <table class="dtable">
+          <thead><tr><th>Approval ID</th><th>Run ID</th><th>类型</th><th>状态</th><th>摘要</th><th>Reviewer</th><th>创建时间</th><th>操作</th></tr></thead>
+          <tbody id="ap-tb"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="ap-detail-empty" class="ap-empty">请从左侧选择一条审批请求。</div>
+      <div id="ap-detail" style="display:none">
+        <div class="card-title" id="ap-detail-id">—</div>
+        <div class="ap-detail-grid" style="margin-top:10px">
+          <div><div class="stat-label">Run</div><div id="ap-detail-run"></div></div>
+          <div><div class="stat-label">类型</div><div id="ap-detail-type"></div></div>
+          <div><div class="stat-label">状态</div><div id="ap-detail-status"></div></div>
+          <div><div class="stat-label">Reviewer</div><div id="ap-detail-reviewer"></div></div>
+          <div><div class="stat-label">创建时间</div><div id="ap-detail-created"></div></div>
+          <div><div class="stat-label">处理时间</div><div id="ap-detail-resolved"></div></div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="stat-label">摘要</div>
+          <div id="ap-detail-summary" style="font-size:.88rem;line-height:1.5"></div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="stat-label">详情（JSON）</div>
+          <pre id="ap-detail-json" class="rc-pre"></pre>
+        </div>
+        <div id="ap-detail-actions" style="margin-top:12px">
+          <div class="ap-toolbar" style="margin-bottom:8px">
+            <div class="left" style="flex:1;min-width:280px">
+              <input id="ap-reviewer" placeholder="reviewer（默认 reviewer）" style="min-width:180px">
+              <input id="ap-comment" placeholder="comment（可选）" style="min-width:220px;flex:1">
+            </div>
+            <div class="right"></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-ok" id="ap-approve-btn">审批通过</button>
+            <button class="btn btn-no" id="ap-reject-btn">审批拒绝</button>
+            <button class="btn" id="ap-goto-run-btn">查看关联 Run</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ Background Task Center（V2） ══════ -->
+<div id="page-task-center" class="page">
+  <div class="page-title">Background Task Center（V2）</div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="tc-toolbar">
+      <div class="left">
+        <label style="font-size:.82rem;color:var(--muted)">状态筛选</label>
+        <select id="tc-state-filter">
+          <option value="">全部</option>
+          <option value="queued">queued</option>
+          <option value="running">running</option>
+          <option value="completed">completed</option>
+          <option value="failed">failed</option>
+          <option value="cancelled">cancelled</option>
+          <option value="timeout">timeout</option>
+        </select>
+        <button class="btn" id="tc-refresh">刷新</button>
+      </div>
+      <div class="right">
+        <label style="display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted)">
+          <input type="checkbox" id="tc-auto-refresh" checked>
+          自动刷新（4s）
+        </label>
+      </div>
+    </div>
+    <div id="tc-hint" class="tc-hint">准备就绪。</div>
+  </div>
+
+  <div class="tc-layout">
+    <div class="card">
+      <div class="card-title">后台任务列表</div>
+      <div class="card-sub">来源：`GET /api/v2/tasks`，支持取消与重试操作。</div>
+      <div class="tc-table-wrap" style="margin-top:10px">
+        <table class="dtable">
+          <thead><tr><th>Task ID</th><th>名称</th><th>Run</th><th>状态</th><th>尝试</th><th>预算</th><th>更新时间</th><th>取消</th><th>重试</th><th>操作</th></tr></thead>
+          <tbody id="tc-tb"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="tc-detail-empty" class="tc-empty">请从左侧选择一条任务。</div>
+      <div id="tc-detail" style="display:none">
+        <div class="card-title" id="tc-detail-id">—</div>
+        <div class="tc-detail-grid" style="margin-top:10px">
+          <div><div class="stat-label">任务名</div><div id="tc-detail-name"></div></div>
+          <div><div class="stat-label">状态</div><div id="tc-detail-state"></div></div>
+          <div><div class="stat-label">关联 Run</div><div id="tc-detail-run" class="tc-mono"></div></div>
+          <div><div class="stat-label">尝试/重试上限</div><div id="tc-detail-attempt"></div></div>
+          <div><div class="stat-label">预算秒数</div><div id="tc-detail-budget"></div></div>
+          <div><div class="stat-label">时间</div><div id="tc-detail-times" style="font-size:.8rem;line-height:1.5"></div></div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="stat-label">错误</div>
+          <pre id="tc-detail-error" class="rc-pre"></pre>
+        </div>
+        <div style="margin-top:12px">
+          <div class="stat-label">结果</div>
+          <pre id="tc-detail-result" class="rc-pre"></pre>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="tc-goto-run-btn">查看关联 Run</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ Artifact Viewer（V2） ══════ -->
+<div id="page-artifact-viewer" class="page">
+  <div class="page-title">Artifact Viewer（V2）</div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="av-toolbar">
+      <div class="left">
+        <input id="av-run-id" placeholder="按 run_id 检索（可选）" style="min-width:220px">
+        <select id="av-type-filter">
+          <option value="">全部类型</option>
+          <option value="intel_report">intel_report</option>
+          <option value="pipeline_report">pipeline_report</option>
+          <option value="system_diagnosis">system_diagnosis</option>
+          <option value="db_health_report">db_health_report</option>
+          <option value="library_ingest_report">library_ingest_report</option>
+          <option value="coordination_report">coordination_report</option>
+          <option value="generic_artifact">generic_artifact</option>
+        </select>
+        <input id="av-keyword" placeholder="关键字过滤（ID/标题/摘要）" style="min-width:220px">
+        <button class="btn" id="av-refresh">刷新</button>
+      </div>
+      <div class="right"></div>
+    </div>
+    <div id="av-hint" class="av-hint">准备就绪。</div>
+  </div>
+
+  <div class="av-layout">
+    <div class="card">
+      <div class="card-title">Artifact 列表</div>
+      <div class="card-sub">来源：`GET /api/v2/artifacts`（支持 run_id 检索）</div>
+      <div class="av-table-wrap" style="margin-top:10px">
+        <table class="dtable">
+          <thead><tr><th>Artifact ID</th><th>Run ID</th><th>类型</th><th>标题</th><th>摘要</th><th>创建时间</th><th>操作</th></tr></thead>
+          <tbody id="av-tb"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="av-detail-empty" class="av-empty">请从左侧选择一条 artifact。</div>
+      <div id="av-detail" style="display:none">
+        <div class="card-title" id="av-detail-id">—</div>
+        <div class="av-pill-row" id="av-detail-meta" style="margin-top:8px"></div>
+        <div style="margin-top:10px">
+          <div class="stat-label">标题</div>
+          <div id="av-detail-title"></div>
+        </div>
+        <div style="margin-top:10px">
+          <div class="stat-label">摘要</div>
+          <div id="av-detail-summary" style="font-size:.88rem;line-height:1.5"></div>
+        </div>
+        <div style="margin-top:10px">
+          <div class="stat-label">类型化摘要</div>
+          <div id="av-type-panel"></div>
+        </div>
+        <div style="margin-top:10px">
+          <div class="stat-label">渲染视图（/view）</div>
+          <pre id="av-detail-rendered" class="rc-pre"></pre>
+        </div>
+        <div style="margin-top:10px">
+          <div class="stat-label">原始 payload</div>
+          <pre id="av-detail-payload" class="rc-pre"></pre>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="av-goto-run-btn">查看关联 Run</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════自主发现 ══════-->
+<div id="page-discovery" class="page">
+  <div class="page-title">自主发现 <button class="btn" onclick="loadDiscoveries()">刷新</button></div>
+  <div class="grid grid-6" style="margin-bottom:12px;gap:10px" id="disc-stats"></div>
+  <div class="tab-bar" id="disc-tabs">
+    <div class="tab-btn active" data-t="">全部</div>
+    <div class="tab-btn" data-c="告警">告警</div>
+    <div class="tab-btn" data-c="数据">数据</div>
+    <div class="tab-btn" data-c="实验">实验</div>
+    <div class="tab-btn" data-c="假设">假设</div>
+    <div class="tab-btn" data-c="周报">周报</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 14px">
+    <label style="display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--muted)">
+      <input type="checkbox" id="disc-unhandled-only"> 只看未处理</label>
+    <select id="disc-sort" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.82rem">
+      <option value="severity">按严重级别排序</option>
+      <option value="time">按时间排序</option>
+    </select>
+  </div>
+  <div style="margin:10px 0 14px;color:var(--muted);font-size:.82rem">按发现类别聚合展示，并标注严重级别、关联对象、建议动作与处理状态</div>
+  <div class="disc-cards" id="disc-list"></div>
+</div>
+
+<!-- ══════Agent 团队 ══════-->
+<div id="page-agents" class="page">
+  <div class="page-title">AI 科学家 Agent 团队</div>
+  <div class="agent-grid" id="agent-list"></div>
+  <div id="agent-detail" class="card" style="display:none;margin-top:18px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <span id="ad-emoji" style="font-size:2.2rem"></span>
+      <div>
+        <div id="ad-name" style="font-weight:700;font-size:1.05rem"></div>
+        <div id="ad-role" style="font-size:.82rem;color:var(--accent)"></div>
+      </div>
+      <span id="ad-status" class="agent-status" style="margin-left:auto"></span>
+    </div>
+    <div class="grid grid-2" style="gap:14px">
+      <div>
+        <div class="stat-label" style="margin-bottom:6px">职责说明</div>
+        <div id="ad-desc" style="font-size:.88rem;line-height:1.5"></div>
+      </div>
+      <div>
+        <div class="stat-label" style="margin-bottom:6px">关联平台</div>
+        <div id="ad-platforms" style="font-size:.88rem"></div>
+      </div>
+    </div>
+    <div id="ad-subagents-section" style="display:none;margin-top:14px"></div>
+    <div id="ad-capabilities-grid" class="grid grid-3" style="gap:14px;margin-top:14px">
+      <div id="ad-tools-wrapper">
+        <div class="stat-label" style="margin-bottom:6px">可用工具</div>
+        <div id="ad-tools" style="font-size:.84rem;color:var(--muted);line-height:1.5"></div>
+      </div>
+      <div id="ad-skills-wrapper">
+        <div class="stat-label" style="margin-bottom:6px">触发技能</div>
+        <div id="ad-skills" style="font-size:.84rem;color:var(--muted);line-height:1.5"></div>
+      </div>
+      <div id="ad-actions-wrapper">
+        <div class="stat-label" style="margin-bottom:6px">快捷操作</div>
+        <div id="ad-actions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 工具详情（独立页，无侧栏入口，由标签/抽屉跳转） ══════ -->
+<div id="page-tool-detail" class="page">
+  <div class="detail-breadcrumb">
+    <a id="tool-detail-crumb-agents" href="#" style="color:var(--accent)">Agent 团队</a>
+    <span style="color:var(--border)">/</span>
+    <span id="tool-detail-crumb-name">工具</span>
+  </div>
+  <div class="page-title" style="margin-bottom:8px">
+    <button type="button" class="btn" id="tool-detail-back">返回</button>
+    <span id="tool-detail-h1" style="margin-left:8px">工具详情</span>
+  </div>
+  <div class="card">
+    <div id="tool-detail-badge-wrap" style="margin-bottom:10px"></div>
+    <div class="detail-meta-grid" id="tool-detail-meta"></div>
+    <div class="stat-label" style="margin-top:16px;margin-bottom:6px">说明</div>
+    <div id="tool-detail-body" class="detail-body"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+      <button type="button" class="btn btn-primary" id="tool-detail-goto-skills">前往对应能力分区</button>
+      <button type="button" class="btn" id="tool-detail-open-chat">带入对话尝试调用</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════技能详情（独立页） ══════-->
+<div id="page-skill-detail" class="page">
+  <div class="detail-breadcrumb">
+    <a id="skill-detail-crumb-agents" href="#" style="color:var(--accent)">Agent 团队</a>
+    <span style="color:var(--border)">/</span>
+    <span id="skill-detail-crumb-name">技能</span>
+  </div>
+  <div class="page-title" style="margin-bottom:8px">
+    <button type="button" class="btn" id="skill-detail-back">返回</button>
+    <span id="skill-detail-h1" style="margin-left:8px">技能详情</span>
+  </div>
+  <div class="card">
+    <div id="skill-detail-badge-wrap" style="margin-bottom:10px"></div>
+    <div class="detail-meta-grid" id="skill-detail-meta"></div>
+    <div class="stat-label" style="margin-top:16px;margin-bottom:6px">说明与触发</div>
+    <div id="skill-detail-body" class="detail-body"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+      <button type="button" class="btn btn-primary" id="skill-detail-goto-skills">前往对应能力分区</button>
+      <button type="button" class="btn" id="skill-detail-open-chat">带入对话配置/触发</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 技能 ══════ -->
+<div id="page-skills" class="page">
+  <div class="page-title">技能</div>
+  <div class="skills-nav-sticky">
+    <div class="card" style="padding:12px 14px">
+      <div class="skills-nav-row">
+      <button class="btn skill-nav-btn" id="skill-nav-design" onclick="scrollToSkillSection('skills-design')">芯片设计</button>
+      <button class="btn skill-nav-btn" id="skill-nav-sim" onclick="scrollToSkillSection('skills-sim')">仿真验证</button>
+      <button class="btn skill-nav-btn" id="skill-nav-mes" onclick="scrollToSkillSection('skills-mes')">制造执行</button>
+      <button class="btn skill-nav-btn" id="skill-nav-measure" onclick="scrollToSkillSection('skills-measure')">测控校准</button>
+      <button class="btn skill-nav-btn" id="skill-nav-data" onclick="scrollToSkillSection('skills-data')">数据与知识</button>
+      <button class="btn skill-nav-btn" id="skill-nav-project" onclick="scrollToSkillSection('skills-project')">项目协同</button>
+      </div>
+    </div>
+  </div>
+  <div id="skills-design" class="skill-section-anchor"></div>
+  <div style="margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">1. 芯片设计</div>
+      <div class="card-sub">规格定义、器件参数、版图布局与制造版图输</div>
+      <div class="grid grid-3" style="margin-top:14px;gap:16px">
+        <div style="background:var(--surface);padding:14px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">Qiskit Metal</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · TransmonPocket / TransmonCross 参数化设<br>
+            · RouteMeander / Pathfinder 自动布线<br>
+            · GDS 导出 · 设计分析一体化
+          </div>
+          <div id="metal-status" style="font-size:.78rem;margin-top:8px"></div>
+        </div>
+        <div style="background:var(--surface);padding:14px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">KLayout</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · GDS/OAS/OASIS 查看与测<br>
+            · DRC / LVS 验证<br>
+            · 版图可视化与脚本自动          </div>
+          <div id="klayout-status" style="font-size:.78rem;margin-top:8px"></div>
+        </div>
+        <div style="background:var(--surface);padding:14px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">KQCircuits</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · Swissmon / SQUID / Airbridge 元件<br>
+            · 版图增强与多层设<br>
+            · 掩膜与制造版图导          </div>
+          <div id="kqc-status" style="font-size:.78rem;margin-top:8px"></div>
+        </div>
+      </div>
+      <div class="skill-grid" style="margin-top:14px">
+        <div class="skill-card"><div class="name">Transmon 芯片设计（Metal</div><div class="desc">? Qiskit Metal 设计 TransmonPocket/Cross 芯片，自动布线、参数化调整GDS 导出</div><div class="trigger">触发词：设计 transmon / 芯片设计 / metal</div><button class="btn" onclick="triggerSkill('使用 Qiskit Metal 设计一5 比特 TransmonPocket 芯片，目标频5 GHz')">触发</button></div>
+        <div class="skill-card"><div class="name">Swissmon 芯片设计（KQC</div><div class="desc">? KQCircuits 设计 IQM 风格 Swissmon 芯片，含耦合器、flux line 与制造导出</div><div class="trigger">触发词：swissmon / kqcircuits / IQM</div><button class="btn" onclick="triggerSkill('使用 KQCircuits 设计一Swissmon 量子比特芯片')">触发</button></div>
+        <div class="skill-card"><div class="name">制造掩膜生</div><div class="desc">导出光学掩膜EBL 版图，用于量子芯片流片制造</div><div class="trigger">触发词：掩膜 / mask / EBL / 制</div><button class="btn" onclick="triggerSkill('将当前设计导出为制造掩膜版)">触发</button></div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:var(--accent-dim);border-radius:var(--radius);font-size:.84rem;color:var(--accent)">
+        推荐路径：规格与参数定义 版图设计 版图验证 制造版图输      </div>
+    </div>
+  </div>
+  <div id="skills-sim" class="skill-section-anchor"></div>
+  <div style="margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">2. 仿真验证</div>
+      <div class="card-sub">设计后的电磁仿真、量化分析与工程导出</div>
+      <div class="grid grid-2" style="margin-top:14px;gap:16px">
+        <div style="background:var(--surface);padding:14px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">Ansys Electronics Desktop</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · HFSS 本征驱动模仿<br>
+            · Q3D 电容矩阵提取<br>
+            · pyaedt 自动化脚本与项目生成
+          </div>
+          <div id="ansys-status" style="font-size:.78rem;margin-top:8px"></div>
+        </div>
+        <div style="background:var(--surface);padding:14px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">LOM / EPR 分析</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · LOM：电容矩等效参数<br>
+            · EPR：场分布 量子化参<br>
+            · 设计参数与仿真结果联动分          </div>
+        </div>
+      </div>
+      <div class="skill-grid" style="margin-top:14px">
+        <div class="skill-card"><div class="name">LOM/EPR 量化分析</div><div class="desc">执行 LOM 电容矩阵EPR 本征模分析，提取频率、非简谐性、耦合强度</div><div class="trigger">触发词：LOM / EPR / 电容 / 本征</div><button class="btn" onclick="triggerSkill('对当前设计的量子比特执行 LOM ? EPR 分析')">触发</button></div>
+        <div class="skill-card"><div class="name">仿真导出</div><div class="desc">导出Ansys HFSS/Q3D Sonnet/Elmer，并自动生成仿真脚本</div><div class="trigger">触发词：仿真 / HFSS / Sonnet / 导出</div><button class="btn" onclick="triggerSkill('将当前设计导出到 Ansys HFSS 进行仿真')">触发</button></div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:var(--accent-dim);border-radius:var(--radius);font-size:.84rem;color:var(--accent)">
+        推荐路径：版图完电磁仿真 LOM/EPR 量化分析 结果回馈设计迭代
+      </div>
+    </div>
+  </div>
+  <div id="skills-mes" class="skill-section-anchor"></div>
+  <div style="margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">3. 制造执</div>
+      <div class="card-sub">工艺路线、批次、设备、良率与 SPC 的制造执行闭</div>
+      <div style="margin-top:10px;padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border);background:rgba(88,166,255,.06);font-size:.82rem;line-height:1.55;color:var(--text)">
+        <strong style="color:var(--accent)">Agent 分工提示</strong>在「Agent 团队」中strong>AI 制造工程师</strong>下设 <strong>MES 设备工程师、工艺工程师、缺陷分析、良率、制程整合、测</strong> 等子智能体，对应本区制造执行与产线机台场景strong>AI 设备运维</strong>不属MES 子角色——其侧重量子测控实验室（ARTIQ / Pulse），与产MES 设备工程师场景不同，请见. 测控校准」      </div>
+      <div class="grid grid-4" style="margin-top:14px;gap:12px">
+        <div>
+          <div style="font-weight:600;color:var(--ok);margin-bottom:6px">CHIPMES（真MES</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · 半导体芯片制造执行系<br>
+            · 订单管理（主订单/子订单）<br>
+            · 工艺路线 · 设备管理<br>
+            · 批次跟踪 · 良率统计<br>
+            · Swagger API · 审计日志
+          </div>
+          <div id="chipmes-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">secsgem（设备通信层）</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · HSMS/SECS-II/GEM 协议<br>
+            · 远程命令（START/STOP?<br>
+            · Collection Event 订阅<br>
+            · 告警 · 配方管理<br>
+            · 设备上下线控          </div>
+          <div id="secs-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">OpenMES（开MES</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · 工艺路线管理<br>
+            · 批次/Lot 生命周期<br>
+            · 工单派工 · 报工<br>
+            · 良率 · SPC<br>
+            · 通用 MES 业务补充
+          </div>
+          <div id="mes-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">Grafana（可视化层）</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · 设备状态总览看板<br>
+            · 良率趋势看板<br>
+            · SPC 过程监控大屏<br>
+            · JJ 参数实时监控<br>
+            · 自动创建设备看板
+          </div>
+          <div id="grafana-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+      </div>
+      <div class="skill-grid" style="margin-top:14px">
+        <div class="skill-card"><div class="name">良率查询与分</div><div class="desc">查询指定批次良率，做趋势分析并给SPC 监控建议</div><div class="trigger">触发词：良率 / yield</div><button class="btn" onclick="triggerSkill('查询最近一周的良率数据和趋)">触发</button></div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:var(--accent-dim);border-radius:var(--radius);font-size:.84rem;color:var(--accent)">
+        数据流：设备 SECS/GEM)secsgem REST)QuantaMind Gateway ←→ CHIPMES(真实MES) + OpenMES(补充) + Grafana(可视 + AI Agent(决策)
+      </div>
+    </div>
+  </div>
+  <div id="skills-measure" class="skill-section-anchor"></div>
+  <div style="margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">4. 测控校准</div>
+      <div class="card-sub">实时控制、标准实验、校准回写与错误缓解的一体化测控</div>
+      <div style="margin-top:10px;padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border);font-size:.82rem;line-height:1.55;color:var(--muted)">
+        本区「设备运维」指 <strong style="color:var(--text)">AI 设备运维</strong>（测控实验室硬件、脉冲与读出校准）。产MES、批次良率与机台闭环请使用. 制造执行」及 AI 制造工程师下的 <strong>MES 设备工程</strong>      </div>
+      <div class="grid grid-4" style="margin-top:14px;gap:14px">
+        <div>
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">ARTIQ（实时控制层</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · FPGA 纳秒时序控制<br>
+            · DDS/TTL/DAC 硬件驱动<br>
+            · 脉冲序列：Rabi/T1/T2/光谱/读出<br>
+            · 参数扫描（ndscan?<br>
+            · 实验调度与数据采          </div>
+          <div id="artiq-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">Qiskit Experiments（标准实验层</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · T1 / RamseyXY / Rabi<br>
+            · Readout / DragCal<br>
+            · 标准实验模板<br>
+            · 自动拟合分析<br>
+            · 批量表征与建          </div>
+          <div id="qexp-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">Qiskit Pulse（校准层</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · 门脉冲调度（ScheduleBlock?<br>
+            · 振幅校准（Rabi 实验<br>
+            · DRAG 参数校准<br>
+            · 频率精确校准（Ramsey?<br>
+            · 读出参数优化 · 全套自动校准
+          </div>
+          <div id="pulse-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px">Mitiq（错误缓解层</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.6">
+            · 零噪声外推（ZNE?<br>
+            · 概率错误消除（PEC?<br>
+            · Clifford 数据回归（CDR?<br>
+            · 动力学去耦（XY4/CPMG/UDD?<br>
+            · 多技术对比与自动推荐
+          </div>
+          <div id="mitiq-status" style="font-size:.78rem;margin-top:6px"></div>
+        </div>
+      </div>
+      <div class="skill-grid" style="margin-top:14px">
+        <div class="skill-card"><div class="name">校准任务</div><div class="desc">发起单比双比特校准，包括光谱、Rabi、门校准和读出优化</div><div class="trigger">触发词：校准 / calibrate</div><button class="btn" onclick="triggerSkill('Q1-Q3 发起单比特校)">触发</button></div>
+        <div class="skill-card"><div class="name">实验方案生成</div><div class="desc">基于当前参数和历史实验结果，自动生成下一步实验方案</div><div class="trigger">触发词：实验方案 / 下一</div><button class="btn" onclick="triggerSkill('根据当前参数生成下一步实验方)">触发</button></div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:var(--accent-dim);border-radius:var(--radius);font-size:.84rem;color:var(--accent)">
+        数据流：量子芯片 硬件)ARTIQ(实时控制) 原始测量数据 Qiskit Experiments(标准实验分析) Qiskit Pulse(校准参数回写) Mitiq(纠错) 高质量结AI Agent(分析)
+      </div>
+    </div>
+  </div>
+  <div id="skills-data" class="skill-section-anchor"></div>
+  <div style="margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">5. 数据与知</div>
+      <div class="card-sub">数据底座、对象存储、向量检索与知识利用能力</div>
+      <div class="grid grid-4" style="margin-top:14px;gap:12px">
+        <div id="db-card-designpg" class="db-conn-card" onclick="showDbConnDetail('design_postgres')" style="cursor:pointer;background:var(--surface);padding:12px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px;font-size:.9rem">PostgreSQL（设计主库）</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.5">
+            芯片设计元数<br>项目/版本/参数管理<br>本地设计数据<br>可承pgvector
+          </div>
+          <div id="designpg-status" style="font-size:.76rem;margin-top:4px"></div>
+        </div>
+        <div id="db-card-messql" class="db-conn-card" onclick="showDbConnDetail('mes_sqlserver')" style="cursor:pointer;background:var(--surface);padding:12px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px;font-size:.9rem">SQL Server（MES 主库</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.5">
+            CHIPMES / MES 业务<br>批次/工单/设备/良率<br>强事OLTP<br>现有制造系统兼          </div>
+          <div id="messql-status" style="font-size:.76rem;margin-top:4px"></div>
+        </div>
+        <div id="db-card-minio" class="db-conn-card" onclick="showDbConnDetail('storage_minio')" style="cursor:pointer;background:var(--surface);padding:12px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px;font-size:.9rem">MinIO（对象存储）</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.5">
+            文档/文件资产存储<br>GDS/报告/上传资料<br>Bucket 管理<br>对象存储 API
+          </div>
+          <div id="minio-status" style="font-size:.76rem;margin-top:4px"></div>
+        </div>
+        <div id="db-card-pgvector" class="db-conn-card" onclick="showDbConnDetail('ai_pgvector')" style="cursor:pointer;background:var(--surface);padding:12px;border-radius:var(--radius);border:1px solid var(--border)">
+          <div style="font-weight:600;color:var(--accent);margin-bottom:6px;font-size:.9rem">pgvector（AI 检索层</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.5">
+            PostgreSQL 向量扩展<br>知识库分块向量检<br>资料库自动入<br>RAG / 语义搜索
+          </div>
+          <div id="pgvector-status" style="font-size:.76rem;margin-top:4px"></div>
+        </div>
+      </div>
+      <div id="db-conn-detail" class="card" style="margin-top:12px;background:var(--surface);border:1px solid var(--border)">
+        <div class="card-title" id="db-conn-detail-title">数据库连接详</div>
+        <div class="grid grid-2" style="gap:12px;margin-top:10px">
+          <div>
+            <div class="stat-label" style="margin-bottom:6px">连接配置</div>
+            <div id="db-conn-detail-config" style="font-size:.84rem;line-height:1.7;color:var(--muted)"></div>
+          </div>
+          <div>
+            <div class="stat-label" style="margin-bottom:6px">最近检</div>
+            <div id="db-conn-detail-status" style="font-size:.84rem;line-height:1.7;color:var(--muted)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="skill-grid" style="margin-top:14px">
+        <div class="skill-card"><div class="name">文献检</div><div class="desc">检索项目资料库、知识片段与相关设计文档内容，用于问题求解和知识复用</div><div class="trigger">触发词：文献 / 论文 / paper</div><button class="btn" onclick="triggerSkill('检索最新的 transmon 退相干相关论文')">触发</button></div>
+      </div>
+      <div style="margin-top:10px;padding:10px;background:var(--accent-dim);border-radius:var(--radius);font-size:.82rem;color:var(--accent)">
+        Q-EDA(设计) PostgreSQL(设计主库)；CHIPMES/MES(制 SQL Server(业务主库)；项目资料库/版图/报告 MinIO(对象存储)；文档与知识片段 pgvector(向量检；SeaTunnel 同步任务的目标（Sink）为可配置的 OLAP（PostgreSQL / ClickHouse / Doris / SelectDB 等，Gateway 配置 datacenter_warehouse）→ QuantaMind Agent(AI 分析)
+      </div>
+    </div>
+  </div>
+  <div id="skills-project" class="skill-section-anchor"></div>
+  <div style="margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">6. 项目协同</div>
+      <div class="card-sub">任务汇总、周报输出与跨角色协同决</div>
+      <div class="skill-grid" style="margin-top:14px">
+        <div class="skill-card"><div class="name">周报生成</div><div class="desc">汇总本周对话、任务、实验和发现，生成项目周报</div><div class="trigger">触发词：周报 / weekly</div><button class="btn" onclick="triggerSkill('生成本周项目周报')">触发</button></div>
+        <div class="skill-card"><div class="name">项目协调</div><div class="desc">把设计、制造、测控与数据分析结果汇总成下一步执行计划</div><div class="trigger">触发词：项目 / 资源 / 风险 / 协调</div><button class="btn" onclick="triggerSkill('汇总当前设计、制造、测控状态，并生成下一步执行计)">触发</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════会话管理 ══════-->
+<div id="page-sessions" class="page">
+  <div class="page-title">会话管理 <button class="btn" onclick="loadSessions()">刷新</button></div>
+  <table class="dtable"><thead><tr><th>会话 ID</th><th>项目</th><th>消息</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="sess-tb"></tbody></table>
+</div>
+
+<!-- ══════日志 ══════-->
+<div id="page-logs" class="page">
+  <div class="page-title">日志</div>
+  <div class="log-controls">
+    <select id="log-level"><option value="">全部级别</option><option value="DEBUG">DEBUG</option><option value="INFO">INFO</option><option value="WARNING">WARNING</option><option value="ERROR">ERROR</option></select>
+    <input id="log-search" placeholder="搜索 style="width:200px"/>
+    <button class="btn" onclick="loadLogs()">刷新</button>
+    <span style="margin-left:auto;font-size:.78rem;color:var(--muted)" id="log-count"></span>
+  </div>
+  <table class="log-table" id="log-table"><tbody id="log-tb"></tbody></table>
+</div>
+
+<!-- ══════调试 ══════-->
+<div id="page-debug" class="page">
+  <div class="page-title">调试面板 <button class="btn" onclick="loadDebug()">刷新</button></div>
+  <div class="grid grid-2">
+    <div class="debug-section"><h3>系统状(status)</h3><pre class="debug-json" id="dbg-status">{}</pre></div>
+    <div class="debug-section"><h3>健康检(health)</h3><pre class="debug-json" id="dbg-health">{}</pre></div>
+  </div>
+  <div class="debug-section" style="margin-top:12px">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+      <button class="btn" id="dbg-recover-store">恢复持久化连</button>
+      <span id="dbg-recover-status" style="font-size:.82rem;color:var(--muted)"></span>
+    </div>
+    <h3>手动 API 调用</h3>
+    <div class="debug-rpc">
+      <select id="dbg-method"><option value="GET">GET</option><option value="POST">POST</option></select>
+      <input id="dbg-path" placeholder="/api/v1/..." value="/api/v1/status"/>
+      <input id="dbg-body" placeholder='POST body JSON（可选）' style="width:260px"/>
+      <button class="btn btn-primary" onclick="debugRpc()">执行</button>
+    </div>
+    <pre class="debug-json" id="dbg-result" style="margin-top:10px;max-height:400px">{}</pre>
+  </div>
+</div>
+
+<!-- ══════ 项目资料库 ══════ -->
+<div id="page-library" class="page">
+  <div class="page-title" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <span>项目资料库</span>
+    <div style="display:flex;gap:6px">
+      <input type="text" id="lib-search" placeholder="搜索文件" style="padding:6px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem;width:180px"/>
+      <button class="btn" onclick="loadLibrary()">刷新</button>
+      <button class="btn btn-no" onclick="clearLibrary()" style="font-size:.78rem">清空全部</button>
+    </div>
+  </div>
+
+  <!-- 新建文件夹 + 上传 -->
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+      <input type="text" id="lib-new-folder" placeholder="新建文件夹名称（如 QEDA、MES 数据、测控记录）" style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.88rem"/>
+      <input type="text" id="lib-new-folder-desc" placeholder="说明（可选）" style="width:200px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.88rem"/>
+      <button class="btn btn-primary" onclick="createFolder()">创建文件夹</button>
+    </div>
+    <div class="card-sub">上传时选择目标文件夹，文件自动解析。支持 .docx、.pdf、.pptx、.xlsx、.csv、.py、.ipynb、.gds、.json、.7z 等格式。</div>
+    <div id="lib-dropzone" style="margin-top:12px;padding:30px;border:2px dashed var(--border);border-radius:var(--radius);text-align:center;color:var(--muted);cursor:pointer;transition:border-color .2s">
+      <div style="font-size:1.5rem;margin-bottom:8px">📂</div>
+      <div>拖拽文件或 <b>文件夹</b> 到此处</div>
+      <div style="margin-top:6px">
+        <span style="color:var(--accent);text-decoration:underline" id="lib-pick-files">选择文件</span>
+        &nbsp;&nbsp;
+        <span style="color:var(--accent);text-decoration:underline" id="lib-pick-folder">选择文件夹</span>
+      </div>
+      <div style="font-size:.78rem;margin-top:6px;color:var(--muted)">支持 .docx、.pdf、.pptx、.xlsx、.csv、.py、.ipynb、.gds、.oas、.json、.7z、.png 等格式</div>
+      <input type="file" id="lib-file-input" multiple style="display:none"/>
+      <input type="file" id="lib-folder-input" webkitdirectory directory multiple style="display:none"/>
+    </div>
+    <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:.84rem;color:var(--muted)">上传到：</span>
+      <select id="lib-upload-folder" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem;min-width:180px">
+        <option value="">未分类</option>
+      </select>
+    </div>
+    <div id="lib-upload-status" style="margin-top:8px;font-size:.84rem"></div>
+  </div>
+
+  <!-- 统计 -->
+  <div class="grid grid-4" style="margin-bottom:16px" id="lib-stats"></div>
+
+  <!-- 解析 / 索引任务 -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">解析 / 索引任务状态</div>
+    <div class="card-sub" style="margin-bottom:10px">展示资料库文件从上传、解析到写入 `pgvector` 的任务流转情况</div>
+    <table class="dtable">
+      <thead><tr><th>任务 ID</th><th>文件</th><th>状态</th><th>阶段</th><th>次数</th><th>更新时间</th></tr></thead>
+      <tbody id="lib-jobs-tb"></tbody>
+    </table>
+  </div>
+
+  <!-- 文件夹视图 -->
+  <div id="lib-folders"></div>
+</div>
+
+<!-- ══════ 数据中台 ══════ -->
+<div id="page-datahub" class="page">
+  <div class="page-title" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <span>数据中台 · 流水线数据</span>
+    <div style="display:flex;gap:6px">
+      <button class="btn" onclick="loadDataHub()">刷新</button>
+      <button class="btn btn-primary" id="export-training-btn">导出 AI 训练数据</button>
+    </div>
+  </div>
+  <div id="datahub-olap-hint" class="card-sub" style="margin-bottom:12px;color:var(--muted)"></div>
+  <div class="grid grid-4" style="margin-bottom:16px" id="datahub-stats"></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">流水线运行历史（PostgreSQL 持久化）</div>
+    <table class="dtable"><thead><tr><th>流水线 ID</th><th>名称</th><th>状态</th><th>步骤</th><th>创建时间</th></tr></thead>
+    <tbody id="datahub-pipelines"></tbody></table>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">Pulse 校准历史（最近 30 条）</div>
+    <table class="dtable"><thead><tr><th>值</th><th>比特</th><th>来源</th><th>关键值</th><th>时间</th></tr></thead>
+    <tbody id="datahub-pulse-history"></tbody></table>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">步骤记录（最近 30 条）</div>
+    <div style="margin-bottom:8px;display:flex;gap:6px">
+      <input id="dh-filter-agent" placeholder="按 Agent 筛选" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.82rem;width:140px"/>
+      <input id="dh-filter-tool" placeholder="按工具筛选" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.82rem;width:140px"/>
+      <button class="btn" onclick="loadStepRecords()">筛选</button>
+    </div>
+    <table class="dtable"><thead><tr><th>步骤 ID</th><th>Agent</th><th>标题</th><th>工具</th><th>状态</th><th>时间</th></tr></thead>
+    <tbody id="datahub-steps"></tbody></table>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">数据资产目录（qData）</div>
+    <table class="dtable"><thead><tr><th>资产</th><th>数据源</th><th>值</th><th>负责人</th><th>质量分</th><th>标签</th></tr></thead>
+    <tbody id="datahub-assets"></tbody></table>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">同步任务（SeaTunnel）</div>
+    <table class="dtable"><thead><tr><th>任务</th><th>来源</th><th>目标（Sink）</th><th>模式</th><th>状态</th><th>已同步</th></tr></thead>
+    <tbody id="datahub-sync-jobs"></tbody></table>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">数据标准（qData）</div>
+    <div id="datahub-standards" style="margin-top:10px"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">数据域与表结构<button class="btn" onclick="loadDomainTables()" style="font-size:.78rem;margin-left:8px">刷新</button></div>
+    <div id="datahub-domains" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<!-- ══════设置 ══════-->
+<div id="page-settings" class="page">
+  <div class="page-title">设置</div>
+  <div class="card settings-card" style="max-width:600px">
+    <div class="card-title">LLM / AI 模型连接</div>
+    <div class="card-sub">配置大模型 API，保存后立即生效</div>
+    <div style="margin-top:14px">
+      <label><span>提供商</span>
+        <select id="llm-provider" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.88rem">
+          <option value="ollama">Ollama（本地）</option>
+          <option value="deepseek">DeepSeek</option>
+          <option value="qwen">通义千问 Qwen</option>
+          <option value="openai">OpenAI</option>
+          <option value="kimi">Kimi / Moonshot</option>
+          <option value="zhipu">智谱 GLM</option>
+          <option value="yi">零一万物 Yi</option>
+        </select>
+      </label>
+      <label><span>API Base URL</span><input id="llm-base" placeholder="https://api.deepseek.com/v1"/></label>
+      <label><span>API Key</span><input id="llm-key" type="password" placeholder="sk-..."/></label>
+      <label><span>模型名称</span><input id="llm-model" placeholder="deepseek-chat"/></label>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn btn-primary" id="llm-save">保存并生效</button>
+        <span id="llm-status" style="font-size:.84rem;color:var(--muted);align-self:center"></span>
+      </div>
+      <div style="margin-top:12px;font-size:.82rem;color:var(--muted);line-height:1.6">
+        <strong>常见配置示例</strong><br>
+        · DeepSeek：提供商 deepseek / Base URL https://api.deepseek.com/v1 / 模型 deepseek-chat<br>
+        · 通义千问：提供商 qwen / Base URL https://dashscope.aliyuncs.com/compatible-mode/v1 / 模型 qwen-plus<br>
+        · OpenAI：提供商 openai / Base URL https://api.openai.com/v1 / 模型 gpt-4o-mini<br>
+        · Kimi：提供商 kimi / Base URL https://api.moonshot.cn/v1 / 模型 moonshot-v1-8k<br>
+        · Ollama（本地免费）：提供商 ollama / Base URL http://localhost:11434 / 模型 qwen2.5:7b
+      </div>
+    </div>
+  </div>
+  <div class="card settings-card" style="margin-top:16px;max-width:600px">
+    <div class="card-title">网关连接</div>
+    <div style="margin-top:12px">
+      <label><span>Gateway 地址</span><input id="set-gw"/></label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center">
+        <button class="btn btn-primary" id="set-save">保存并重连</button>
+        <button class="btn" id="set-probe-capability">重新探测能力</button>
+        <span id="set-capability-status" style="font-size:.82rem;color:var(--muted)"></span>
+      </div>
+    </div>
+  </div>
+  <div class="card settings-card" style="margin-top:16px;max-width:600px">
+    <div class="card-title">情报日报 · 飞书每日推送</div>
+    <div class="card-sub">到点自动执行 arXiv 检索、生成日报并推送至飞书群（需机器人 Webhook）。使用本机当前时区，请保持 Gateway 进程常驻。</div>
+    <div style="margin-top:14px">
+      <label><span>飞书 Webhook 地址</span>
+        <input id="intel-feishu-webhook" type="password" autocomplete="off" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/..."/>
+      </label>
+      <div id="intel-webhook-hint" style="font-size:.78rem;color:var(--muted);margin:-4px 0 10px"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <label style="flex:0 0 auto;margin:0"><span>每日推送时间（时）</span>
+          <input id="intel-schedule-hour" type="number" min="0" max="23" style="width:72px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text)"/>
+        </label>
+        <label style="flex:0 0 auto;margin:0"><span>每日推送时间（分）</span>
+          <input id="intel-schedule-minute" type="number" min="0" max="59" style="width:72px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text)"/>
+        </label>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-primary" id="intel-save">保存情报配置</button>
+        <span id="intel-status" style="font-size:.84rem;color:var(--muted)"></span>
+      </div>
+      <div id="intel-next-run" style="margin-top:10px;font-size:.82rem;color:var(--muted)"></div>
+      <div style="margin-top:12px;font-size:.78rem;color:var(--muted);line-height:1.55">
+        卡片配图（技术体系图 / 路线图）需配置飞书应用 <code style="font-size:.76rem">APP_ID</code> 和 <code style="font-size:.76rem">APP_SECRET</code>（可选，见环境变量文档）。仅文本推送只需 Webhook。      </div>
+    </div>
+  </div>
+  <div class="card settings-card" style="margin-top:16px;max-width:900px">
+    <div class="card-title">数据源 / 存储连接</div>
+    <div class="card-sub">统一管理芯片设计、MES、数据中心、对象存储和向量检索连接。AI 检索层当前使用 PostgreSQL + pgvector。</div>
+    <div style="margin-top:12px">
+      <label><span>连接配置（JSON）</span></label>
+      <textarea id="db-config-json" style="width:100%;min-height:320px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:.84rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace"></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn" id="db-load">刷新配置</button>
+        <button class="btn btn-primary" id="db-save">保存数据库配置</button>
+        <button class="btn" id="db-test">测试连接</button>
+        <button class="btn" id="db-recover-store">恢复持久化连接</button>
+        <span id="db-save-status" style="font-size:.84rem;color:var(--muted);align-self:center"></span>
+      </div>
+      <div id="db-test-status" style="margin-top:12px;font-size:.84rem;line-height:1.7;color:var(--muted)"></div>
+    </div>
+  </div>
+  <div class="card settings-card" style="margin-top:16px;max-width:600px">
+    <div class="card-title">关于</div>
+    <div style="margin-top:10px;font-size:.86rem;color:var(--muted);line-height:1.7">
+      QuantaMind 量智大脑 · 量子科技自主科研 AI 中台<br>
+      版本 0.1.0 · 基于 OpenClaw 架构<br>
+      详细设计说明 V1.5 · 产品原型 V1.0
+    </div>
+  </div>
+</div>
+
+    </main>
+  </div>
+</div>
+
+<div id="agent-drawer-overlay" class="drawer-overlay" aria-hidden="true">
+  <div class="drawer-backdrop" id="agent-drawer-backdrop"></div>
+  <aside id="agent-drawer" class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title-text">
+    <div class="drawer-header">
+      <button type="button" class="drawer-close" id="agent-drawer-close" aria-label="关闭">×</button>
+      <div id="drawer-title-text" class="drawer-title">详情</div>
+      <div id="drawer-subtitle-text" class="drawer-subtitle"></div>
+    </div>
+    <div id="agent-drawer-body" class="drawer-body"></div>
+    <div id="agent-drawer-footer" class="drawer-footer"></div>
+  </aside>
+</div>
+
+  <!-- 使用站点根路径 /js/...，避免在 /client/ 等路径下相对 ./js 被解析成 /client/js/... 导致脚本 404、导航失效 -->
+  <script src="/js/core/core.js?v=qm20260409"></script>
+  <script src="/js/pages/admin.js?v=qm20260409"></script>
+  <script src="/js/pages/overview.js?v=qm20260409"></script>
+  <script src="/js/pages/chat.js?v=qm20260409"></script>
+  <script src="/js/pages/pipeline.js?v=qm20260409"></script>
+  <script src="/js/pages/skills.js?v=qm20260409"></script>
+  <script src="/js/pages/settings.js?v=qm20260409"></script>
+  <script src="/js/pages/discovery.js?v=qm20260409"></script>
+  <script src="/js/pages/run_console.js?v=qm20260409"></script>
+  <script src="/js/pages/approvals.js?v=qm20260409"></script>
+  <script src="/js/pages/task_center.js?v=qm20260409"></script>
+  <script src="/js/pages/artifact_viewer.js?v=qm20260409"></script>
+  <script src="/js/pages/library.js?v=qm20260409"></script>
+  <script src="/js/pages/datahub.js?v=qm20260409"></script>
+</body>
+</html>

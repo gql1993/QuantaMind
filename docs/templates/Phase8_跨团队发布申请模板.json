@@ -1,0 +1,21 @@
+{
+  "window_id": "2026W15",
+  "requests": [
+    {
+      "team": "release",
+      "change_id": "REL-001",
+      "title": "核心网关发布",
+      "risk": "high",
+      "start": "2026-04-12T20:00:00",
+      "end": "2026-04-12T21:00:00"
+    },
+    {
+      "team": "ai",
+      "change_id": "AI-014",
+      "title": "模型路由策略更新",
+      "risk": "medium",
+      "start": "2026-04-12T20:30:00",
+      "end": "2026-04-12T21:30:00"
+    }
+  ]
+}

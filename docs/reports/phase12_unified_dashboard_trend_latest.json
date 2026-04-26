@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-04-10T19:15:41.183089",
+  "trend_status": "CRITICAL",
+  "summary": "trend=CRITICAL, red_flags=4, weekly=D, gate=BLOCK, drift=ADJUST_REQUIRED, forecast=HIGH.",
+  "rows": [
+    [
+      "weekly_grade",
+      "D",
+      "down"
+    ],
+    [
+      "quality_gate",
+      "BLOCK",
+      "down"
+    ],
+    [
+      "policy_drift",
+      "ADJUST_REQUIRED",
+      "watch"
+    ],
+    [
+      "capacity_forecast",
+      "HIGH",
+      "down"
+    ]
+  ]
+}

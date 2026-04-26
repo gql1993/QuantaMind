@@ -1,0 +1,47 @@
+{
+  "levels": {
+    "P1": {
+      "description": "核心可用性风险，需立即处置",
+      "triggers": [
+        "ops_dashboard.overall_status == RED",
+        "observability_guard.summary.decision == rollback_now",
+        "dependency_compat.assessment.result == BLOCK"
+      ],
+      "sla_minutes": 15
+    },
+    "P2": {
+      "description": "重要能力退化，需限时恢复",
+      "triggers": [
+        "ops_dashboard.overall_status == YELLOW",
+        "observability_guard.summary.decision == warn",
+        "dependency_compat.assessment.result == CONDITIONAL_PASS"
+      ],
+      "sla_minutes": 60
+    },
+    "P3": {
+      "description": "低风险提示，纳入常规跟踪",
+      "triggers": [
+        "指标轻微波动但未超阈值",
+        "临时告警自动恢复"
+      ],
+      "sla_minutes": 240
+    }
+  },
+  "escalation": [
+    {
+      "level": "P1",
+      "notify_roles": ["oncall", "release-manager", "tech-lead", "ops-lead"],
+      "channel": "war-room + phone"
+    },
+    {
+      "level": "P2",
+      "notify_roles": ["oncall", "tech-lead", "qa-lead"],
+      "channel": "group-chat + ticket"
+    },
+    {
+      "level": "P3",
+      "notify_roles": ["oncall"],
+      "channel": "ticket"
+    }
+  ]
+}

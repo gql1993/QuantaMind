@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QuantaMind 量智大脑 - 产品原型</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-dim: #388bfd33;
+      --danger: #f85149;
+      --success: #3fb950;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; }
+    .app { display: flex; flex-direction: column; height: 100vh; }
+    .topbar {
+      height: 52px; padding: 0 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; background: var(--surface);
+    }
+    .topbar .logo { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+    .topbar .meta { display: flex; align-items: center; gap: 16px; font-size: 0.85rem; color: var(--text-muted); }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 200px; background: var(--surface); border-right: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .sidebar .nav-item {
+      padding: 10px 20px; cursor: pointer; border-radius: 6px; margin: 2px 8px;
+      color: var(--text-muted); transition: background .15s, color .15s;
+    }
+    .sidebar .nav-item:hover { color: var(--text); background: var(--accent-dim); }
+    .sidebar .nav-item.active { color: var(--accent); background: var(--accent-dim); }
+    .content { flex: 1; overflow: auto; padding: 24px; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .chat-sessions { width: 220px; border-right: 1px solid var(--border); padding: 12px; background: var(--surface); }
+    .chat-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .chat-list { flex: 1; overflow-y: auto; padding: 16px; }
+    .msg { margin-bottom: 16px; max-width: 85%; }
+    .msg.user { margin-left: auto; }
+    .msg-bubble { padding: 12px 16px; border-radius: 12px; }
+    .msg.user .msg-bubble { background: var(--accent); color: #fff; }
+    .msg.assistant .msg-bubble { background: var(--surface); border: 1px solid var(--border); }
+    .msg-role { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+    .msg-tool { font-size: 0.8rem; color: var(--accent); margin-top: 8px; padding: 8px; background: var(--bg); border-radius: 8px; }
+    .msg-approve { margin-top: 8px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--accent-dim); }
+    .msg-approve .btn { margin-right: 8px; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; }
+    .msg-approve .btn-ok { background: var(--success); color: #fff; }
+    .msg-approve .btn-no { background: var(--danger); color: #fff; }
+    .chat-input-row { display: flex; gap: 8px; padding: 16px; border-top: 1px solid var(--border); }
+    .chat-input-row input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); }
+    .chat-input-row button { padding: 12px 24px; background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+    .task-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .task-tabs .tab { padding: 8px 16px; border-radius: 6px; cursor: pointer; color: var(--text-muted); }
+    .task-tabs .tab.active { background: var(--accent-dim); color: var(--accent); }
+    .task-list { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .task-row { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .task-row:last-child { border-bottom: none; }
+    .task-row:hover { background: var(--surface); }
+    .task-type { width: 140px; color: var(--accent); }
+    .task-title { flex: 1; }
+    .task-status { font-size: 0.85rem; color: var(--text-muted); }
+    .task-status.pending { color: #d29922; }
+    .task-status.done { color: var(--success); }
+    .task-actions { margin-left: 12px; }
+    .task-actions button { padding: 4px 12px; margin-left: 4px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; }
+    .discovery-cards { display: grid; gap: 16px; }
+    .discovery-card { padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .discovery-card h4 { margin: 0 0 8px 0; font-size: 0.95rem; color: var(--accent); }
+    .discovery-card .meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+    .discovery-card .summary { font-size: 0.9rem; line-height: 1.5; }
+    .discovery-card .link { margin-top: 12px; color: var(--accent); cursor: pointer; font-size: 0.85rem; }
+    .skills-list { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .skill-row { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-name { width: 200px; font-weight: 500; }
+    .skill-desc { flex: 1; font-size: 0.9rem; color: var(--text-muted); }
+    .skill-trigger { font-size: 0.8rem; color: var(--accent); }
+    .skill-row button { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
+    .settings-group { margin-bottom: 24px; }
+    .settings-group h3 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text-muted); }
+    .settings-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; }
+    .settings-group input { width: 100%; max-width: 400px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); }
+    .settings-group button { padding: 8px 16px; border-radius: 6px; border: none; background: var(--accent); color: #fff; cursor: pointer; margin-top: 8px; }
+    .flex-row { display: flex; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <span class="logo">QuantaMind 量智大脑</span>
+      <div class="meta">项目：5比特 Transmon 设计 ▼ &nbsp;|&nbsp; 用户：张三 ▼</div>
+    </header>
+    <div class="main">
+      <nav class="sidebar">
+        <div class="nav-item active" data-page="chat">对话</div>
+        <div class="nav-item" data-page="tasks">任务</div>
+        <div class="nav-item" data-page="discovery">自主发现</div>
+        <div class="nav-item" data-page="skills">技能</div>
+        <div class="nav-item" data-page="settings">设置</div>
+      </nav>
+      <div class="content">
+        <!-- 对话页 -->
+        <div id="page-chat" class="page active">
+          <div class="flex-row" style="height: calc(100vh - 52px - 48px);">
+            <div class="chat-sessions">
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">会话列表</div>
+              <div style="padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; color: var(--accent);">+ 新建会话</div>
+              <div style="padding: 10px 0; cursor: pointer;">当前会话 · 5比特设计</div>
+              <div style="padding: 10px 0; color: var(--text-muted); cursor: pointer;">历史会话 1</div>
+            </div>
+            <div class="chat-main">
+              <div class="chat-list">
+                <div class="msg user">
+                  <div class="msg-role">我</div>
+                  <div class="msg-bubble">设计一个 5 比特 transmon 芯片，目标频率 5 GHz，码距 1。</div>
+                </div>
+                <div class="msg assistant">
+                  <div class="msg-role">QuantaMind · AI 芯片设计师</div>
+                  <div class="msg-bubble">
+                    正在为您创建设计并分配拓扑与频率。正在调用 Q-EDA…
+                    <div class="msg-tool">调用工具：qeda_create_design · 参数：chip_type=transmon, qubit_count=5, topology=heavy_hex</div>
+                  </div>
+                </div>
+                <div class="msg assistant">
+                  <div class="msg-role">QuantaMind · AI 芯片设计师</div>
+                  <div class="msg-bubble">
+                    已创建设计，设计 ID：design_20260310_001。当前拓扑为 5 数据比特 + 2 辅助比特，频率分配已完成。是否需要执行 DRC 或仿真？
+                    <div class="msg-approve">
+                      <strong>待审批</strong>：导出 GDS（设计 design_20260310_001）
+                      <br><br>
+                      <button class="btn btn-ok">通过</button>
+                      <button class="btn btn-no">拒绝</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-input-row">
+                <input type="text" placeholder="输入消息，与 AI 科学家对话… 可 @技能 快速触发" />
+                <button>发送</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 任务页 -->
+        <div id="page-tasks" class="page">
+          <h2 style="margin-top: 0;">任务</h2>
+          <div class="task-tabs">
+            <span class="tab active">全部</span>
+            <span class="tab">我发起的</span>
+            <span class="tab">待我审批</span>
+            <span class="tab">已完成</span>
+          </div>
+          <div class="task-list">
+            <div class="task-row">
+              <span class="task-type">Q-EDA · 仿真</span>
+              <span class="task-title">design_20260310_001 本征模仿真</span>
+              <span class="task-status done">已完成</span>
+              <span class="task-actions"><button>查看</button></span>
+            </div>
+            <div class="task-row">
+              <span class="task-type">Q-EDA · 导出</span>
+              <span class="task-title">design_20260310_001 导出 GDS</span>
+              <span class="task-status pending">待审批</span>
+              <span class="task-actions"><button>通过</button><button>拒绝</button></span>
+            </div>
+            <div class="task-row">
+              <span class="task-type">测控 · 校准</span>
+              <span class="task-title">芯片 CHIP-2026-03-001 一键校准</span>
+              <span class="task-status">执行中</span>
+              <span class="task-actions"><button>查看</button></span>
+            </div>
+            <div class="task-row">
+              <span class="task-type">MES · 工单</span>
+              <span class="task-title">Lot L2026031001 良率汇总</span>
+              <span class="task-status done">已完成</span>
+              <span class="task-actions"><button>查看</button></span>
+            </div>
+          </div>
+        </div>
+        <!-- 自主发现页 -->
+        <div id="page-discovery" class="page">
+          <h2 style="margin-top: 0;">自主发现</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">由 Heartbeat 自动产出的文献推荐、实验建议与假设验证结果。</p>
+          <div class="discovery-cards" style="margin-top: 20px;">
+            <div class="discovery-card">
+              <h4>文献 · 与当前项目相关</h4>
+              <div class="meta">2026-03-10 14:00 · 来源：文献监控心跳</div>
+              <div class="summary">arXiv:2403.xxxxx — 高保真度 Transmon 频率分配与串扰抑制的联合优化方法，与您当前 5 比特设计相关度高。</div>
+              <div class="link">在对话中继续 →</div>
+            </div>
+            <div class="discovery-card">
+              <h4>实验建议</h4>
+              <div class="meta">2026-03-10 12:00 · 来源：实验设计心跳</div>
+              <div class="summary">基于昨日 T1/T2 与 RB 数据，推荐下一组 Rabi 振幅扫描范围：[0.8, 1.2] × 当前值；预计可提升门保真度约 0.2%。</div>
+              <div class="link">在对话中继续 →</div>
+            </div>
+            <div class="discovery-card">
+              <h4>假设验证结果</h4>
+              <div class="meta">2026-03-10 06:00 · 来源：假设验证心跳</div>
+              <div class="summary">假设「增大 pad 间距 5μm 可降低串扰」在仿真中验证通过；建议纳入下一轮版图迭代。</div>
+              <div class="link">在对话中继续 →</div>
+            </div>
+          </div>
+        </div>
+        <!-- 技能页 -->
+        <div id="page-skills" class="page">
+          <h2 style="margin-top: 0;">技能</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">可用技能列表，可在对话中通过触发词或此处一键发起。</p>
+          <div class="skills-list" style="margin-top: 20px;">
+            <div class="skill-row">
+              <span class="skill-name">Transmon 量子比特设计</span>
+              <span class="skill-desc">创建设计、频率分配、布线、DRC、仿真与导出</span>
+              <span class="skill-trigger">设计transmon | 创建量子比特</span>
+              <button>在对话中使用</button>
+            </div>
+            <div class="skill-row">
+              <span class="skill-name">良率与 SPC 查询</span>
+              <span class="skill-desc">按批次/工序查询 MES 良率与 SPC 统计</span>
+              <span class="skill-trigger">良率 | SPC | 工单</span>
+              <button>在对话中使用</button>
+            </div>
+            <div class="skill-row">
+              <span class="skill-name">测控校准任务</span>
+              <span class="skill-desc">发起校准、T1/T2 测量、基准测试</span>
+              <span class="skill-trigger">校准 | T1 T2 | 基准测试</span>
+              <button>在对话中使用</button>
+            </div>
+            <div class="skill-row">
+              <span class="skill-name">文献综述</span>
+              <span class="skill-desc">按主题检索并摘要量子相关文献</span>
+              <span class="skill-trigger">文献 | 综述 | arXiv</span>
+              <button>在对话中使用</button>
+            </div>
+          </div>
+        </div>
+        <!-- 设置页 -->
+        <div id="page-settings" class="page">
+          <h2 style="margin-top: 0;">设置</h2>
+          <div class="settings-group">
+            <h3>连接</h3>
+            <label>Gateway 地址</label>
+            <input type="text" value="http://127.0.0.1:18789" placeholder="http(s)://host:port" />
+            <label>API Key（可选）</label>
+            <input type="password" placeholder="留空则使用会话鉴权" />
+            <button>测试连接</button>
+          </div>
+          <div class="settings-group">
+            <h3>外观</h3>
+            <label>主题</label>
+            <input type="text" value="深色" readonly style="max-width: 200px;" />
+          </div>
+          <div class="settings-group">
+            <h3>关于</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">QuantaMind 量智大脑客户端 · 基于 OpenClaw 架构 · 版本 1.0.0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll('.nav-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var page = this.getAttribute('data-page');
+        document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+        var target = document.getElementById('page-' + page);
+        if (target) target.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

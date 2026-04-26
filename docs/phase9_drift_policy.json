@@ -1,0 +1,11 @@
+{
+  "drift_thresholds": {
+    "capacity_pressure_delta_warn": 0.15,
+    "score_drop_warn": 10,
+    "oncall_level_worsen": ["P3->P2", "P2->P1", "P3->P1"]
+  },
+  "adaptive_suggestions": {
+    "capacity_warn_ratio_step": 0.05,
+    "error_budget_warn_ratio_step": 0.05
+  }
+}

@@ -1,0 +1,568 @@
+TITLE_FILE: El Agente An Autonomous Agent for Quantum
+PAGES: 203
+
+===== PAGE 1 =====
+El Agente: An Autonomous Agent for Quantum
+Chemistry
+Yunheng Zou1,2, , Austin H. Cheng1,2,3, , Abdulrahman Aldossary2,3,†, Jiaru Bai3,†, , Shi Xuan
+Leong3,†, , Jorge Arturo Campos-Gonzalez-Angulo2,3,§, , Changhyeok Choi3,§, Cher Tian Ser1,2,3,§, ,
+Gary Tom1,2,3,§, , Andrew Wang3,§, , Zijian Zhang1,3, , Ilya Yakavets7, Han Hao7, Chris Crebolder1,7,
+Varinia Bernales∗,3,7, , Alán Aspuru-Guzik∗,1,2,3,4,5,6,7,8,
+1Department of Computer Science, University of Toronto, Sandford Fleming Building, 10 King’s
+College Road, Toronto, ON M5S 3G4, Canada
+2Vector Institute for Artificial Intelligence, 661 University Ave. Suite 710, Toronto, ON M5G 1M1,
+Canada
+3Department of Chemistry, University of Toronto, Lash Miller Chemical Laboratories, 80 St. George
+Street, Toronto, ON M5S 3H6, Canada
+4Department of Materials Science & Engineering, University of Toronto, 184 College St., Toronto, ON
+M5S 3E4, Canada
+5Department of Chemical Engineering & Applied Chemistry, University of Toronto, 200 College St.
+Toronto, ON M5S 3E5, Canada
+6Senior Fellow, Canadian Institute for Advanced Research (CIFAR), 661 University Ave., Toronto,
+ON M5G 1M1, Canada
+7Acceleration Consortium, 700 University Ave., Toronto, ON M7A 2S4, Canada
+8NVIDIA, 431 King St W #6th, Toronto, ON M5V 1K4, Canada
+†Authors contributed equally and are listed alphabetically
+§Authors contributed equally and are listed alphabetically
+Computational chemistry tools are widely used to study the behaviour of chemical phenomena. Yet,
+the complexity of these tools can make them inaccessible to non-specialists and challenging even for
+experts. In this work, we introduceEl Agente Q, an LLM-based multi-agent system that dynamically
+generates and executes quantum chemistry workflows from natural language user prompts. The system
+is built on a novel cognitive architecture featuring a hierarchical memory framework that enables
+flexible task decomposition, adaptive tool selection, post-analysis, and autonomous file handling and
+submission. El Agente Qis benchmarked on six university-level course exercises and two case studies,
+demonstrating robust problem-solving performance (averaging>87% task success) and adaptive error
+handling throughin situ debugging. It also supports longer-term, multi-step task execution for more
+complex workflows, while maintaining transparency through detailed action trace logs. Together,
+these capabilities lay the foundation for increasingly autonomous and accessible quantum chemistry.
+Date: May 6, 2025
+Correspondence: varinia@bernales.org and aspuru@nvidia.com
+KEYWORDS
+LLM-based agent, computational chemistry automation, semi-empirical methods, density functional the-
+ory (DFT), electronic structure, thermodynamic properties, organic molecules, inorganic complexes, high-
+throughput virtual screening, agentic model.
+1
+arXiv:2505.02484v1  [cs.AI]  5 May 2025
+
+===== PAGE 2 =====
+INTRODUCTION
+Computational chemistry is an essential tool in modern chemical research, allowing scientists to systematically
+study diverse molecular systems, properties, and mechanisms (1; 2; 3; 4; 5). Simulation streamlines the design
+of new drugs, catalysts, and materials by efficiently screening target molecules and reducing experimental
+workload (6; 7; 8; 9; 10; 11; 12). In principle, simulation is also accessible to anyone with access to a computer.
+Despite these advantages, computational chemistry software has long been known for its steep learning curve.
+Users must possess expert knowledge to navigate a vast array of tools, configure input parameters, and
+interpret results accurately. Additionally, handling computational divergences, runtime errors, and other
+technical challenges demands significant expertise, making the field less accessible to non-specialists.
+Moreover, these runtime errors can be challenging to understand even for experienced users and thus require
+considerable time for troubleshooting calculations rather than focusing on scientific discovery. While integrated
+workflows (13; 14; 15; 16; 17; 18; 19; 20; 21) and advanced interactive control (22; 23; 24; 25; 26) can alleviate
+some of these challenges, they come with limitations of their own. These pipelines often rely on a fixed set of
+tools and predefined workflows, which can be cumbersome when adapting to new problems or specific research
+needs. For example, while calculating the ring strain of cycloalkanes involves a series of routine computational
+chemistry protocols, like geometry generation, optimization, and obtaining appropriate energetic differences,
+to our knowledge, there is no computational workflow specifically designed to calculate the ring strain of
+cycloalkanes. Although modern workflow packages allow for adding such functionality, these workflows must
+be implemented by experts, which makes scaling difficult for the diverse number of workflows a chemist might
+need. Furthermore, a rigid workflow structure cannot generalize to complex cases that require domain-specific
+chemical intuition in more advanced tasks. As a result, despite automation, such pipelines may still fall short
+in facilitating truly accessible and adaptable computational chemistry workflows.
+Large language models (LLMs) can be part of a potential solution to these problems (27; 28; 29; 30; 31; 32).
+Through pre-training, LLMs not only encode chemistry knowledge in their training data (33; 34; 35; 36),
+which is often derived from scientific literature and textbooks (37), but also gain the ability to interpret and
+generalize human expertise stored in textual formats via in-context learning (38; 39; 40). This capability
+enables the transfer of chemistry knowledge from experts to LLM-based systems through natural language
+descriptions (41; 42). For instance, Jacobs and Pollice (32) recently demonstrated how an LLM can be
+fine-tuned to emit complete ORCA input files in a single pass. Furthermore, recent advancements in
+LLM-based agents allow LLMs to execute code and experiments based on this knowledge (43). Various
+frameworks have been developed to enhance these agents with tools, memory, and human communication
+interfaces (44; 45; 46; 47; 48; 49). LLM-based agents have shown promising results in retrieving chemistry
+knowledge, designing and conducting experiments, and analyzing results (50; 51; 52). However, existing
+approaches remain limited, often relying on a small set of tools and relatively simple experimental or
+computational setups. This limitation stems in part from the significant human effort required to develop and
+validate tools, as well as the challenge of selecting the appropriate tool from a large tool set. A key challenge,
+therefore, is scaling these agent systems while minimizing the human effort needed to transfer and apply their
+knowledge effectively.
+In this work, we introduceEl Agente,1 a novel cognitive architecture for language agents, and apply it to
+automate complex computational and quantum chemistry tasks. We refer to this application ofEl Agenteas
+El Agente Q(Figure 1). El Agenteemploys a hierarchical network of specialized LLM-based agents, each
+equipped with an extensive list of available tools. This hierarchy effectively filters out the irrelevant context
+for each agent, significantly enhancing the decision-making performance of the entire system, enabling complex
+planning and task execution via feedback loops. To minimize the human effort required for knowledge transfer,
+we developed multiple interfaces allowing human experts to inject knowledge into the system through both
+programming and natural language conversation.
+El Agente Qis part of a broader trajectory of agentic systems in computational chemistry. Early rule-based
+agents were used for modelling self-assembly (53; 54). More recently, agent-based systems have evolved
+to incorporate knowledge graphs as structured data backends, enabling more semantic and interconnected
+workflows (55; 56; 57; 58). Entering the LLM era, a new generation of agents has emerged across a broad
+1Pronounced /el a’xente/, approximately "el ah-HEN-teh" in English. See audio: Zenodo (MP3).
+2
+
+===== PAGE 3 =====
+Figure 1 Schematic overview ofEl Agente Q, an LLM-based multi-agent system for automated planning, scheduling,
+execution, and troubleshooting computational chemistry tasks. The hierarchical design allows the top-level agent (the
+computational chemist) to focus on high-level planning. Meanwhile, lower-level agents (e.g., thegeometry optimization
+module) specialize in executing their allotted tasks in the action space, calling software for action execution, or accessing
+databases for information storage. The agent’s chatbox interface facilitates human-agent interaction through natural
+language.
+range of scientific tasks (59; 60; 61; 62; 63; 64; 65; 66; 67). For a comprehensive overview of these LLM-based
+agentic systems, we refer the reader to Ref. (43). Specific applications of LLM-based agents in computational
+chemistry include MDCrow (68) for molecular dynamics, and AutoSolvateWeb (69) for solvated molecules.
+Our work builds on this growing landscape by focusing on a multi-agent system capable of simultaneously
+coordinating several computational chemistry tasks. Unlike previous works,El Agente Qintroduces key
+features such as automated error recovery, shell-level interaction, and action trace exports. Notably, it utilizes
+LLMs to dynamically route tasks and tools, providing flexibility and adaptability that traditional workflow
+management systems struggle to achieve.
+This work showcases the agent network’s ability to perform various quantum chemistry calculations, including
+geometry optimization, electronic structure analysis, and thermochemical property evaluation. These tasks
+are performed by interfacing with various computational chemistry software packages and tools, including
+RDKit (70), OpenBabel (71), xTB (72), and ORCA (73), as well as Architector (74). Furthermore,El Agente
+Q can interface with SLURM, a job scheduler for UNIX clusters, to submit jobs, retrieve results, and run
+Python scripts for I/O operations and data analysis. A key feature is its ability to extract the action traces of
+the agents involved in its dynamic workflows, which can be exported as code to verify the correctness of the
+procedure or assist humans in refined workflow design. This feature allowsEl Agente Qto be used as a tool
+for human experts, enabling them to leverage its capabilities while maintaining control and oversight over the
+computational process.
+The remainder of this article is organized as follows. We begin by describing the system architecture ofEl
+Agente, including the specialized agents and integrated tools that formEl Agente Q. Next, we present a series
+of eight computational chemistry tasks the system has successfully completed, highlighting its capabilities
+and reliability. We then explore its error recovery mechanisms and adaptability to novel situations. Finally,
+we reflect on the roadmap for future developments in agentic AI for computational chemistry, including its
+integration into real-world applications and self-driving laboratories, the role of the human teaching processes,
+and the limitations and challenges to be addressed.
+3
+
+===== PAGE 4 =====
+RESUL TS
+System architecture: El Agente
+El Agenteis the novel cognitive architecture, which we used as the foundation to developEl Agente Q. El
+Agente was designed to improve the agents’ planning, reasoning, and long-term acting capability. It integrates
+a working memory, a long-term memory, and an LLM-based reasoning core, following the CoALA agent
+design framework (75) and the Soar architecture (76; 77). Specifically, our implementation transforms and
+extends the original CoALA architecture into a hierarchical cybernetic agentic network to enable hierarchical
+planning, long-term memory retrieval, and modular memory management. The working memory is updated
+through four components: (i) theglobal memory, which maintains shared context across all agents; (ii) an
+agent-specific conversation history, which tracks local decision-making and interactions; (iii) agrounding
+mechanism, which brings in environment information such as file directory tree structure to allow the agent to
+perceive the working environment; and (iv) along-term memory, which is composed of procedural, semantic,
+and episodic memory, to define the expert agent’s behaviour (Figure 2). The LLM reasoning core then utilizes
+the specialized working memory to plan, reason, act, critique, and report task execution in real time, enabling
+flexible, dynamic synthesis and execution of complex, multi-step workflows.
+In particular, the procedural memory is represented as a hierarchical multi-agent team working in a cybernetic
+network fashion to generate procedures dynamically (Figure 2-iv). Within the hierarchical team, each agent
+(a node in the procedural memory) is equipped with four components: (i) aspecialized contextthat defines
+its role and job scope, and contains domain-specific knowledge, (ii) its ownsemantic memory, which stores
+role-specific patterns and decision rules that can be dynamically retrieved, enabling consistent expert-like
+reasoning, (iii) a set ofcallable modules (i.e. connections between nodes) that enable the agent to either
+interface directly with available tools for task execution or delegate subtasks to other agents, allowing for
+dynamic task decomposition and routing across the network. The callable modules follow common procedural
+task decomposition logic to organize the agents into a hierarchical team. The last component (iv) is the
+agent’s individualepisodic memorythat captures prior decisions and results. However, episodic memory is
+not activated in our current implementation ofEl Agente Q.
+Figure 2 A high-level view of the cognitive architecture ofEl Agente, where the working memory is composed of (i) a
+global memory, (ii) anagent-specific conversation history, (iii) agrounding mechanism, and (iv) retrievedlong-term
+memory, all of which go into theLLM reasoning core. The long-term memory is composed of procedural, semantic,
+and episodic memory. The procedural memory itself is a procedural memory network consisting of a network structure
+and a procedural memory node. Each procedural memory node makes the reasoning core aware of its current role,
+semantic memory, episodic memory, and allowable action space, which are processed as part of the working memory.
+Note that inEl Agente Q, the episodic memory has been disabled.
+Throughout a session,El Agente Qrecords its action trace. The system can export this trace to a Jupyter
+notebook, where the tools invoked by the agents are converted into native Python functions. This functionality
+allows users to review the steps taken by the agents to complete a task. This feature is particularly useful for
+4
+
+===== PAGE 5 =====
+human experts to verify the correctness of the procedure. Crucially, users can also adapt these notebooks into
+standardized workflow pipelines for high-throughput virtual screening.
+Implementation of El Agente for quantum chemistry tasks: El Agente Q
+El Agente Q (Figure 3) features the computational chemist agent as the top-level agent for high-level
+planning based on the user’s task prompt. Thecomputational chemistis assisted by mid-level agents, which
+can be broadly categorized into three functional modules based on overarching job scope. These modules are
+analogous to a company’s departments, in the sense that they have well-defined functions that contribute to
+the overall function of a complex system. These modules are (i) thegeometry module, which manages tasks
+like molecular structure construction and geometry optimization, (ii) thequantum calculation module, which
+performs all calculation-related tasks such as preparing and running executable input files and debugging
+output files, and (iii) thefile I/O module, which manages file system operations such as reading and extracting
+properties from output files, as well as job submission.
+Each agent determines its next callable module based on its domain-specific knowledge. These modules
+include tool selection and task delegation logic (e.g., when to use RDKit versus OpenBabel for thegeometry
+generation agent), expert-recommended typical action sequences (e.g., geometry optimization→frequency
+analysis), expected input and output file formats, common output handling heuristics (e.g., detecting and
+resolving imaginary frequencies after optimization), and subtask delegation. For example, density functional
+theory (DFT) calculations are managed by theDFT agent, which can call theinput file expertto generate
+ORCA input files, and theSLURM agentto submit ORCA calculations.
+Within such a hierarchical planning framework, higher-level agents only handle broad strategic planning,
+directing low-level agents to manage execution details, who respond with summarized feedback. For example,
+when instructed to perform a DFT calculation, theDFT agentonly generates high-level subtasks such as
+generating input files, organizing job folders, and submitting calculations. Lower-level implementation details -
+such as deciding the keywords and blocks required for ORCA input file creation, writing the Python command
+to execute the file organization, and interfacing with the HPC server - are delegated to one of the following
+agents: theORCA input file expert, thefile I/O agent, and theORCA runner. Similarly, these individual
+agents only provide concise, high-level feedback to theDFT agentwithout overwhelming the higher-level agent
+with implementation specifics. This Markov-style thinking process effectively reduces the planning complexity
+to improve instruction adherence, enhances local problem-solving ability, and shortens the active context
+for individual agents, which allowsEl Agente Qto act over longer timescales and solve complex, multi-step
+quantum chemistry tasks (discussed further in Strength 2: Scalability for long-term acting computational
+tasks).
+5
+
+===== PAGE 6 =====
+Figure 3 Hierarchical architecture ofEl Agente Q. Inter-agent communication is illustrated with black arrows, where
+solid arrows represent task delegation from higher-level agents, and dotted arrows indicate feedback and reporting
+from lower-level agents. The agents can be broadly categorized into three functional modules - thegeometry module
+(coral), thequantum calculation module(blue), and thefile I/O module(yellow). Each module can be thought of
+as a department in a complex organization with its own manager, employees, and tools (violet). For example, the
+geometry generation agentgets to decide if the system should be handled by theorganometallic complexes agentor
+Perplexity AI search (78), and decide the charge and multiplicity of the system.
+University-level exercises
+We benchmarkedEl Agente Qon a set of university-level exercises (79). These exercises cover three core
+computational categories of tasks that are time-consuming yet commonly encountered: geometry optimization,
+thermodynamic stability, and electronic structure analysis. To assess the capacity for autonomous problem-
+solving, we framed each exercise as a chemical problem rather than a direct computational instruction in our
+query prompts (individual query prompts provided in Benchmark Studies). This framework was designed to
+evaluate its ability to reason through chemical problems and independently select appropriate computational
+methods and tools for each unique exercise, rather than follow fixed workflows. For example, in Exercise 5,
+we asked the agent to determine the pKa of carboxylic acid without explicitly asking it to compute the Gibbs
+free energy of the deprotonation reaction. Table 1 outlines the tasks, examples of tested systems, and the
+anticipated challenges associated with each task. All our evaluations are run in fully autonomous mode, with
+only one input from the user, although in practical use cases,El Agente Qcan be highly interactive at all
+hierarchies.
+6
+
+===== PAGE 7 =====
+Table 1 Summary of university-level exercises, including the task description, some examples of tested chemical systems,
+and challenges expected.
+Task Description
+Organic
+compounds
+Task: Optimize molecules from chemical names and generate a report of: geometry, point group
+symmetry, dipole moment, molecular orbital analysis, HOMO-LUMO gap, various atomic charges,
+and a visualized image of the molecule.
+Systems: The test set includes acetaminophen, 2-chloronitrobenzene, (S)-2-ethyl-2-fluoropentan-1-ol,
+and L-histidine.
+Anticipated challenges: Generating the correct structures from names and SMILES, and extracting and
+reporting data correctly.
+Inorganic
+compounds
+Task: Optimize molecules from chemical names and generate a report similar to the organic molecules
+exercise.
+Systems: The test set includes dicyanoaurate, cyclohexyldimethylphosphine, perchlorate, and chromium
+hexacarbonyl.
+Anticipated challenges: Generating the correct structures from names and SMILES. Using only SMILES
+can be trickier for hypervalent complexes, ensuring that the geometry corresponds to an energy
+minimum. Similar to the organic compounds, extracting data and reporting.
+Relative
+stability of
+carbocations
+Task: Compute ∆G and ∆H for R–H− − →R+ +H –.
+Systems: The test set includes toluene, propene, and 2-methylpropane.
+Anticipated challenges: Generating geometries of carbocations is non-trivial because they violate
+octet rules for valency. Removing the correct hydrogen to yield the most stable carbocation can be
+challenging.
+Ring strain of
+cycloalkanes
+Task: Compute ∆G and ∆H of ring strain due to cyclization: Cyclo(CnH2n) → Cyclo(Cn−1H2n−3)-
+CH3.
+Systems: The test set includesn = 3 − 8.
+Anticipated challenges: Correctly optimizing the geometry, keeping track of multiple files, and analyzing
+correctly.
+pKa of
+common
+acids
+Task: Compute the pKa of carboxylic acids,H–A− − →H++A–, with Gibbs energies computed using
+an implicit solvent. The proton solvation energy may be calibrated against literature pKa values of
+related carboxylic acids.
+Systems: This is tested for either acetic or chlorofluoroacetic acid.
+Anticipated challenges: Keeping track of multiple files, long-term planning of multiple steps.
+Absorption
+spectrum of
+organic
+molecules
+Task: Calculate the singlet (including the oscillator strength) and the singlet-triplet gap of vertical
+excitation energy of organic molecules with time-dependent density functional theory. The geometries
+are provided for the agent.
+Systems: The test set includes three organic molecules.
+Anticipated challenges: Reporting the summary of the results in a table.
+Evaluation of El Agente Q’s problem-solving ability
+To systematically assessEl Agente Q’s performance, we defined two difficulty levels for each exercise in terms
+of the level of detail for the provided description. Broadly speaking, a more guided setting for the first level
+was provided, where prompts include explicit hints or supporting information or involve fewer molecules. In
+contrast, the second level presents a more open-ended challenge, where prompts either are concise and offer
+minimal guidance or require performing higher-volume tasks across numerous molecules. These higher-volume
+tasks stress-test the network’s coordination efficiency and long-term acting capability. Each exercise at both
+difficulty levels was repeated ten times with identical prompts to evaluate reliability. We note that the prompts
+specify the choice of basis set and density functional to allow for a consistent assessment of accuracy and
+reliability. The success rate is defined as the percentage of successful runs out of these 10 trials (the rubrics
+for each exercise can be found in Table S8, while all generated files can be found in a data repository (80)).
+Across all university-level exercises,El Agente Qachieved an average success rate of >88.8% and >87.6% for
+7
+
+===== PAGE 8 =====
+first- and second-level difficulties, respectively, demonstrating strong generalization across a wide diversity of
+chemical problems (Table 2). These results highlight its potential as a reliable quantum chemistry assistant
+that can reason through varied chemical queries, plan and execute appropriate computational workflows,
+and adapt to varied input file formats and job execution requirements. We further investigate the sources
+of performance variability across runs in the Limitations section. These failure modes, in turn, will help us
+inform the immediate development plans (see El Agente’s Roadmap).
+Table 2 Success rates ofEl Agente Qtested on university-level quantum chemistry exercises. The success rate is
+defined as the percentage of successful runs out of the total number of runs (10), with standard deviation indicated
+with ±. The difficulty levels are described in the table. The number of molecules (provided as SMILES or in XYZ
+format) involved in some tasks is given in parentheses. For the detailed score of each session, refer to Table S3.
+# Exercise Difficulty Success%
+1 Organic compounds
+Level 1: Fewer molecules; SMILES (3) are provided. 88 ± 10%
+Level 2: The XYZ files (20) with chemical names, charge, and spin multi-
+plicity are provided.
+78 ± 17%
+2 Inorganic compounds
+Level 1: Fewer molecules; SMILES (3) are provided. 78 ± 9%
+Level 2: The XYZ files (16) with chemical names, charge, and spin multi-
+plicity are provided.
+84 ± 7%
+3 Relative stability of
+carbocations
+Level 1: XYZ files (19) are provided, with hints about charge and spin
+multiplicity.
+83 ± 18%
+Level 2: SMILES (18) are provided for all species except the hydride,
+including charges but not spin multiplicity.
+92 ± 13%
+4 Ring strain of
+cycloalkanes
+Level 1: Query includes SMILES (2) as a hint to generate the remaining
+eight compounds, step-by-step ring strain calculation procedures, and actual
+reference point.
+94 ± 7%
+Level 2: Query only includes hints of reference point and ring strain calcula-
+tion procedure.
+77 ± 11%
+5 pKa of common
+acids
+Level 1: Calculate only the pKa of acetic acid. 90 ± 16%
+Level 2: Calculate proton solvation free energy by calibrating against
+literature pKa values, and subsequently calculate pKa of chlorofluoroacetic
+acid.
+95 ± 16%
+6 Absorption spectrum
+of organic molecules
+Level 1: Query includes the XYZ files (3) and hints about the excited triplet
+states calculation and where to find the results.
+100 ± 0%
+Level 2: Query is concise, includes the XYZ files (3), and does not provide
+any hints.
+100 ± 0%
+Adaptive troubleshooting and error handling
+El Agente Qdemonstrates robustin situ debugging and adaptive error recovery during workflow execution,
+actively iterating to correct both input file issues and output-related failures. When input file errors arise, the
+agent can detect and correct non-executable or invalid job configurations by routing feedback through the
+agent hierarchy and retrying job submission (Figure 3). For example, in the calculation of absorption spectra
+of organic molecules (Exercise 6),El Agente Qsuccessfully resolved ORCA runtime errors triggered by
+hallucinated non-existent ORCA keywords such asDOSINGLET, DOTRIPLET, andNROOTS_TRIPLET,
+autonomously removing or replacing them (Session TDDFTforS1andT1_level2_10). In another case, the
+agent initially failed to specify the correct XYZ input file for one of the runs in the pKa exercise (Exercise
+8
+
+===== PAGE 9 =====
+5), which caused errors during batch submission (Session pKaOfCarboxylicAcidsAndMethods_level2_-
+3). El Agente Q automatically recovered from this error and adapted its strategy by switching to a
+one-at-a-time submission strategy. These examples highlight the agent’s adaptive troubleshooting capacity
+and ability to refine its computational plan in response to failed or invalid configurations. They also
+demonstrate the network’s internal critic mechanism, enabled by its hierarchical design. Regarding output
+troubleshooting, El Agente Qcan handle undesirable behaviours such as the presence of imaginary frequencies.
+For instance, in the ring strain exercise (Exercise 4), when structure generation tools produced a planar
+geometry instead of the correct puckered conformation for cyclobutane, the imaginary frequency removal
+module accurately diagnosed the presence of imaginary frequencies, identified the underlying structural issue,
+and triggered re-runs by displacing the structure along the displacement modes to successfully re-optimize
+to the true minimum-energy structure (Session RingStrainEnergies_level2_9. In the carbocation exercise
+(Exercise 3), we also consistently observed the automatic correction of imaginary frequencies for several
+carbocation structures (i.e., the carbocation of propane and 2-methylpropane). Additionally, we observe that
+El Agente Qactively iterates to debug and resolve energy convergence issues during geometry optimizations
+(Session OrganicMoleculesGeometryOptimizationAndProperties_level1_4).
+From Theory to Practice—El Agente Q in Real-World Scenarios
+In this section, we evaluateEl Agente Q’s ability to tackle computational tasks of increased complexity
+through two case studies. In the first one,El Agente Qis tasked with investigating how water as a solvent
+affects an amino acid’s IR spectrum using both implicit and explicit models. In the second, it is asked
+to perform the automated generation and optimization of a lanthanoid complex, guided by details from a
+published computational methodology. These examples highlight the model’s robustness and relevance for
+real-world scientific applications.
+Case study 1: Influence of Solvent on IR Spectra
+In this study, we evaluatedEl Agente Q’s capability to model solvent effects on vibrational spectra—a
+nuanced and computation-intensive task in theoretical chemistry. The exercise was adapted from a YouTube
+tutorial (81), and involved calculating the vibrational frequencies of alanine in three distinct environments:
+(1) the gas phase, (2) implicit solvation using the CPCM model (82) with water, and (3) explicit solvation
+with 12 water molecules combined with CPCM.El Agente Qwas expected to generate molecular geometries,
+prepare accurate input files using DFT, and extract key vibrational frequencies (C––O and O–Hstretches) to
+assess solvent-induced shifts.
+El Agente Qperformed effectively across all stages. It successfully built the complex alanine–water cluster
+via OpenBabel, pre-optimized the structure with xTB, and performed geometry optimization and frequency
+analysis using the requested level of theory. Interestingly, El Agente Q allocated 8, 16, and 24 cores
+to the gas-phase, CPCM, and explicit-CPCM hybrid models, respectively, reflecting an awareness of the
+increasing system complexity. This behaviour indicatesEl Agente Q’s ability to allocate computational
+resources efficiently within the limits of a 48-core node, and optimize parallel performance. The extracted
+vibrational frequencies closely approach reference values from the benchmark (81), indicating that the overall
+computational workflow was reliably reproduced. Impressively,El Agente Qalso automatically generated
+a comparative IR spectrum combining results from the aforementioned calculation models, with visually
+highlighted characteristic absorption bands, including 1770–1850 cm−1 (C––O stretching region), 2800–3100
+cm−1 (C–Hstretching modes), and 3300–3800 cm−1 (N–Hand O–Hstretching region) (see SI: Influence of
+solvent on IR Spectra). SinceEl Agente Qassigned peaks in the spectrum based on characteristic frequency
+ranges, the significantly red-shiftedO–Hstretching peak of alanine in the hybrid solvation model (2991 cm−1)
+was grouped within theC–Hstretching region, and theO–Hstretching vibrations from both alanine and
+water molecules were classified into a single group. Nevertheless, our system reproduced the key qualitative
+trend—a red shift in bothC––O and O–Hstretches due to solvation—with clear reasoning linked to hydrogen
+bonding effects, demonstrating both technical reliability and chemical insight.
+9
+
+===== PAGE 10 =====
+Case study 2: Lanthanoid Complex
+In general, lanthanoid complexes present a significant challenge in computational chemistry due to their
+intricate electronic structures, frequent open-shell character, and the necessity of using effective core potentials.
+As such, accurate modelling of their properties often demands specialized methods and careful control over
+convergence settings. In this study, we evaluateEl Agente Q’s ability to autonomously carry out a high-
+fidelity quantum chemical workflow on a Ce(III) complex containing three bidentate nitrate ligands and three
+coordinated water molecules. We also assess its capacity to extract and apply methodological details from the
+literature by prompting it with the computational procedure used to generate the Ln-QM dataset, as reported
+by Hölzer et al. (83) (exactly as it was described in the manuscript, see SI: Lanthanoid Complex). Although
+the protocol was provided in a single prompt, it requiredEl Agente Qto execute a series of interdependent
+steps.
+As a first step,El Agente Qutilized the Architector library (74) to generate initial geometries, showcasing its
+ability to integrate with community-developed tools for building organometallic structures. As the Architector
+library is likely not part of the training corpus of the LLMs, we developed ametal complex generation
+agent to call Architector’s functions appropriately, which is called by thegeometry generation agent(Figure
+2). After successfully generating five geometrical isomers, it optimized each, ensuring consistent treatment
+across all calculations. During the DFT calculations, the system autonomously corrected, through iterative
+refinement, several input-related errors that were encountered, such as the misplacement of SCF keywords
+and unsupported density functional options.
+For this study, geometry optimizations converged for all isomers, and two cases involving imaginary frequencies
+were handled appropriately: both were re-optimized until the imaginary frequencies were eliminated entirely
+up to a threshold of 15 cm−1. Although geometry optimization was conducted using dispersion-corrected
+DFT, only the DFT energies were reported, but the energies associated with the dispersion corrections were
+not extracted. Nevertheless, the final single-point energies calculated using a different functional and the
+corresponding relative energies for the isomers were computed and reported correctly.
+This case study demonstratesEl Agente Q’s ability to extract computational workflows from the literature
+to perform high-throughput quantum chemical calculations involvingf-block systems—a capability readily
+extendable to a broad range of metal complexes. This study is an example ofEl Agente Q’s capacity to
+carry out calculations with minimal human intervention, combining intelligent error handling with seamless
+integration of external tools for molecular structure generation and simulation. Moving forward,El Agente
+Q will be further refined to incorporate chemical intuition for selecting more accurate methods, including
+appropriate treatments of effective core potentials, spin–orbit coupling, and SCF (internal) stability checks.
+We anticipate that its troubleshooting capabilities will support the reliable convergence of complexes with
+increasingly challenging electronic wavefunctions. Data extraction failures, such as the omission of DFT
+dispersion data extraction in this run, will be corrected in future versions with more specialized and robust
+extraction modules and scripting tools.
+DISCUSSION
+We will begin this section by describing three strengths ofEl Agentebefore discussing its limitations and our
+future roadmap. We end this section with the conclusion about our study.
+Strength 1: Potential to synthesize workflows
+El Agente Qcan automatically design workflows to achieve a specified scientific target. Within each workflow,
+there are decision-making and action steps. The agentic nature of our system enables it to make decisions
+dynamically, exploring different action sequences following best domain practices to achieve the desired
+objective(s). Once these action sequences are consolidated—by removing the often present trial-and-error
+steps—they can be reused as rigid workflows without agentic decision-making, for example, for applying them
+to high-throughput settings. Therefore,El Agente Q’s task execution can be viewed as a search over the
+space of potential computational workflows. The six benchmark exercises involved an average of 64.5 actions
+and 103.9 agent interactions (commanding and reporting) per exercise (Tables S4, S5), demonstrating the
+10
+
+===== PAGE 11 =====
+complexity of the synthesized workflows. This capability enables efficient discovery of feasible workflows
+for high-throughput tasks and the reproduction of experiments from loosely defined instructions, with the
+potential to significantly reduce human workload by accommodating software-specific input requirements and
+uncovering missing details that typically require intensive tuning.
+Strength 2: Scalability for long-term acting computational tasks
+Another key strength ofEl Agente Qis its capacity to operate as a long-term autonomous system, capable of
+executing extended, multi-step tasks that involve numerous calculations, tool calls, and iterative decision-
+making in our benchmark exercises. The hierarchical task decomposition in our system architecture enables
+this long-term acting capability. Instead of requiring a single agent to reason and complete the task within its
+context window, our underlying architecture decomposes the complex task into smaller, manageable subtasks,
+each assigned to specialized agents. This assignment happens recursively until it reaches the bottom layer of
+the network.
+In our design, the maximum depth from thecomputational chemistto the lowest level agent is six, which
+means that at some step, the low-level agent is processing a subtask that is decomposed six times from the
+main objective. This modular, hierarchical structure enables the overall system to maintain coherence and
+continuity even as the total task context exceeds the native token limits of any individual model. For example,
+for theRelativeStabilitiesOfCarbocations_level2_1 session, El Agente Qspends 3.2 million total tokens
+and 112 actions. By the end of the session, the final context length summed across all agents reached 204,789
+tokens, which exceeds Claude 3.7’s 200K window for a single agent. Due to the hierarchy in our framework, the
+computational chemist, our highest level agent, only consumes 19,855 tokens during the entire task, which
+is just 10% of the maximum context window (Tables S6, S7). Consequently,El Agente Qcan continually
+function well after this task due to the low cognitive load. Its hierarchical working memory management,
+adaptive troubleshooting, and error handling capacity are crucial for scalingEl Agente Qto more complex
+quantum chemistry workflows.
+Strength 3: Efficiency and user accessibility
+El Agente Qis a user-friendly tool that requires only a natural language prompt to define the compounds
+and reactions, and state the type of calculations required. By lowering the knowledge barrier for planning
+computational workflows and using computational chemistry and cheminformatics packages,El Agente
+Q makes these calculations more accessible to a much broader set of practitioners, including students or
+experimental research chemists with no programming knowledge. At the same time,El Agente Q’s ability to
+export full action traces ensures transparency and traceability by allowing users to review the agents’ decision-
+making process and validate the outcomes. This feature improves trust inEl Agente Q’s results. Additionally,
+El Agente Q significantly saves human time by automating tedious steps, such as the preprocessing of
+input files, setting up calculation parameters, and managing the job queue according to the progress of the
+calculations and computation resources.
+Strength 4: Orthogonality to model capability and reasoning frameworks
+El Agentecognitive architecture is orthogonal to the underlying LLM’s capability and the external reasoning
+frameworks applied during inference. Improvements in model capability, such as stronger priors or fine-tuning,
+and reasoning strategies like chain-of-thought prompting (84) or voting-based methods (e.g., Tree of Thoughts
+(85)) can enhance the quality of local decision-making and instruction following at the node level. For instance,
+during initial system development, we observed higher performance gains after switching from non-reasoning
+models to reasoning-capable models like Claude 3.7, particularly in tasks requiring the model to reason with
+given context.El Agentecomplements these model improvements by leveraging its hierarchical structure to
+reduce cognitive load at each expert node, allowing the reasoning core to focus on the most relevant context,
+enabling both the model and the applied reasoning framework to perform closer to their optimal potential.
+11
+
+===== PAGE 12 =====
+Limitations
+WhileEl Agente Qdemonstrates strong overall performance, we discuss some sources of performance variability
+that we observed (Table 2).
+First, one issue is incomplete or missing final reports and/or property extractions during post-computation
+analysis, particularly for larger parallel batches of longer calculations. For example, in the geometry optimiza-
+tion of organic compounds (Exercise 1), none of the first-level calculations reports were missing, while 24.5%
+(49 out of 200) of the reports for second-level calculations were missing. In the case of inorganic compounds
+(Exercise 2), only 1.3% (2 out of 160) of the reports for second-level calculations were missing, and this
+was due to issues encountered while optimizing the XeF4 geometry. Calculations for the organic molecules
+required significantly longer runtimes when compared to inorganic molecules, with most compounds containing
+about 20 atoms. Among the reports generated for Exercises 1 and 2,El Agente Qwas also penalized for
+not including one or two requested properties in the final report. This penalization was the primary factor
+contributing to the scores presented in Table 2, as we applied strict scoring criteria. Importantly, we found
+that this issue is resolved by issuing a simple follow-up query prompt to generate the analysis reports after
+completing the calculations. This finding highlights that the failure did not stem from an inability to perform
+the calculations and their corresponding analyses, and thatEl Agente Qcould benefit from an additional
+dedicated post-analysis module integrated into the existing hierarchy, and better output file parsing tools.
+Another source of performance variability is the model’s tendency to make unverified assumptions if the pro-
+vided information is incomplete. For instance, in the pKa benchmark exercise (Exercise 5), the model directly
+applied empirical corrections using arbitrary scaling values to adjust computed pKa values (Session pKaOfCar-
+boxylicAcidsAndMethods_level1_6). In one of the runs on the relative stabilities of carbocations (Exercise
+3), following an incorrect/missing calculation for the enthalpy and Gibbs energies of the hydride anion, the
+agent approximated the enthalpy as -0.5 Hartree based on the statistical mechanics of an ideal gas, instead
+of resubmitting the DFT calculation at the specified level of theory (Session RelativeStabilitiesOfCarboca-
+tions_level2_4). Nonetheless, traceability and interpretability are preserved through our detailed action
+trace logs and conversation history that capture all model decisions, allowing users to catch these assumptions.
+Future improvements, such as more interactive clarification prompts and multimodal verification strategies,
+are outlined in El Agente’s Roadmap and will further enhance output reliability while balancing user oversight
+and system autonomy. These behaviours could also be mitigated through alternative prompting strategies,
+such as explicitly instructing the agent to refrain from making assumptions, or adjusting the model’s prior,
+such as through reinforcement learning from human feedback (86).
+A further limitation lies in the reliability of geometry generation from compound names or SMILES strings.
+The external tools to whichEl Agente Qhas current access (e.g., OpenBabel or RDKit) do not always
+generate conformationally stable or chemically reasonable structures. This constraint arises from the inherent
+limitations of the current geometry generation tools rather than the agentic framework. An interactive mode,
+where the users can inspect, draw, or modify the generated structures beforeEl Agente Qproceeds, can
+potentially mitigate this issue. The interactive format inherently comes with a trade-off on the system’s
+autonomy. Expanding El Agente Q’s access to more diverse structure generation tools with multimodal
+capabilities could also enhance reliability. Plans to implement these system upgrades are detailed in El
+Agente’s Roadmap.
+Additionally, the system architecture involved careful manual design of the agent hierarchy to address early
+multi-agent coordination failures (87), taking into account the tools’ availability and model limitations. For
+instance, when we experimented with lightweight LLMs during early development stages ofEl Agente Q,
+without specifying explicit constraints, thegeometry optimization agentmight proceed in the absence of
+a valid initial geometry. Other failure modes, such as loss of details during message passing, also required
+further tuning of the message passing and global memory construction policies. These experiences highlight
+the need for robust orchestration strategies, such as internal validation and pre-condition checks, to ensure
+reliable behaviour across models with varying capabilities. These safeguards will be critical for scaling under
+resource constraints, e.g., when one desires to employ lightweight LLMs. A promising direction is to allowEl
+Agente Qto learn and adopt these safeguards autonomously through its episodic memory.
+Despite these challenges,El Agente Qrepresents a promising step toward automating traditionally manual
+and expertise-heavy aspects of computational chemistry, such as recovering from execution errors or generating
+12
+

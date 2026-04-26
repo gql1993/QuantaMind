@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-04-10T07:52:44.519373Z",
+  "v1_probe": {
+    "ok": false,
+    "code": null,
+    "error": "timed out"
+  },
+  "v2_probe": {
+    "ok": false,
+    "code": 503,
+    "payload": {}
+  },
+  "rollback_ready": false,
+  "playbook": [
+    "1) freeze V2 traffic switch flag",
+    "2) route client base URL to V1 gateway",
+    "3) run V1 smoke checks (/api/v1/status, /api/v1/library/stats, /api/v1/pipelines)",
+    "4) notify users and keep V2 diagnostics for postmortem"
+  ]
+}

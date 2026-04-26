@@ -1,0 +1,18 @@
+{
+  "actions": {
+    "P1": [
+      "freeze_release_window",
+      "trigger_rollback_drill",
+      "regenerate_oncall_handbook"
+    ],
+    "P2": [
+      "hold_wave_rollout",
+      "regenerate_ops_dashboard",
+      "open_improvement_ledger"
+    ],
+    "P3": [
+      "monitor_only"
+    ]
+  },
+  "default_mode": "recommend"
+}

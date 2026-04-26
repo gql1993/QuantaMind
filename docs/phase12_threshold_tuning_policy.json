@@ -1,0 +1,12 @@
+{
+  "proposals": {
+    "tighten": {
+      "capacity_warn_utilization": -0.05,
+      "error_budget_warn_ratio": -0.05
+    },
+    "relax": {
+      "capacity_warn_utilization": 0.05,
+      "error_budget_warn_ratio": 0.05
+    }
+  }
+}

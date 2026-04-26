@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-04-10T10:03:15.487063Z",
+  "inputs": {
+    "version": "v2-prod-r1",
+    "owner": "release-manager",
+    "policy": "docs/phase9_executive_weekly_policy.json",
+    "ops_report": "docs/reports/phase8_ops_metrics_dashboard_latest.json",
+    "oncall_report": "docs/reports/phase8_oncall_handbook_latest.json",
+    "wave_report": "docs/reports/phase8_wave_rollout_backpressure_latest.json",
+    "drill_report": "docs/reports/phase8_fault_drill_scoring_latest.json",
+    "bundle_report": "docs/reports/phase9_daily_ops_bundle_latest.json"
+  },
+  "score": 34.5,
+  "grade": "D",
+  "summary": "score=34.5, grade=D, ops=RED, oncall=P1, wave=ROLLBACK, drill=D, bundle=ATTENTION.",
+  "status_rows": [
+    [
+      "Ops Dashboard",
+      "RED",
+      "来源 phase8_ops_metrics_dashboard"
+    ],
+    [
+      "Oncall Level",
+      "P1",
+      "来源 phase8_oncall_handbook"
+    ],
+    [
+      "Wave Decision",
+      "ROLLBACK",
+      "来源 phase8_wave_rollout_backpressure"
+    ],
+    [
+      "Drill Grade",
+      "D",
+      "来源 phase8_fault_drill_scoring"
+    ],
+    [
+      "Daily Bundle",
+      "ATTENTION",
+      "来源 phase9_daily_ops_bundle"
+    ]
+  ],
+  "risks": [
+    "生产运行总览为 RED。",
+    "on-call 等级偏高（P1）。",
+    "发布波次决策为 ROLLBACK。",
+    "故障演练评分等级为 D。",
+    "每日批任务存在 attention。"
+  ],
+  "next_actions": [
+    "优先恢复可用性并清理容量积压。",
+    "降低告警级别并完成值班交接闭环。",
+    "修复阻断项后重新评估发布窗口。",
+    "按改进台账推进并完成复测。",
+    "排查失败任务并补齐证据归档。"
+  ]
+}

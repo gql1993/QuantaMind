@@ -1,0 +1,24 @@
+{
+  "version_scope": "v2-prod-r1",
+  "owner": "release-manager",
+  "changes": [
+    {
+      "id": "DEP-001",
+      "name": "fastapi",
+      "from": "0.110.x",
+      "to": "0.111.x",
+      "risk": "medium",
+      "reason": "安全修复与性能优化",
+      "compatibility_focus": "gateway 路由与请求模型兼容"
+    },
+    {
+      "id": "DEP-002",
+      "name": "pydantic",
+      "from": "2.6.x",
+      "to": "2.7.x",
+      "risk": "high",
+      "reason": "模型校验一致性升级",
+      "compatibility_focus": "BaseModel 序列化与默认值行为"
+    }
+  ]
+}

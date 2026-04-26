@@ -1,0 +1,103 @@
+{
+  "archive_id": "20260410",
+  "date": "2026-04-10",
+  "version": "v2-cutover-r1",
+  "owner": "release-manager",
+  "mode": "copy",
+  "archive_root": "docs/archive/phase7/20260410",
+  "written_count": 15,
+  "missing_count": 0,
+  "written_files": [
+    {
+      "group": "drills",
+      "name": "phase7_observability_guard_latest.json",
+      "source_rel": "docs/reports/phase7_observability_guard_latest.json",
+      "archive_rel": "docs/archive/phase7/20260410/drills/phase7_observability_guard_latest.json"
+    },
+    {
+      "group": "drills",
+      "name": "phase7_canary_rollout_latest.json",
+      "source_rel": "docs/reports/phase7_canary_rollout_latest.json",
+      "archive_rel": "docs/archive/phase7/20260410/drills/phase7_canary_rollout_latest.json"
+    },
+    {
+      "group": "drills",
+      "name": "phase7_pre_cutover_drill_latest.json",
+      "source_rel": "docs/reports/phase7_pre_cutover_drill_latest.json",
+      "archive_rel": "docs/archive/phase7/20260410/drills/phase7_pre_cutover_drill_latest.json"
+    },
+    {
+      "group": "drills",
+      "name": "phase7_rollback_drill_latest.json",
+      "source_rel": "docs/reports/phase7_rollback_drill_latest.json",
+      "archive_rel": "docs/archive/phase7/20260410/drills/phase7_rollback_drill_latest.json"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_biweekly_stability_review_latest.json",
+      "source_rel": "docs/reports/phase7_biweekly_stability_review_latest.json",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_biweekly_stability_review_latest.json"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_biweekly_stability_review_latest.md",
+      "source_rel": "docs/reports/phase7_biweekly_stability_review_latest.md",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_biweekly_stability_review_latest.md"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_quarterly_regression_audit_latest.json",
+      "source_rel": "docs/reports/phase7_quarterly_regression_audit_latest.json",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_audit_latest.json"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_quarterly_regression_audit_latest.md",
+      "source_rel": "docs/reports/phase7_quarterly_regression_audit_latest.md",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_audit_latest.md"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_quarterly_regression_signoff_latest.md",
+      "source_rel": "docs/reports/phase7_quarterly_regression_signoff_latest.md",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_signoff_latest.md"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_version_change_audit_latest.json",
+      "source_rel": "docs/reports/phase7_version_change_audit_latest.json",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_version_change_audit_latest.json"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_version_change_audit_latest.md",
+      "source_rel": "docs/reports/phase7_version_change_audit_latest.md",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_version_change_audit_latest.md"
+    },
+    {
+      "group": "reviews",
+      "name": "phase7_version_accountability_trace_latest.md",
+      "source_rel": "docs/reports/phase7_version_accountability_trace_latest.md",
+      "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_version_accountability_trace_latest.md"
+    },
+    {
+      "group": "postmortem",
+      "name": "20260409_切换后复盘报告.md",
+      "source_rel": "docs/reports/postmortem-pack/20260409_切换后复盘报告.md",
+      "archive_rel": "docs/archive/phase7/20260410/postmortem/20260409_切换后复盘报告.md"
+    },
+    {
+      "group": "postmortem",
+      "name": "20260409_复盘行动项台账.md",
+      "source_rel": "docs/reports/postmortem-pack/20260409_复盘行动项台账.md",
+      "archive_rel": "docs/archive/phase7/20260410/postmortem/20260409_复盘行动项台账.md"
+    },
+    {
+      "group": "postmortem",
+      "name": "20260409_问题分级与改进跟踪.md",
+      "source_rel": "docs/reports/postmortem-pack/20260409_问题分级与改进跟踪.md",
+      "archive_rel": "docs/archive/phase7/20260410/postmortem/20260409_问题分级与改进跟踪.md"
+    }
+  ],
+  "missing_files": []
+}

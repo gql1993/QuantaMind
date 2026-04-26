@@ -1,0 +1,91 @@
+{
+  "timestamp": "2026-04-10T07:52:50.259715Z",
+  "policy": {
+    "critical": {
+      "v2_health_required": true,
+      "rollback_precheck_required": true,
+      "canary_failed_phases_max": 0,
+      "baseline_failed_checks_max": 0,
+      "failed_run_ratio_max": 0.2,
+      "failed_runs_min_for_ratio": 3
+    },
+    "warn": {
+      "pending_approvals_max": 20,
+      "timeout_tasks_max": 5,
+      "report_stale_hours_max": 24
+    }
+  },
+  "inputs": {
+    "baseline_report": "docs/reports/phase6_v1_v2_baseline_latest.json",
+    "canary_report": "docs/reports/phase7_canary_rollout_latest.json",
+    "pre_cutover_report": "docs/reports/phase7_pre_cutover_drill_latest.json",
+    "rollback_report": "docs/reports/phase7_rollback_drill_latest.json",
+    "v2_base": "http://127.0.0.1:18790"
+  },
+  "alerts": [
+    {
+      "level": "warn",
+      "key": "baseline_timestamp_missing",
+      "message": "baseline report timestamp missing/invalid",
+      "value": null,
+      "threshold": "valid ISO timestamp"
+    },
+    {
+      "level": "critical",
+      "key": "baseline_failed_checks",
+      "message": "Baseline report has failed checks",
+      "value": 999,
+      "threshold": "<= 0"
+    },
+    {
+      "level": "critical",
+      "key": "canary_failed_phases",
+      "message": "Canary rollout has failed phases",
+      "value": 2,
+      "threshold": "<= 0"
+    },
+    {
+      "level": "critical",
+      "key": "rollback_precheck",
+      "message": "Rollback precheck is not ready",
+      "value": false,
+      "threshold": true
+    },
+    {
+      "level": "critical",
+      "key": "v2_health",
+      "message": "V2 health probe failed",
+      "value": {
+        "code": 503,
+        "payload": {}
+      },
+      "threshold": "HTTP 200 + status=ok"
+    },
+    {
+      "level": "warn",
+      "key": "console_runs_probe",
+      "message": "Cannot query /api/v2/console/runs",
+      "value": 503,
+      "threshold": 200
+    },
+    {
+      "level": "warn",
+      "key": "approvals_probe",
+      "message": "Cannot query pending approvals",
+      "value": 503,
+      "threshold": 200
+    },
+    {
+      "level": "warn",
+      "key": "timeout_tasks_probe",
+      "message": "Cannot query timeout tasks",
+      "value": 503,
+      "threshold": 200
+    }
+  ],
+  "summary": {
+    "critical_count": 4,
+    "warn_count": 4,
+    "decision": "rollback_now"
+  }
+}

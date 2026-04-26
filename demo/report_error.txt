@@ -1,0 +1,14 @@
+﻿python : secsgem 鏈畨瑁咃紝浣跨敤 Mock 妯″紡
+所在位置 C:\Users\Huawei\AppData\Local\Temp\ps-script-7b368f86-8a86-463a-ba46-484ca03f5bb8.ps1:82 字符: 31
++ ... ion E:\work\QuantaMind; python -X utf8 demo/test_report2.py 2>&1 | Out-F ...
++                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (secsgem 鏈畨瑁咃紝浣跨敤 Mock 妯″紡:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+OpenMES 鏈繛鎺ワ紝浣跨敤 Mock 妯″紡
+Grafana 鏈繛鎺ワ紝浣跨敤 Mock 妯″紡
+ARTIQ 鏈畨瑁咃紝浣跨敤 Mock 妯″紡
+Qiskit Pulse 鏈畨瑁咃紝浣跨敤 Mock 妯″紡
+Mitiq 鏈畨瑁咃紝浣跨敤 Mock 妯″紡
+QCoDeS 鏈畨瑁咃紝浣跨敤 Mock 妯″紡
+Chat pipelines: 0

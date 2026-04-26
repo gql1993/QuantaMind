@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-04-10T10:03:02.383237Z",
+  "inputs": {
+    "version": "v2-prod-r1",
+    "owner": "ops-manager",
+    "policy": "docs/phase8_rollout_backpressure_policy.json",
+    "ops_report": "docs/reports/phase8_ops_metrics_dashboard_latest.json",
+    "oncall_report": "docs/reports/phase8_oncall_handbook_latest.json"
+  },
+  "context": {
+    "oncall_level": "P1",
+    "ops_overall_status": "RED",
+    "capacity_pressure": 0.0
+  },
+  "decision": "ROLLBACK",
+  "reasons": [
+    "oncall 级别为 P1 或 ops 总体为 RED"
+  ],
+  "waves": [
+    {
+      "id": "wave-0",
+      "environment": "staging",
+      "traffic_percent": "0",
+      "gate": "oncall<=P2",
+      "status": "blocked",
+      "note": "当前 oncall=P1"
+    },
+    {
+      "id": "wave-1",
+      "environment": "prod-canary",
+      "traffic_percent": "10",
+      "gate": "oncall<=P2",
+      "status": "queued",
+      "note": "等待前序波次通过"
+    },
+    {
+      "id": "wave-2",
+      "environment": "prod-small",
+      "traffic_percent": "30",
+      "gate": "oncall<=P3",
+      "status": "queued",
+      "note": "等待前序波次通过"
+    },
+    {
+      "id": "wave-3",
+      "environment": "prod-medium",
+      "traffic_percent": "60",
+      "gate": "oncall<=P3",
+      "status": "queued",
+      "note": "等待前序波次通过"
+    },
+    {
+      "id": "wave-4",
+      "environment": "prod-full",
+      "traffic_percent": "100",
+      "gate": "oncall<=P3",
+      "status": "queued",
+      "note": "等待前序波次通过"
+    }
+  ],
+  "backpressure_actions": [
+    "立即停止发布并回退到上一个稳定波次",
+    "通知 on-call 与发布负责人",
+    "保留证据并进入复盘流程"
+  ],
+  "summary": "decision=ROLLBACK, oncall=P1, ops=RED, capacity_pressure=0.0000, blocked_waves=1."
+}

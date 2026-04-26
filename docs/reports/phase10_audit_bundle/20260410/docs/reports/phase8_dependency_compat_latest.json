@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-04-10T08:45:15.217002Z",
+  "inputs": {
+    "change_set": "docs/templates/Phase8_依赖变更清单模板.json",
+    "v1_base": "http://127.0.0.1:18789",
+    "v2_base": "http://127.0.0.1:18790",
+    "version": "v2-prod-r1",
+    "owner": "release-manager"
+  },
+  "changes": [
+    {
+      "id": "DEP-001",
+      "name": "fastapi",
+      "from": "0.110.x",
+      "to": "0.111.x",
+      "risk": "medium",
+      "reason": "安全修复与性能优化",
+      "compatibility_focus": "gateway 路由与请求模型兼容"
+    },
+    {
+      "id": "DEP-002",
+      "name": "pydantic",
+      "from": "2.6.x",
+      "to": "2.7.x",
+      "risk": "high",
+      "reason": "模型校验一致性升级",
+      "compatibility_focus": "BaseModel 序列化与默认值行为"
+    }
+  ],
+  "checks": [
+    {
+      "title": "pytest_v2_regression",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "pytest",
+        "tests/v2",
+        "-q"
+      ],
+      "exit_code": 0,
+      "ok": true,
+      "stdout_tail": "...................................................                      [100%]\n51 passed in 2.24s",
+      "stderr_tail": ""
+    },
+    {
+      "title": "baseline_v1_v2",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/v1_v2_baseline_regression.py",
+        "--v1-base",
+        "http://127.0.0.1:18789",
+        "--v2-base",
+        "http://127.0.0.1:18790"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase6-baseline] total=7 passed=0 failed=7 report=docs\\reports\\phase6_v1_v2_baseline_latest.json",
+      "stderr_tail": ""
+    },
+    {
+      "title": "ops_metrics_dashboard_offline",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase8_ops_metrics_dashboard.py",
+        "--version",
+        "v2-prod-r1",
+        "--owner",
+        "release-manager",
+        "--skip-live-probes"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase8-ops-dashboard] overall=RED json=E:\\work\\QuantaMind\\docs\\reports\\phase8_ops_metrics_dashboard_latest.json markdown=E:\\work\\QuantaMind\\docs\\reports\\phase8_ops_metrics_dashboard_latest.md",
+      "stderr_tail": ""
+    }
+  ],
+  "assessment": {
+    "result": "BLOCK",
+    "summary": "checks passed=1/3, high_risk=1, result=BLOCK.",
+    "risks": [
+      "存在失败检查项（2/3）。",
+      "依赖变更中包含高风险项（1）。"
+    ],
+    "actions": [
+      "优先修复失败项并重跑兼容性回归。",
+      "对高风险依赖执行专项回归并保留证据。",
+      "冻结升级发布，待回归通过后再签核。"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-04-10T19:15:41.006760",
+  "risk_level": "HIGH",
+  "horizon_hours": 24,
+  "summary": "pressure=0.0000, oncall=P1, horizon=24h, risk=HIGH.",
+  "rows": [
+    [
+      "capacity_pressure",
+      "0.0000",
+      "high>=0.80/medium>=0.60",
+      "HIGH"
+    ],
+    [
+      "oncall_level",
+      "P1",
+      "P1/P2 为高风险信号",
+      "HIGH"
+    ]
+  ]
+}

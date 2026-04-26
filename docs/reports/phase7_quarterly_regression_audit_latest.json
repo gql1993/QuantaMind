@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-04-10T07:39:24.185201Z",
+  "window": {
+    "days": 90,
+    "start": "2026-01-10T07:39:24.184199Z",
+    "end": "2026-04-10T07:39:24.184199Z"
+  },
+  "quarter": "2026Q2",
+  "inputs": {
+    "policy": "docs/phase7_observability_policy.json",
+    "guard_report": "docs/reports/phase7_observability_guard_latest.json",
+    "baseline_report": "docs/reports/phase6_v1_v2_baseline_latest.json",
+    "canary_report": "docs/reports/phase7_canary_rollout_latest.json",
+    "pre_cutover_report": "docs/reports/phase7_pre_cutover_drill_latest.json",
+    "rollback_report": "docs/reports/phase7_rollback_drill_latest.json",
+    "expected_biweekly_min": 4
+  },
+  "metrics": {
+    "guard_decision": "unknown",
+    "guard_critical_count": 0,
+    "guard_warn_count": 0,
+    "baseline_failed_checks": 999,
+    "canary_failed_phases": 999,
+    "rollback_ready": false,
+    "max_report_age_hours": null,
+    "report_freshness_ok": false,
+    "biweekly_total": 1,
+    "biweekly_green": 1,
+    "biweekly_yellow": 0,
+    "biweekly_red": 0,
+    "biweekly_paths": [
+      "E:\\work\\QuantaMind\\docs\\reports\\phase7_biweekly_stability_review_latest.json"
+    ],
+    "failed_run_ratio_max_policy": 0.2
+  },
+  "assessment": {
+    "audit_result": "CONDITIONAL_PASS",
+    "summary": "guard=unknown（critical=0, warn=0），biweekly=1（green=1, yellow=0, red=0），audit=CONDITIONAL_PASS。",
+    "risks": [
+      "基线/灰度报告存在失败项。",
+      "回退预检未显示就绪。",
+      "输入报告存在时效性风险（超过 stale 阈值）。",
+      "季度窗口内双周复评次数不足（1 < 4）。"
+    ],
+    "actions": [
+      "补齐失败项修复证据并重新执行回归。",
+      "补齐回退预检并更新 rollback drill 报告。",
+      "刷新关键报告并再次执行观测守护。",
+      "补齐双周复评执行记录，确保节奏持续。"
+    ]
+  }
+}

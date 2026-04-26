@@ -1,0 +1,13 @@
+{
+  "blocking_conditions": [
+    "phase8_dependency_compat.result == BLOCK",
+    "phase8_wave_rollout.decision == ROLLBACK",
+    "phase8_fault_drill.grade == D",
+    "phase9_executive_weekly.grade == D"
+  ],
+  "warning_conditions": [
+    "phase8_wave_rollout.decision == HOLD",
+    "phase9_daily_bundle.result == ATTENTION",
+    "phase9_policy_drift.result == ADJUST_REQUIRED"
+  ]
+}

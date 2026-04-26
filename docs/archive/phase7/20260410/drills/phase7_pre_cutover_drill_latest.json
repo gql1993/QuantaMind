@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-04-10T07:52:44.593082Z",
+  "v1_base": "http://127.0.0.1:18789",
+  "v2_base": "http://127.0.0.1:18790",
+  "checks": [
+    {
+      "name": "v2_health",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "payload": {}
+      }
+    },
+    {
+      "name": "drill_create_run_for_approval",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "run_id": null,
+        "payload": {}
+      }
+    },
+    {
+      "name": "drill_submit_background_task",
+      "ok": false,
+      "detail": {
+        "code": 0,
+        "task_id": null,
+        "payload": {
+          "error": "timed out"
+        }
+      }
+    },
+    {
+      "name": "drill_rollback_precheck",
+      "ok": false,
+      "detail": {
+        "ok": false,
+        "exit_code": 1,
+        "stdout_tail": "[phase7-rollback] ready=False report=docs\\reports\\phase7_rollback_drill_latest.json",
+        "stderr_tail": "",
+        "report": {
+          "timestamp": "2026-04-10T07:52:44.519373Z",
+          "v1_probe": {
+            "ok": false,
+            "code": null,
+            "error": "timed out"
+          },
+          "v2_probe": {
+            "ok": false,
+            "code": 503,
+            "payload": {}
+          },
+          "rollback_ready": false,
+          "playbook": [
+            "1) freeze V2 traffic switch flag",
+            "2) route client base URL to V1 gateway",
+            "3) run V1 smoke checks (/api/v1/status, /api/v1/library/stats, /api/v1/pipelines)",
+            "4) notify users and keep V2 diagnostics for postmortem"
+          ]
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "passed": 0,
+    "failed": 4
+  },
+  "ready_for_cutover_drill": false
+}

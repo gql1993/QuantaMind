@@ -1,0 +1,51 @@
+{
+  "waves": [
+    {
+      "id": "wave-0",
+      "environment": "staging",
+      "traffic_percent": 0,
+      "required_oncall_max_level": "P2",
+      "max_capacity_pressure": 0.9
+    },
+    {
+      "id": "wave-1",
+      "environment": "prod-canary",
+      "traffic_percent": 10,
+      "required_oncall_max_level": "P2",
+      "max_capacity_pressure": 0.8
+    },
+    {
+      "id": "wave-2",
+      "environment": "prod-small",
+      "traffic_percent": 30,
+      "required_oncall_max_level": "P3",
+      "max_capacity_pressure": 0.7
+    },
+    {
+      "id": "wave-3",
+      "environment": "prod-medium",
+      "traffic_percent": 60,
+      "required_oncall_max_level": "P3",
+      "max_capacity_pressure": 0.6
+    },
+    {
+      "id": "wave-4",
+      "environment": "prod-full",
+      "traffic_percent": 100,
+      "required_oncall_max_level": "P3",
+      "max_capacity_pressure": 0.5
+    }
+  ],
+  "backpressure_actions": {
+    "HOLD": [
+      "暂停下一波次推进，保持当前流量",
+      "优先处理容量压力与告警",
+      "30 分钟后重新评估"
+    ],
+    "ROLLBACK": [
+      "立即停止发布并回退到上一个稳定波次",
+      "通知 on-call 与发布负责人",
+      "保留证据并进入复盘流程"
+    ]
+  }
+}

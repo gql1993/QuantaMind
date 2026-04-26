@@ -1,0 +1,189 @@
+{
+  "timestamp": "2026-04-10T07:54:58.185919Z",
+  "inputs": {
+    "v1_base": "http://127.0.0.1:18789",
+    "v2_base": "http://127.0.0.1:18790",
+    "archive_id": "20260410",
+    "version": "v2-cutover-r1",
+    "owner": "release-manager",
+    "archive_mode": "copy",
+    "archive_root": "docs/archive/phase7",
+    "force_regenerate": false,
+    "skip_archive": false
+  },
+  "backfill": [
+    {
+      "label": "canary_rollout",
+      "report": "docs/reports/phase7_canary_rollout_latest.json",
+      "existed_before": true,
+      "attempted": false,
+      "command_ok": true,
+      "exists_after": true,
+      "filled": true,
+      "healthy": true
+    },
+    {
+      "label": "pre_cutover_drill",
+      "report": "docs/reports/phase7_pre_cutover_drill_latest.json",
+      "existed_before": true,
+      "attempted": false,
+      "command_ok": true,
+      "exists_after": true,
+      "filled": true,
+      "healthy": true
+    },
+    {
+      "label": "rollback_drill",
+      "report": "docs/reports/phase7_rollback_drill_latest.json",
+      "existed_before": true,
+      "attempted": false,
+      "command_ok": true,
+      "exists_after": true,
+      "filled": true,
+      "healthy": true
+    },
+    {
+      "label": "observability_guard",
+      "report": "docs/reports/phase7_observability_guard_latest.json",
+      "existed_before": true,
+      "attempted": false,
+      "command_ok": true,
+      "exists_after": true,
+      "filled": true,
+      "healthy": true
+    }
+  ],
+  "archive": {
+    "result": {
+      "title": "archive_materials",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase7_archive_materials.py",
+        "--archive-id",
+        "20260410",
+        "--version",
+        "v2-cutover-r1",
+        "--owner",
+        "release-manager",
+        "--mode",
+        "copy",
+        "--archive-root",
+        "docs/archive/phase7"
+      ],
+      "exit_code": 0,
+      "ok": true,
+      "stdout_tail": "[phase7-archive] archived=15 missing=0 root=E:\\work\\QuantaMind\\docs\\archive\\phase7\\20260410\n[phase7-archive] manifest=E:\\work\\QuantaMind\\docs\\archive\\phase7\\20260410\\manifest.json\n[phase7-archive] index=E:\\work\\QuantaMind\\docs\\archive\\phase7\\20260410\\ARCHIVE_INDEX.md",
+      "stderr_tail": ""
+    },
+    "manifest": {
+      "archive_id": "20260410",
+      "date": "2026-04-10",
+      "version": "v2-cutover-r1",
+      "owner": "release-manager",
+      "mode": "copy",
+      "archive_root": "docs/archive/phase7/20260410",
+      "written_count": 15,
+      "missing_count": 0,
+      "written_files": [
+        {
+          "group": "drills",
+          "name": "phase7_observability_guard_latest.json",
+          "source_rel": "docs/reports/phase7_observability_guard_latest.json",
+          "archive_rel": "docs/archive/phase7/20260410/drills/phase7_observability_guard_latest.json"
+        },
+        {
+          "group": "drills",
+          "name": "phase7_canary_rollout_latest.json",
+          "source_rel": "docs/reports/phase7_canary_rollout_latest.json",
+          "archive_rel": "docs/archive/phase7/20260410/drills/phase7_canary_rollout_latest.json"
+        },
+        {
+          "group": "drills",
+          "name": "phase7_pre_cutover_drill_latest.json",
+          "source_rel": "docs/reports/phase7_pre_cutover_drill_latest.json",
+          "archive_rel": "docs/archive/phase7/20260410/drills/phase7_pre_cutover_drill_latest.json"
+        },
+        {
+          "group": "drills",
+          "name": "phase7_rollback_drill_latest.json",
+          "source_rel": "docs/reports/phase7_rollback_drill_latest.json",
+          "archive_rel": "docs/archive/phase7/20260410/drills/phase7_rollback_drill_latest.json"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_biweekly_stability_review_latest.json",
+          "source_rel": "docs/reports/phase7_biweekly_stability_review_latest.json",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_biweekly_stability_review_latest.json"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_biweekly_stability_review_latest.md",
+          "source_rel": "docs/reports/phase7_biweekly_stability_review_latest.md",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_biweekly_stability_review_latest.md"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_quarterly_regression_audit_latest.json",
+          "source_rel": "docs/reports/phase7_quarterly_regression_audit_latest.json",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_audit_latest.json"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_quarterly_regression_audit_latest.md",
+          "source_rel": "docs/reports/phase7_quarterly_regression_audit_latest.md",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_audit_latest.md"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_quarterly_regression_signoff_latest.md",
+          "source_rel": "docs/reports/phase7_quarterly_regression_signoff_latest.md",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_quarterly_regression_signoff_latest.md"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_version_change_audit_latest.json",
+          "source_rel": "docs/reports/phase7_version_change_audit_latest.json",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_version_change_audit_latest.json"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_version_change_audit_latest.md",
+          "source_rel": "docs/reports/phase7_version_change_audit_latest.md",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_version_change_audit_latest.md"
+        },
+        {
+          "group": "reviews",
+          "name": "phase7_version_accountability_trace_latest.md",
+          "source_rel": "docs/reports/phase7_version_accountability_trace_latest.md",
+          "archive_rel": "docs/archive/phase7/20260410/reviews/phase7_version_accountability_trace_latest.md"
+        },
+        {
+          "group": "postmortem",
+          "name": "20260409_切换后复盘报告.md",
+          "source_rel": "docs/reports/postmortem-pack/20260409_切换后复盘报告.md",
+          "archive_rel": "docs/archive/phase7/20260410/postmortem/20260409_切换后复盘报告.md"
+        },
+        {
+          "group": "postmortem",
+          "name": "20260409_复盘行动项台账.md",
+          "source_rel": "docs/reports/postmortem-pack/20260409_复盘行动项台账.md",
+          "archive_rel": "docs/archive/phase7/20260410/postmortem/20260409_复盘行动项台账.md"
+        },
+        {
+          "group": "postmortem",
+          "name": "20260409_问题分级与改进跟踪.md",
+          "source_rel": "docs/reports/postmortem-pack/20260409_问题分级与改进跟踪.md",
+          "archive_rel": "docs/archive/phase7/20260410/postmortem/20260409_问题分级与改进跟踪.md"
+        }
+      ],
+      "missing_files": []
+    }
+  },
+  "summary": {
+    "backfill_filled": true,
+    "backfill_healthy": true,
+    "archive_ok": true,
+    "archive_missing_count": 0,
+    "all_ready": true
+  }
+}

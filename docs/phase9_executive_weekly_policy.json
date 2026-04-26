@@ -1,0 +1,17 @@
+{
+  "status_weights": {
+    "GREEN": 100,
+    "YELLOW": 70,
+    "RED": 30
+  },
+  "oncall_weights": {
+    "P3": 100,
+    "P2": 70,
+    "P1": 30
+  },
+  "grade_threshold": {
+    "A": 85,
+    "B": 70,
+    "C": 55
+  }
+}

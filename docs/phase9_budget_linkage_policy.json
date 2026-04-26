@@ -1,0 +1,14 @@
+{
+  "budget_per_grade": {
+    "A": 1.0,
+    "B": 1.1,
+    "C": 1.25,
+    "D": 1.5
+  },
+  "base_engineering_days": 10,
+  "focus_mapping": {
+    "RED": "stability-first",
+    "YELLOW": "risk-reduction",
+    "GREEN": "feature-efficiency"
+  }
+}

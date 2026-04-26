@@ -1,0 +1,25 @@
+﻿python : Traceback (most recent call last):
+所在位置 C:\Users\Huawei\AppData\Local\Temp\ps-script-4476983e-24bf-40d8-8ffd-db1f17853006.ps1:108 字符: 1
++ python -X utf8 -c "
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 3, in <module>
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\site-packages\openpyxl\reader\excel.py", line 346, 
+in load_workbook
+    reader = ExcelReader(filename, read_only, keep_vba,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\site-packages\openpyxl\reader\excel.py", line 123, 
+in __init__
+    self.archive = _validate_archive(fn)
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\site-packages\openpyxl\reader\excel.py", line 95, i
+n _validate_archive
+    archive = ZipFile(filename, 'r')
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\zipfile.py", line 1294, in __init__
+    self.fp = io.open(file, filemode)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'E:\\work\\Quantumchipdesin\\鍗曟瘮鐗筡\1bitV2.00\\1bitV2.00_璁捐鍙傛暟琛
+?xlsx'

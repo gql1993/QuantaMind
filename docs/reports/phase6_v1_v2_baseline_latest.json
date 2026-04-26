@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-04-10T08:45:01.668051Z",
+  "v1_base": "http://127.0.0.1:18789",
+  "v2_base": "http://127.0.0.1:18790",
+  "checks": [
+    {
+      "name": "v1_status",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "keys": []
+      }
+    },
+    {
+      "name": "v2_health",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "service": null
+      }
+    },
+    {
+      "name": "v1_library_stats",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "total_files": null
+      }
+    },
+    {
+      "name": "v2_library_stats",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "total_files": null
+      }
+    },
+    {
+      "name": "v2_pipeline_templates",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "templates": []
+      }
+    },
+    {
+      "name": "v2_library_upload_and_ingest",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "payload": {}
+      }
+    },
+    {
+      "name": "v2_pipeline_execute",
+      "ok": false,
+      "detail": {
+        "code": 503,
+        "payload": {}
+      }
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "passed": 0,
+    "failed": 7
+  }
+}

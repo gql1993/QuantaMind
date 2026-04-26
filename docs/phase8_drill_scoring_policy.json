@@ -1,0 +1,20 @@
+{
+  "weights": {
+    "pre_cutover_pass_rate": 35,
+    "canary_pass_rate": 25,
+    "rollback_ready": 20,
+    "oncall_level": 10,
+    "ops_overall_status": 10
+  },
+  "grading": {
+    "A": 85,
+    "B": 70,
+    "C": 50
+  },
+  "improvement_sla_days": {
+    "critical": 1,
+    "high": 3,
+    "medium": 7,
+    "low": 14
+  }
+}

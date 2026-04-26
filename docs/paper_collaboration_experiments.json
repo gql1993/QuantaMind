@@ -1,0 +1,897 @@
+{
+  "exp1_single_vs_multi": {
+    "tasks": [
+      {
+        "id": "T1",
+        "desc": "Query qubit Q1 frequency",
+        "complexity": "simple",
+        "domains": [
+          "theory"
+        ]
+      },
+      {
+        "id": "T2",
+        "desc": "List all MES equipment",
+        "complexity": "simple",
+        "domains": [
+          "process"
+        ]
+      },
+      {
+        "id": "T3",
+        "desc": "Design 20-qubit chip layout",
+        "complexity": "medium",
+        "domains": [
+          "design"
+        ]
+      },
+      {
+        "id": "T4",
+        "desc": "Run HFSS eigenmode simulation for Q1",
+        "complexity": "medium",
+        "domains": [
+          "simulation"
+        ]
+      },
+      {
+        "id": "T5",
+        "desc": "Diagnose CZ gate error and suggest fix",
+        "complexity": "medium",
+        "domains": [
+          "theory",
+          "design"
+        ]
+      },
+      {
+        "id": "T6",
+        "desc": "Full T1/T2 characterization with noise budget",
+        "complexity": "complex",
+        "domains": [
+          "theory",
+          "measurement"
+        ]
+      },
+      {
+        "id": "T7",
+        "desc": "Design chip, simulate, diagnose, optimize",
+        "complexity": "complex",
+        "domains": [
+          "design",
+          "simulation",
+          "theory"
+        ]
+      },
+      {
+        "id": "T8",
+        "desc": "Cross-correlate yield data with calibration fidelity",
+        "complexity": "complex",
+        "domains": [
+          "data",
+          "process",
+          "theory"
+        ]
+      },
+      {
+        "id": "T9",
+        "desc": "Full 20-qubit pipeline: design to redesign",
+        "complexity": "very_complex",
+        "domains": [
+          "design",
+          "simulation",
+          "theory",
+          "process"
+        ]
+      },
+      {
+        "id": "T10",
+        "desc": "Autonomous research: discover anomaly, diagnose, plan experiment, propose fix",
+        "complexity": "very_complex",
+        "domains": [
+          "theory",
+          "measurement",
+          "design",
+          "knowledge"
+        ]
+      }
+    ],
+    "single_agent": [
+      {
+        "task_id": "T1",
+        "complexity": "simple",
+        "domains": 1,
+        "tools_called": 4,
+        "tools_correct": 4,
+        "rounds": 3,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T2",
+        "complexity": "simple",
+        "domains": 1,
+        "tools_called": 2,
+        "tools_correct": 2,
+        "rounds": 5,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T3",
+        "complexity": "medium",
+        "domains": 1,
+        "tools_called": 4,
+        "tools_correct": 4,
+        "rounds": 5,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T4",
+        "complexity": "medium",
+        "domains": 1,
+        "tools_called": 6,
+        "tools_correct": 4,
+        "rounds": 7,
+        "success": 1,
+        "tool_accuracy": 66.7
+      },
+      {
+        "task_id": "T5",
+        "complexity": "medium",
+        "domains": 2,
+        "tools_called": 6,
+        "tools_correct": 5,
+        "rounds": 5,
+        "success": 1,
+        "tool_accuracy": 83.3
+      },
+      {
+        "task_id": "T6",
+        "complexity": "complex",
+        "domains": 2,
+        "tools_called": 7,
+        "tools_correct": 6,
+        "rounds": 7,
+        "success": 1,
+        "tool_accuracy": 85.7
+      },
+      {
+        "task_id": "T7",
+        "complexity": "complex",
+        "domains": 3,
+        "tools_called": 7,
+        "tools_correct": 7,
+        "rounds": 8,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T8",
+        "complexity": "complex",
+        "domains": 3,
+        "tools_called": 8,
+        "tools_correct": 8,
+        "rounds": 8,
+        "success": 0,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T9",
+        "complexity": "very_complex",
+        "domains": 4,
+        "tools_called": 10,
+        "tools_correct": 10,
+        "rounds": 9,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T10",
+        "complexity": "very_complex",
+        "domains": 4,
+        "tools_called": 9,
+        "tools_correct": 7,
+        "rounds": 10,
+        "success": 1,
+        "tool_accuracy": 77.8
+      }
+    ],
+    "multi_agent": [
+      {
+        "task_id": "T1",
+        "complexity": "simple",
+        "domains": 1,
+        "tools_called": 3,
+        "tools_correct": 3,
+        "rounds": 2,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T2",
+        "complexity": "simple",
+        "domains": 1,
+        "tools_called": 2,
+        "tools_correct": 2,
+        "rounds": 2,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T3",
+        "complexity": "medium",
+        "domains": 1,
+        "tools_called": 4,
+        "tools_correct": 4,
+        "rounds": 3,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T4",
+        "complexity": "medium",
+        "domains": 1,
+        "tools_called": 5,
+        "tools_correct": 5,
+        "rounds": 4,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T5",
+        "complexity": "medium",
+        "domains": 2,
+        "tools_called": 4,
+        "tools_correct": 4,
+        "rounds": 4,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T6",
+        "complexity": "complex",
+        "domains": 2,
+        "tools_called": 7,
+        "tools_correct": 7,
+        "rounds": 4,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T7",
+        "complexity": "complex",
+        "domains": 3,
+        "tools_called": 7,
+        "tools_correct": 7,
+        "rounds": 5,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T8",
+        "complexity": "complex",
+        "domains": 3,
+        "tools_called": 7,
+        "tools_correct": 6,
+        "rounds": 4,
+        "success": 1,
+        "tool_accuracy": 85.7
+      },
+      {
+        "task_id": "T9",
+        "complexity": "very_complex",
+        "domains": 4,
+        "tools_called": 9,
+        "tools_correct": 9,
+        "rounds": 5,
+        "success": 1,
+        "tool_accuracy": 100.0
+      },
+      {
+        "task_id": "T10",
+        "complexity": "very_complex",
+        "domains": 4,
+        "tools_called": 9,
+        "tools_correct": 9,
+        "rounds": 6,
+        "success": 1,
+        "tool_accuracy": 100.0
+      }
+    ],
+    "summary": {
+      "single": {
+        "success_rate": 90.0,
+        "avg_tool_accuracy": 91.3,
+        "avg_rounds": 6.7
+      },
+      "multi": {
+        "success_rate": 100.0,
+        "avg_tool_accuracy": 98.6,
+        "avg_rounds": 3.9
+      }
+    }
+  },
+  "exp2_routing": {
+    "total": 50,
+    "correct": 42,
+    "accuracy": 84.0,
+    "details": [
+      {
+        "query": "Design a 20-qubit transmon chip",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      },
+      {
+        "query": "Analyze the Hamiltonian parameters",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Run HFSS eigenmode simulation",
+        "expected": "simulation_engineer",
+        "predicted": "simulation_engineer",
+        "correct": true
+      },
+      {
+        "query": "Check MES equipment status",
+        "expected": "process_engineer",
+        "predicted": "process_engineer",
+        "correct": true
+      },
+      {
+        "query": "Calibrate qubit Q1 using ARTIQ",
+        "expected": "device_ops",
+        "predicted": "device_ops",
+        "correct": true
+      },
+      {
+        "query": "Apply ZNE error mitigation",
+        "expected": "measure_scientist",
+        "predicted": "measure_scientist",
+        "correct": true
+      },
+      {
+        "query": "Query yield data from Doris",
+        "expected": "data_analyst",
+        "predicted": "data_analyst",
+        "correct": true
+      },
+      {
+        "query": "Search recent papers on TLS defects",
+        "expected": "knowledge_engineer",
+        "predicted": "knowledge_engineer",
+        "correct": true
+      },
+      {
+        "query": "Track project milestone progress",
+        "expected": "project_manager",
+        "predicted": "project_manager",
+        "correct": true
+      },
+      {
+        "query": "What is the T1 of Q3?",
+        "expected": "theorist",
+        "predicted": "measure_scientist",
+        "correct": false
+      },
+      {
+        "query": "Export GDS layout for the chip",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      },
+      {
+        "query": "Diagnose why gate fidelity is low",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Run SPC analysis on yield data",
+        "expected": "process_engineer",
+        "predicted": "process_engineer",
+        "correct": true
+      },
+      {
+        "query": "Build a VQE circuit for H2",
+        "expected": "algorithm_engineer",
+        "predicted": "algorithm_engineer",
+        "correct": true
+      },
+      {
+        "query": "Create a Grafana dashboard for equipment",
+        "expected": "process_engineer",
+        "predicted": "process_engineer",
+        "correct": true
+      },
+      {
+        "query": "Perform EPR analysis on the transmon",
+        "expected": "theorist",
+        "predicted": "chip_designer",
+        "correct": false
+      },
+      {
+        "query": "Check if any equipment has alarms",
+        "expected": "process_engineer",
+        "predicted": "process_engineer",
+        "correct": true
+      },
+      {
+        "query": "Optimize DRAG pulse for X gate",
+        "expected": "theorist",
+        "predicted": "device_ops",
+        "correct": false
+      },
+      {
+        "query": "What materials are best for substrates",
+        "expected": "material_scientist",
+        "predicted": "chip_designer",
+        "correct": false
+      },
+      {
+        "query": "Generate a Pareto analysis for next chip design",
+        "expected": "theorist",
+        "predicted": "chip_designer",
+        "correct": false
+      },
+      {
+        "query": "Add a transmon qubit at position 2mm",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      },
+      {
+        "query": "Run full calibration with Qiskit Pulse",
+        "expected": "device_ops",
+        "predicted": "device_ops",
+        "correct": true
+      },
+      {
+        "query": "Compare ZNE PEC CDR error mitigation",
+        "expected": "measure_scientist",
+        "predicted": "measure_scientist",
+        "correct": true
+      },
+      {
+        "query": "Synchronize QCoDeS measurement data",
+        "expected": "data_analyst",
+        "predicted": "data_analyst",
+        "correct": true
+      },
+      {
+        "query": "List all SeaTunnel ETL pipelines",
+        "expected": "data_analyst",
+        "predicted": "data_analyst",
+        "correct": true
+      },
+      {
+        "query": "Design frequency plan avoiding collisions",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Export chip to Ansys HFSS project",
+        "expected": "simulation_engineer",
+        "predicted": "simulation_engineer",
+        "correct": true
+      },
+      {
+        "query": "What is the coupling strength between Q1 and Q2",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Submit fabrication batch to MES",
+        "expected": "process_engineer",
+        "predicted": "process_engineer",
+        "correct": true
+      },
+      {
+        "query": "Generate weekly progress report",
+        "expected": "project_manager",
+        "predicted": "project_manager",
+        "correct": true
+      },
+      {
+        "query": "Plan next experiment to identify noise source",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Compute noise budget for Q1",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Create KQCircuits Swissmon chip",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      },
+      {
+        "query": "Run T1 T2 measurement with ARTIQ",
+        "expected": "device_ops",
+        "predicted": "measure_scientist",
+        "correct": false
+      },
+      {
+        "query": "Query CHIPMES database schema",
+        "expected": "process_engineer",
+        "predicted": "data_analyst",
+        "correct": false
+      },
+      {
+        "query": "Build Hamiltonian model using EPR method",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Analyze readout dispersive shift",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Export Sonnet simulation files",
+        "expected": "simulation_engineer",
+        "predicted": "simulation_engineer",
+        "correct": true
+      },
+      {
+        "query": "Search knowledge base for CPW impedance",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      },
+      {
+        "query": "Generate design optimization proposal",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "What junction parameters for Manhattan SQUID",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      },
+      {
+        "query": "Estimate qubit requirements for surface code",
+        "expected": "algorithm_engineer",
+        "predicted": "algorithm_engineer",
+        "correct": true
+      },
+      {
+        "query": "Check data quality in calibration table",
+        "expected": "data_analyst",
+        "predicted": "device_ops",
+        "correct": false
+      },
+      {
+        "query": "Trace data lineage for qubit characterization",
+        "expected": "data_analyst",
+        "predicted": "data_analyst",
+        "correct": true
+      },
+      {
+        "query": "Run benchmark of error mitigation techniques",
+        "expected": "measure_scientist",
+        "predicted": "measure_scientist",
+        "correct": true
+      },
+      {
+        "query": "Analyze 1/f flux noise mechanism",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Design airbridge structure for the chip",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      },
+      {
+        "query": "Monitor equipment alarm status in real-time",
+        "expected": "process_engineer",
+        "predicted": "process_engineer",
+        "correct": true
+      },
+      {
+        "query": "Retrieve knowledge about Purcell decay",
+        "expected": "theorist",
+        "predicted": "theorist",
+        "correct": true
+      },
+      {
+        "query": "Generate chip design PPT presentation",
+        "expected": "chip_designer",
+        "predicted": "chip_designer",
+        "correct": true
+      }
+    ],
+    "per_agent_accuracy": {
+      "chip_designer": {
+        "total": 8,
+        "correct": 8,
+        "accuracy": 100.0
+      },
+      "theorist": {
+        "total": 15,
+        "correct": 11,
+        "accuracy": 73.3
+      },
+      "process_engineer": {
+        "total": 7,
+        "correct": 6,
+        "accuracy": 85.7
+      },
+      "device_ops": {
+        "total": 3,
+        "correct": 2,
+        "accuracy": 66.7
+      },
+      "measure_scientist": {
+        "total": 3,
+        "correct": 3,
+        "accuracy": 100.0
+      },
+      "data_analyst": {
+        "total": 5,
+        "correct": 4,
+        "accuracy": 80.0
+      },
+      "algorithm_engineer": {
+        "total": 2,
+        "correct": 2,
+        "accuracy": 100.0
+      },
+      "simulation_engineer": {
+        "total": 3,
+        "correct": 3,
+        "accuracy": 100.0
+      },
+      "knowledge_engineer": {
+        "total": 1,
+        "correct": 1,
+        "accuracy": 100.0
+      },
+      "project_manager": {
+        "total": 2,
+        "correct": 2,
+        "accuracy": 100.0
+      }
+    }
+  },
+  "exp3_chain_depth": {
+    "total_registered_tools": 140,
+    "tool_categories": {
+      "echo": 1,
+      "search": 1,
+      "metal": 8,
+      "kqc": 9,
+      "secs": 10,
+      "mes": 10,
+      "chipmes": 10,
+      "grafana": 7,
+      "artiq": 6,
+      "pulse": 8,
+      "mitiq": 6,
+      "qcodes": 7,
+      "seatunnel": 8,
+      "doris": 15,
+      "qdata": 8,
+      "library": 3,
+      "qeda": 6,
+      "theorist": 10,
+      "sim": 7
+    },
+    "scenarios": [
+      {
+        "scenario": "Simple query",
+        "tools_in_chain": 1,
+        "expected_rounds": 1,
+        "actual_rounds": 2,
+        "degraded_tools": 0,
+        "success": true
+      },
+      {
+        "scenario": "Hamiltonian build",
+        "tools_in_chain": 2,
+        "expected_rounds": 2,
+        "actual_rounds": 2,
+        "degraded_tools": 0,
+        "success": true
+      },
+      {
+        "scenario": "Noise analysis",
+        "tools_in_chain": 3,
+        "expected_rounds": 3,
+        "actual_rounds": 3,
+        "degraded_tools": 0,
+        "success": true
+      },
+      {
+        "scenario": "Diagnosis pipeline",
+        "tools_in_chain": 4,
+        "expected_rounds": 4,
+        "actual_rounds": 4,
+        "degraded_tools": 0,
+        "success": true
+      },
+      {
+        "scenario": "Full design loop",
+        "tools_in_chain": 8,
+        "expected_rounds": 8,
+        "actual_rounds": 8,
+        "degraded_tools": 1,
+        "success": true
+      }
+    ]
+  },
+  "exp4_cross_agent": {
+    "scenarios": [
+      {
+        "name": "Design-to-Simulation",
+        "agent_sequence": [
+          "chip_designer",
+          "simulation_engineer"
+        ],
+        "data_objects": [
+          "design_id",
+          "gds_file"
+        ],
+        "info_retention": 0.95,
+        "latency_sec": 12
+      },
+      {
+        "name": "Design-Simulate-Diagnose",
+        "agent_sequence": [
+          "chip_designer",
+          "simulation_engineer",
+          "theorist"
+        ],
+        "data_objects": [
+          "design_id",
+          "gds_file",
+          "hamiltonian_model_id",
+          "noise_budget"
+        ],
+        "info_retention": 0.92,
+        "latency_sec": 28
+      },
+      {
+        "name": "Full Lifecycle",
+        "agent_sequence": [
+          "theorist",
+          "chip_designer",
+          "simulation_engineer",
+          "theorist",
+          "theorist"
+        ],
+        "data_objects": [
+          "device_graph",
+          "design_id",
+          "gds_file",
+          "sim_results",
+          "hamiltonian_model",
+          "noise_budget",
+          "diagnosis",
+          "design_proposal"
+        ],
+        "info_retention": 0.88,
+        "latency_sec": 65
+      },
+      {
+        "name": "Measurement-to-Redesign",
+        "agent_sequence": [
+          "device_ops",
+          "measure_scientist",
+          "theorist",
+          "chip_designer"
+        ],
+        "data_objects": [
+          "measurement_data",
+          "error_rates",
+          "calibrated_state",
+          "diagnosis",
+          "design_proposal",
+          "updated_layout"
+        ],
+        "info_retention": 0.85,
+        "latency_sec": 48
+      }
+    ]
+  },
+  "exp5_heartbeat": {
+    "duration_hours": 24,
+    "tiers": [
+      {
+        "tier": "L0",
+        "interval_min": 5,
+        "checks_performed": 288,
+        "discoveries": [
+          {
+            "type": "equipment_alarm",
+            "desc": "LITHO-03 alarm detected",
+            "severity": "warning",
+            "actionable": true
+          },
+          {
+            "type": "etl_pipeline_stopped",
+            "desc": "2 ETL pipelines stopped",
+            "severity": "warning",
+            "actionable": true
+          },
+          {
+            "type": "equipment_idle",
+            "desc": "EBL-01 idle for 6 hours",
+            "severity": "info",
+            "actionable": false
+          }
+        ]
+      },
+      {
+        "tier": "L1",
+        "interval_hours": 6,
+        "checks_performed": 4,
+        "discoveries": [
+          {
+            "type": "yield_below_threshold",
+            "desc": "Average yield 88% < 90% threshold",
+            "severity": "warning",
+            "actionable": true
+          },
+          {
+            "type": "data_quality_flag",
+            "desc": "Calibration table quality score 85%",
+            "severity": "info",
+            "actionable": true
+          }
+        ]
+      },
+      {
+        "tier": "L2",
+        "interval_hours": 12,
+        "checks_performed": 2,
+        "discoveries": [
+          {
+            "type": "coherence_anomaly",
+            "desc": "Q3 T1=32us below 35us threshold",
+            "severity": "warning",
+            "actionable": true
+          },
+          {
+            "type": "frequency_drift",
+            "desc": "Q7 frequency drifted 0.3 MHz in 12h",
+            "severity": "info",
+            "actionable": true
+          }
+        ]
+      },
+      {
+        "tier": "L3",
+        "interval_hours": 24,
+        "checks_performed": 1,
+        "discoveries": [
+          {
+            "type": "cross_domain_correlation",
+            "desc": "High-yield batches correlate with cal fidelity 99.2% vs 97.8%",
+            "severity": "insight",
+            "actionable": true
+          }
+        ]
+      }
+    ],
+    "total_discoveries": 8,
+    "actionable_count": 7,
+    "actionable_rate": 87.5
+  }
+}

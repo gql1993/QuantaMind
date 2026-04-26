@@ -1,0 +1,14 @@
+{
+  "priority_order": ["release", "ops", "platform", "ai", "qa"],
+  "max_parallel_high_risk": 1,
+  "risk_levels": {
+    "high": 3,
+    "medium": 2,
+    "low": 1
+  },
+  "arbitration_rules": [
+    "高风险发布不可并行超过 1 个",
+    "与 P1/P2 on-call 冲突时，业务发布降级或延期",
+    "同时间窗冲突按优先级顺序保留其一，其余顺延"
+  ]
+}

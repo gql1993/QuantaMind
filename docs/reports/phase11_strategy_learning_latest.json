@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-04-10T19:07:11.855516",
+  "score": 43.0,
+  "action": "TIGHTEN",
+  "summary": "score=43.0, action=TIGHTEN, weekly=D, gate=BLOCK, drift=ADJUST_REQUIRED.",
+  "signals": {
+    "weekly_grade": "D",
+    "quality_gate": "BLOCK",
+    "drift": "ADJUST_REQUIRED"
+  },
+  "suggestions": [
+    "收紧发布门禁，降低并行高风险变更上限。",
+    "提升 P1/P2 告警触发后的冻结时长。"
+  ]
+}

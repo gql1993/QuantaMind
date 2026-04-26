@@ -1,0 +1,13 @@
+# QuantaMind（quantamind 包）服务端与 CLI 依赖
+# Python 3.10+
+
+fastapi>=0.104.0
+httpx>=0.25.0
+pytest>=7.0.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.0.0
+numpy>=1.24.0
+aiohttp>=3.9.0
+pyyaml>=6.0.0
+loguru>=0.7.0
+psycopg[binary]>=3.1.0

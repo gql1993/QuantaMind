@@ -1,0 +1,13 @@
+{
+  "slo": {
+    "availability_target": 0.995,
+    "error_budget_breach_ratio": 1.0,
+    "error_budget_warn_ratio": 0.7
+  },
+  "capacity": {
+    "pending_approvals_max": 20,
+    "timeout_tasks_max": 5,
+    "warn_utilization_ratio": 0.7,
+    "critical_utilization_ratio": 1.0
+  }
+}

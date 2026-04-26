@@ -1,0 +1,107 @@
+{
+  "topic_id": "chip_design",
+  "library_id": "taxonomy_engineer_chip_design_v1",
+  "system_label": "量子芯片设计技术体系",
+  "library_label": "技术体系工程师 v1",
+  "library_summary": "面向超导量子芯片设计的离线体系库，用于将新论文快速映射到稳定技术树中的具体技术点。",
+  "review_sources": [
+    {
+      "id": "scqubit_review_2026",
+      "title": "Review of Superconducting Qubit Devices and Their Large-Scale Integration",
+      "url": "https://arxiv.org/abs/2602.04831",
+      "kind": "review"
+    },
+    {
+      "id": "design_framework_2025",
+      "title": "Optimizing Superconducting Qubit Performance: A Theoretical Framework for Design, Analysis, and Calibration",
+      "url": "https://arxiv.org/abs/2501.17825",
+      "kind": "framework"
+    },
+    {
+      "id": "design_concerns_2024",
+      "title": "A Review of Design Concerns in Superconducting Quantum Circuits",
+      "url": "https://arxiv.org/abs/2411.16967",
+      "kind": "review"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "qubit_device",
+      "label": "比特与无源器件",
+      "keywords": ["transmon", "fluxonium", "qubit", "resonator", "coupler"],
+      "modules": [
+        {
+          "id": "unit_device",
+          "label": "单元器件设计",
+          "keywords": ["qubit", "transmon", "fluxonium", "anharmonicity"],
+          "points": [
+            {"id": "transmon_design", "label": "Transmon/Fluxonium 参数设计", "keywords": ["transmon", "fluxonium", "anharmonicity", "ej/ec", "qubit frequency"]},
+            {"id": "resonator_design", "label": "谐振器与读出腔设计", "keywords": ["resonator", "readout resonator", "cavity", "purcell"]},
+            {"id": "coupler_design", "label": "耦合器与总线设计", "keywords": ["coupler", "bus", "coupling", "zz"]}
+          ]
+        },
+        {
+          "id": "layout_package",
+          "label": "版图与封装互连",
+          "keywords": ["layout", "package", "interconnect", "crosstalk"],
+          "points": [
+            {"id": "frequency_planning", "label": "频率规划与碰撞规避", "keywords": ["frequency allocation", "collision", "frequency planning", "crowding"]},
+            {"id": "layout_crosstalk", "label": "版图布线与串扰控制", "keywords": ["layout", "routing", "crosstalk", "electromagnetic"]},
+            {"id": "package_interconnect", "label": "封装与互连设计", "keywords": ["package", "interconnect", "3d integration", "through-silicon", "wirebond"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "material_process",
+      "label": "材料与工艺协同",
+      "keywords": ["junction", "film", "etch", "deposition", "surface"],
+      "modules": [
+        {
+          "id": "materials",
+          "label": "关键材料与界面",
+          "keywords": ["film", "surface", "substrate", "dielectric"],
+          "points": [
+            {"id": "film_interface", "label": "超导薄膜与界面损耗", "keywords": ["thin film", "surface loss", "dielectric", "interface", "tan delta"]},
+            {"id": "junction_process", "label": "约瑟夫森结工艺", "keywords": ["josephson", "junction", "oxidation", "barrier"]},
+            {"id": "substrate_treatment", "label": "衬底与表面处理", "keywords": ["substrate", "surface treatment", "cleaning", "passivation"]}
+          ]
+        },
+        {
+          "id": "manufacturing_consistency",
+          "label": "制造一致性",
+          "keywords": ["yield", "variation", "uniformity", "wafer"],
+          "points": [
+            {"id": "yield_window", "label": "工艺窗口与良率", "keywords": ["yield", "wafer", "fabrication window", "process window"]},
+            {"id": "parameter_variation", "label": "参数离散性与一致性", "keywords": ["variation", "uniformity", "process variation", "device variation"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "architecture_automation",
+      "label": "架构与设计自动化",
+      "keywords": ["processor", "architecture", "automation", "simulation"],
+      "modules": [
+        {
+          "id": "processor_architecture",
+          "label": "处理器拓扑",
+          "keywords": ["processor", "topology", "lattice", "grid"],
+          "points": [
+            {"id": "topology_design", "label": "二维网格与耦合拓扑", "keywords": ["topology", "grid", "lattice", "connectivity"]},
+            {"id": "modular_scaling", "label": "模块化处理器与扩展", "keywords": ["modular", "scalable", "module", "chiplet"]}
+          ]
+        },
+        {
+          "id": "design_automation",
+          "label": "设计自动化",
+          "keywords": ["simulation", "optimization", "automation"],
+          "points": [
+            {"id": "em_extraction", "label": "电磁仿真与参数提取", "keywords": ["electromagnetic", "simulation", "parameter extraction", "em"]},
+            {"id": "eda_search", "label": "版图自动化与设计空间搜索", "keywords": ["design automation", "eda", "search", "bayesian optimization", "layout generation"]}
+          ]
+        }
+      ]
+    }
+  ]
+}

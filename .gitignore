@@ -1,0 +1,52 @@
+# Local environment
+.env
+.env.*
+!.env.example
+.quantamind.local.env
+.quantamind.local.env.*
+!.quantamind.local.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Node / Electron
+node_modules/
+desktop/node_modules/
+dist/
+desktop/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime / temp
+.tmp/
+tmp/
+.quantamind_v2_runtime/
+*.log
+claude-code-main/
+
+# Local service runtimes and installers
+services/minio-data/
+services/PostgreSQL/
+services/pgvector17/
+services/*.exe
+services/*.zip
+docs/SQLEXPR_x64_CHS/
+
+# OS / editors
+.DS_Store
+Thumbs.db

@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-04-10T19:15:40.595497",
+  "level": "P1",
+  "mode": "recommend",
+  "actions": [
+    {
+      "action": "freeze_release_window",
+      "status": "planned",
+      "note": "recommend mode"
+    },
+    {
+      "action": "trigger_rollback_drill",
+      "status": "planned",
+      "note": "recommend mode"
+    },
+    {
+      "action": "regenerate_oncall_handbook",
+      "status": "planned",
+      "note": "recommend mode"
+    }
+  ],
+  "summary": "level=P1, mode=recommend, actions=3."
+}

@@ -1,0 +1,14 @@
+{
+  "scenario_id": "DR-001",
+  "title": "V2 关键链路异常回退演练",
+  "steps": [
+    "运行 phase7_rollback_drill.py",
+    "运行 phase8_wave_rollout_backpressure.py",
+    "运行 phase10_quality_gate.py"
+  ],
+  "expected": {
+    "rollback_ready": true,
+    "wave_decision_not": "PROCEED",
+    "quality_gate_not": "PASS"
+  }
+}

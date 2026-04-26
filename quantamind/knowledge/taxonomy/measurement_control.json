@@ -1,0 +1,104 @@
+{
+  "topic_id": "measurement_control",
+  "library_id": "taxonomy_engineer_measurement_control_v1",
+  "system_label": "量子测控技术体系",
+  "library_label": "技术体系工程师 v1",
+  "library_summary": "面向读出、脉冲控制、标定与闭环优化的离线体系库，用于快速标出新论文所在技术点。",
+  "review_sources": [
+    {
+      "id": "qick_hls4ml_workflow_2025",
+      "title": "End-to-end workflow for machine learning-based qubit readout with QICK and hls4ml",
+      "url": "https://arxiv.org/abs/2501.14663v1",
+      "kind": "workflow"
+    },
+    {
+      "id": "binary_search_tracking_2025",
+      "title": "Efficient Qubit Calibration by Binary-Search Hamiltonian Tracking",
+      "url": "https://arxiv.org/abs/2501.05386",
+      "kind": "calibration"
+    },
+    {
+      "id": "model_based_readout_2023",
+      "title": "Model-based Optimization of Superconducting Qubit Readout",
+      "url": "https://arxiv.org/html/2308.02079v2",
+      "kind": "readout"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "readout_chain",
+      "label": "读出链路",
+      "keywords": ["readout", "resonator", "discriminator", "iq", "amplifier"],
+      "modules": [
+        {
+          "id": "readout_hardware",
+          "label": "读出硬件与信号链",
+          "keywords": ["readout", "amplifier", "resonator", "rfsoc"],
+          "points": [
+            {"id": "readout_chain", "label": "读出链路与判别", "keywords": ["readout", "single-shot", "discriminator", "classifier", "iq"]},
+            {"id": "amplifier_frontend", "label": "放大器与前端集成", "keywords": ["amplifier", "jpa", "jpc", "frontend", "rfsoc"]}
+          ]
+        },
+        {
+          "id": "multiplexed_readout",
+          "label": "多路读出与扩展",
+          "keywords": ["multiplex", "frequency division", "multi-qubit"],
+          "points": [
+            {"id": "multiplexed_readout", "label": "多比特复用读出", "keywords": ["multiplexed", "frequency-multiplexed", "multi-qubit readout"]},
+            {"id": "crosstalk_mitigation", "label": "串扰抑制与判别鲁棒性", "keywords": ["crosstalk", "robust", "classifier", "noise correlation"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control_pulses",
+      "label": "控制与脉冲",
+      "keywords": ["pulse", "control", "drive", "waveform"],
+      "modules": [
+        {
+          "id": "pulse_engineering",
+          "label": "脉冲工程",
+          "keywords": ["pulse", "waveform", "drag", "optimal control"],
+          "points": [
+            {"id": "pulse_optimization", "label": "脉冲优化与波形整形", "keywords": ["pulse optimization", "optimal control", "waveform", "drag", "adaptive pulse"]},
+            {"id": "gate_control", "label": "门控驱动与串扰抑制", "keywords": ["gate calibration", "drive pulse", "control pulse", "crosstalk"]}
+          ]
+        },
+        {
+          "id": "embedded_control",
+          "label": "嵌入式控制平台",
+          "keywords": ["fpga", "rfsoc", "embedded", "firmware"],
+          "points": [
+            {"id": "firmware_stack", "label": "固件/软件协同控制栈", "keywords": ["firmware", "software stack", "qick", "embedded"]},
+            {"id": "low_latency_feedback", "label": "低时延反馈控制", "keywords": ["feedback", "real-time", "latency", "adaptive control"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calibration_loop",
+      "label": "标定与闭环",
+      "keywords": ["calibration", "tune-up", "bayesian", "adaptive", "feedback"],
+      "modules": [
+        {
+          "id": "auto_calibration",
+          "label": "自动标定",
+          "keywords": ["calibration", "tuning", "bayesian", "optimization"],
+          "points": [
+            {"id": "auto_calibration", "label": "自动标定与参数调优", "keywords": ["calibration", "tune-up", "bayesian", "adaptive", "tuning", "optimization"]},
+            {"id": "ramsey_rabi", "label": "Rabi/Ramsey 等实验流程自动化", "keywords": ["ramsey", "rabi", "chevron", "experiment automation"]}
+          ]
+        },
+        {
+          "id": "ml_readout_control",
+          "label": "机器学习闭环",
+          "keywords": ["machine learning", "neural network", "classifier", "closed-loop"],
+          "points": [
+            {"id": "ml_readout", "label": "机器学习读出与状态判别", "keywords": ["machine learning", "neural network", "classification", "readout fidelity"]},
+            {"id": "closed_loop_optimization", "label": "闭环优化与自适应控制", "keywords": ["closed-loop", "adaptive control", "feedback", "autonomous"]}
+          ]
+        }
+      ]
+    }
+  ]
+}

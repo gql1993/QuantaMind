@@ -1,0 +1,24 @@
+﻿python : Traceback (most recent call last):
+所在位置 C:\Users\Huawei\AppData\Local\Temp\ps-script-4476983e-24bf-40d8-8ffd-db1f17853006.ps1:82 字符: 1
++ python -X utf8 -c "
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 5, in <module>
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\site-packages\docx\api.py", line 27, in Document
+    document_part = cast("DocumentPart", Package.open(docx).main_document_part)
+                                         ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\site-packages\docx\opc\package.py", line 126, in op
+en
+    pkg_reader = PackageReader.from_file(pkg_file)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\site-packages\docx\opc\pkgreader.py", line 22, in f
+rom_file
+    phys_reader = PhysPkgReader(pkg_file)
+                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Huawei\AppData\Local\Programs\Python\Python311\Lib\site-packages\docx\opc\phys_pkg.py", line 21, in __
+new__
+    raise PackageNotFoundError("Package not found at '%s'" % pkg_file)
+docx.opc.exceptions.PackageNotFoundError: Package not found at 'E:\work\Quantumchipdesin\鍗曟瘮鐗筡1bitV2.00\1bitV2.00_璁捐鏂囨
+。.docx'

@@ -1,0 +1,101 @@
+{
+  "timestamp": "2026-04-10T10:03:02.472249Z",
+  "inputs": {
+    "version": "v2-prod-r1",
+    "owner": "ops-manager",
+    "policy": "docs/phase8_drill_scoring_policy.json",
+    "pre_cutover_report": "docs/reports/phase7_pre_cutover_drill_latest.json",
+    "canary_report": "docs/reports/phase7_canary_rollout_latest.json",
+    "rollback_report": "docs/reports/phase7_rollback_drill_latest.json",
+    "oncall_report": "docs/reports/phase8_oncall_handbook_latest.json",
+    "ops_report": "docs/reports/phase8_ops_metrics_dashboard_latest.json"
+  },
+  "metrics": {
+    "pre_cutover_pass_rate": 0.0,
+    "canary_pass_rate": 0.0,
+    "rollback_ready": false,
+    "oncall_level": "P1",
+    "ops_overall_status": "RED"
+  },
+  "score": {
+    "total": 4.0,
+    "grade": "D",
+    "rows": [
+      [
+        "pre_cutover_pass_rate",
+        "35",
+        "0.0000",
+        "0.00"
+      ],
+      [
+        "canary_pass_rate",
+        "25",
+        "0.0000",
+        "0.00"
+      ],
+      [
+        "rollback_ready",
+        "20",
+        "False",
+        "0.00"
+      ],
+      [
+        "oncall_level",
+        "10",
+        "P1",
+        "2.00"
+      ],
+      [
+        "ops_overall_status",
+        "10",
+        "RED",
+        "2.00"
+      ]
+    ]
+  },
+  "risks": [
+    "pre-cutover 通过率不足（0/4）。",
+    "canary 通过率不足（0/2）。",
+    "rollback drill 未就绪。",
+    "当前 on-call 级别偏高（P1）。",
+    "ops 看板状态为 RED。"
+  ],
+  "actions": [
+    {
+      "source": "pre_cutover",
+      "priority": "high",
+      "owner": "ops-manager",
+      "content": "补齐预切换演练失败项并复测",
+      "due": "2026-04-13"
+    },
+    {
+      "source": "canary",
+      "priority": "high",
+      "owner": "ops-manager",
+      "content": "修复灰度失败阶段并重跑 canary",
+      "due": "2026-04-13"
+    },
+    {
+      "source": "rollback",
+      "priority": "critical",
+      "owner": "ops-manager",
+      "content": "修复回退预检并验证恢复链路",
+      "due": "2026-04-11"
+    },
+    {
+      "source": "oncall",
+      "priority": "medium",
+      "owner": "ops-manager",
+      "content": "降低告警等级并完成交接闭环",
+      "due": "2026-04-17"
+    },
+    {
+      "source": "ops",
+      "priority": "medium",
+      "owner": "ops-manager",
+      "content": "处理容量/可用性风险后刷新看板",
+      "due": "2026-04-17"
+    }
+  ],
+  "summary": "score=4.00, grade=D, pre_rate=0.0000, canary_rate=0.0000, rollback_ready=False, oncall=P1, ops=RED."
+}

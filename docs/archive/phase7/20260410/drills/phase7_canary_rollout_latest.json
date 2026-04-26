@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-04-10T07:52:20.889155Z",
+  "mode": "all",
+  "v1_base": "http://127.0.0.1:18789",
+  "v2_base": "http://127.0.0.1:18790",
+  "phases": [
+    {
+      "step": "library_canary",
+      "gate": "library first",
+      "result": {
+        "title": "library_canary_baseline",
+        "command": [
+          "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+          "scripts/v1_v2_baseline_regression.py",
+          "--v1-base",
+          "http://127.0.0.1:18789",
+          "--v2-base",
+          "http://127.0.0.1:18790",
+          "--output",
+          "docs/reports/phase7_canary_library_baseline.json"
+        ],
+        "exit_code": 1,
+        "ok": false,
+        "stdout_tail": "[phase6-baseline] total=7 passed=0 failed=7 report=docs\\reports\\phase7_canary_library_baseline.json",
+        "stderr_tail": ""
+      },
+      "report_path": "docs/reports/phase7_canary_library_baseline.json",
+      "report_summary": {
+        "total": 7,
+        "passed": 0,
+        "failed": 7
+      },
+      "ready": false,
+      "next_action": "hold and rollback"
+    },
+    {
+      "step": "pipeline_canary",
+      "skipped": true,
+      "reason": "library_canary not ready"
+    }
+  ],
+  "summary": {
+    "total_phases": 2,
+    "passed_phases": 0,
+    "failed_phases": 2,
+    "canary_ready": false,
+    "strategy": "library-first then pipeline"
+  }
+}

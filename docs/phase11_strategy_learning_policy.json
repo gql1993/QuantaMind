@@ -1,0 +1,11 @@
+{
+  "learning_signals": {
+    "weekly_grade_weight": 0.4,
+    "quality_gate_weight": 0.3,
+    "drift_weight": 0.3
+  },
+  "action_thresholds": {
+    "tighten_policy_score_max": 45,
+    "relax_policy_score_min": 80
+  }
+}

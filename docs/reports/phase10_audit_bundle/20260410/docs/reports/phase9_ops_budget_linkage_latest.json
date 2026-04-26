@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-04-10T10:06:24.512946Z",
+  "summary": "grade=D, ops=RED, drift=ADJUST_REQUIRED, budget_factor=1.5, suggested_days=15.0.",
+  "grade": "D",
+  "ops_status": "RED",
+  "drift_result": "ADJUST_REQUIRED",
+  "budget_factor": 1.5,
+  "suggested_engineering_days": 15.0,
+  "focus": "stability-first",
+  "plans": [
+    "建议下周期投入 15.0 人天用于 stability-first。",
+    "保留 20% 预算用于紧急回归与告警收敛。",
+    "增加阈值调优专项并在下一周期复核效果。"
+  ]
+}

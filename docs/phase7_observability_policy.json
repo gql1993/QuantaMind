@@ -1,0 +1,15 @@
+{
+  "critical": {
+    "v2_health_required": true,
+    "rollback_precheck_required": true,
+    "canary_failed_phases_max": 0,
+    "baseline_failed_checks_max": 0,
+    "failed_run_ratio_max": 0.2,
+    "failed_runs_min_for_ratio": 3
+  },
+  "warn": {
+    "pending_approvals_max": 20,
+    "timeout_tasks_max": 5,
+    "report_stale_hours_max": 24
+  }
+}

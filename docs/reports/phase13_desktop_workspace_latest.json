@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-04-10T13:07:34.646620Z",
+  "gateway_base": "http://127.0.0.1:18790",
+  "health_ok": false,
+  "health_payload": {
+    "error": "timed out"
+  },
+  "running_runs": 0,
+  "failed_runs": 0,
+  "running_tasks": 0,
+  "pending_approvals": 0,
+  "artifacts_total": 0,
+  "cards": [
+    {
+      "card_id": "health",
+      "title": "Gateway Health",
+      "level": "danger",
+      "summary": "degraded",
+      "metadata": {
+        "status": "unknown"
+      }
+    },
+    {
+      "card_id": "runs",
+      "title": "Run Console",
+      "level": "ok",
+      "summary": "running=0, failed=0",
+      "metadata": {
+        "running_runs": 0,
+        "failed_runs": 0
+      }
+    },
+    {
+      "card_id": "tasks",
+      "title": "Task Center",
+      "level": "ok",
+      "summary": "running tasks=0",
+      "metadata": {
+        "running_tasks": 0
+      }
+    },
+    {
+      "card_id": "approvals",
+      "title": "Approval Center",
+      "level": "ok",
+      "summary": "pending approvals=0",
+      "metadata": {
+        "pending_approvals": 0
+      }
+    },
+    {
+      "card_id": "artifacts",
+      "title": "Artifact Viewer",
+      "level": "ok",
+      "summary": "artifacts total=0",
+      "metadata": {
+        "artifacts_total": 0
+      }
+    }
+  ],
+  "warnings": [
+    "gateway health probe failed",
+    "cannot query /api/v2/console/runs",
+    "cannot query running tasks",
+    "cannot query pending approvals",
+    "cannot query artifacts"
+  ]
+}

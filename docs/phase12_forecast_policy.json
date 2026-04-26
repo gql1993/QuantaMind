@@ -1,0 +1,7 @@
+{
+  "risk_windows": {
+    "high_capacity_pressure_min": 0.8,
+    "medium_capacity_pressure_min": 0.6
+  },
+  "forecast_horizon_hours": 24
+}

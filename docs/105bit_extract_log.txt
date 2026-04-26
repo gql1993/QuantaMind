@@ -1,0 +1,10 @@
+﻿python :   File "<string>", line 17
+所在位置 C:\Users\Huawei\AppData\Local\Temp\ps-script-236cecf4-3cf3-47aa-914d-0621b4f18120.ps1:82 字符: 31
++ Set-Location E:\work\QuantaMind; python -X utf8 -c "
++                               ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  File "<string>", line 17:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    print(f'  Table {t[" table_index\]}:
+          ^
+SyntaxError: unterminated string literal (detected at line 17)

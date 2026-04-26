@@ -1,0 +1,10 @@
+{
+  "include_patterns": [
+    "docs/reports/phase8_*latest.json",
+    "docs/reports/phase9_*latest.json",
+    "docs/reports/phase10_*latest.json",
+    "docs/reports/phase8_*latest.md",
+    "docs/reports/phase9_*latest.md",
+    "docs/reports/phase10_*latest.md"
+  ]
+}

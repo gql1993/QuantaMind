@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-04-10T07:43:45.660023Z",
+  "window": {
+    "days": 30,
+    "start": "2026-03-11T07:43:45.651979Z",
+    "end": "2026-04-10T07:43:45.651979Z"
+  },
+  "version_id": "v2-cutover-r1",
+  "inputs": {
+    "quarterly_report": "docs/reports/phase7_quarterly_regression_audit_latest.json",
+    "biweekly_report": "docs/reports/phase7_biweekly_stability_review_latest.json",
+    "guard_report": "docs/reports/phase7_observability_guard_latest.json",
+    "postmortem_dir": "docs/reports/postmortem-pack"
+  },
+  "metrics": {
+    "quarterly_result": "CONDITIONAL_PASS",
+    "biweekly_level": "GREEN",
+    "guard_decision": "unknown",
+    "postmortem_count": 3
+  },
+  "assessment": {
+    "decision": "REVIEW_REQUIRED",
+    "summary": "quarterly=CONDITIONAL_PASS, biweekly=GREEN, guard=unknown, postmortem_count=3, decision=REVIEW_REQUIRED.",
+    "risks": [
+      "当前存在条件通过项，需要责任人限期闭环。"
+    ],
+    "trace_actions": [
+      "针对条件通过项建立责任追踪并在 SLA 内完成复测。"
+    ]
+  },
+  "change_items": [
+    {
+      "id": "CHG-001",
+      "title": "补齐失败项修复证据并重新执行回归。",
+      "scope": "V2 控制平面",
+      "risk": "M",
+      "status": "待跟踪"
+    },
+    {
+      "id": "CHG-002",
+      "title": "补齐回退预检并更新 rollback drill 报告。",
+      "scope": "V2 控制平面",
+      "risk": "M",
+      "status": "待跟踪"
+    },
+    {
+      "id": "CHG-003",
+      "title": "刷新关键报告并再次执行观测守护。",
+      "scope": "V2 控制平面",
+      "risk": "M",
+      "status": "待跟踪"
+    },
+    {
+      "id": "CHG-004",
+      "title": "补齐双周复评执行记录，确保节奏持续。",
+      "scope": "V2 控制平面",
+      "risk": "M",
+      "status": "待跟踪"
+    }
+  ]
+}

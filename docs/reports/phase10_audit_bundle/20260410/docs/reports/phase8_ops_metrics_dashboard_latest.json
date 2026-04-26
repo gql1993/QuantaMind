@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-04-10T10:03:02.087872Z",
+  "inputs": {
+    "policy": "docs/phase8_ops_metrics_policy.json",
+    "guard_report": "docs/reports/phase7_observability_guard_latest.json",
+    "biweekly_report": "docs/reports/phase7_biweekly_stability_review_latest.json",
+    "skip_live_probes": true,
+    "v2_base": "http://127.0.0.1:18790"
+  },
+  "policy": {
+    "availability_target": 0.995,
+    "error_budget_warn_ratio": 0.7,
+    "error_budget_breach_ratio": 1.0,
+    "pending_approvals_max": 20,
+    "timeout_tasks_max": 5,
+    "capacity_warn_utilization": 0.7,
+    "capacity_critical_utilization": 1.0
+  },
+  "live": {
+    "health_ok": null,
+    "failed_runs": null,
+    "total_runs": null,
+    "failed_run_ratio": null,
+    "pending_approvals": null,
+    "timeout_tasks": null
+  },
+  "metrics": {
+    "availability": 0.995,
+    "failed_run_ratio": null,
+    "error_budget_total": 0.0050000000000000044,
+    "error_budget_burn": 0.0,
+    "error_budget_consumed_ratio": 0.0,
+    "pending_approvals": 0,
+    "pending_utilization": 0.0,
+    "timeout_tasks": 0,
+    "timeout_utilization": 0.0,
+    "capacity_pressure": 0.0,
+    "guard_decision": "rollback_now",
+    "guard_critical_count": 4,
+    "guard_warn_count": 4
+  },
+  "assessment": {
+    "overall_status": "RED",
+    "slo_level": "yellow",
+    "budget_level": "green",
+    "capacity_level": "yellow",
+    "summary": "overall=RED, availability=0.9950, error_budget_ratio=0.0000, capacity_pressure=0.0000, guard=rollback_now.",
+    "risks": [
+      "观测守护存在 critical 告警。",
+      "容量指标出现压力（pending approvals / timeout tasks）。",
+      "未获取到 failed_run_ratio，当前可用性按目标值占位。",
+      "容量实时指标不完整，当前结果为部分数据。"
+    ],
+    "actions": [
+      "立即冻结变更并执行故障处置/回退评估。",
+      "调整任务预算与审批处理 SLA，降低积压。",
+      "恢复 runs 指标采集后重新生成看板。",
+      "恢复 approvals/tasks 探针后刷新容量结论。"
+    ]
+  }
+}

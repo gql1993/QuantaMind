@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-04-10T10:03:02.578581Z",
+  "inputs": {
+    "version": "v2-prod-r1",
+    "owner": "ops-manager",
+    "v1_base": "http://127.0.0.1:18789",
+    "v2_base": "http://127.0.0.1:18790"
+  },
+  "summary": {
+    "result": "ATTENTION",
+    "total": 5,
+    "failed": 5
+  },
+  "tasks": [
+    {
+      "title": "ops_metrics_dashboard",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase8_ops_metrics_dashboard.py",
+        "--version",
+        "v2-prod-r1",
+        "--owner",
+        "ops-manager",
+        "--skip-live-probes"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase8-ops-dashboard] overall=RED json=E:\\work\\QuantaMind\\docs\\reports\\phase8_ops_metrics_dashboard_latest.json markdown=E:\\work\\QuantaMind\\docs\\reports\\phase8_ops_metrics_dashboard_latest.md",
+      "stderr_tail": ""
+    },
+    {
+      "title": "oncall_handbook",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase8_generate_oncall_handbook.py",
+        "--version",
+        "v2-prod-r1",
+        "--owner",
+        "ops-manager"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase8-oncall] level=P1 json=E:\\work\\QuantaMind\\docs\\reports\\phase8_oncall_handbook_latest.json handbook=E:\\work\\QuantaMind\\docs\\reports\\phase8_oncall_handbook_latest.md handoff=E:\\work\\QuantaMind\\docs\\reports\\phase8_oncall_handoff_latest.md",
+      "stderr_tail": ""
+    },
+    {
+      "title": "wave_rollout_backpressure",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase8_wave_rollout_backpressure.py",
+        "--version",
+        "v2-prod-r1",
+        "--owner",
+        "ops-manager"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase8-wave-rollout] decision=ROLLBACK json=E:\\work\\QuantaMind\\docs\\reports\\phase8_wave_rollout_backpressure_latest.json plan=E:\\work\\QuantaMind\\docs\\reports\\phase8_wave_rollout_backpressure_latest.md log=E:\\work\\QuantaMind\\docs\\reports\\phase8_wave_rollout_execution_latest.md",
+      "stderr_tail": ""
+    },
+    {
+      "title": "fault_drill_scoring",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase8_fault_drill_scoring.py",
+        "--version",
+        "v2-prod-r1",
+        "--owner",
+        "ops-manager"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase8-drill-score] score=4.00 grade=D json=E:\\work\\QuantaMind\\docs\\reports\\phase8_fault_drill_scoring_latest.json report=E:\\work\\QuantaMind\\docs\\reports\\phase8_fault_drill_scoring_latest.md ledger=E:\\work\\QuantaMind\\docs\\reports\\phase8_fault_drill_improvement_ledger_latest.md",
+      "stderr_tail": ""
+    },
+    {
+      "title": "release_cadence_arbitration",
+      "command": [
+        "C:\\Users\\Huawei\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "scripts/phase8_release_cadence_arbitration.py",
+        "--owner",
+        "ops-manager"
+      ],
+      "exit_code": 1,
+      "ok": false,
+      "stdout_tail": "[phase8-cadence-arb] decision=HOLD_ALL json=E:\\work\\QuantaMind\\docs\\reports\\phase8_release_cadence_arbitration_latest.json memo=E:\\work\\QuantaMind\\docs\\reports\\phase8_release_cadence_arbitration_latest.md",
+      "stderr_tail": ""
+    }
+  ]
+}

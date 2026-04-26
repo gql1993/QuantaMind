@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-04-10T18:03:02.569618",
+  "window_id": "2026W15",
+  "decision": "HOLD_ALL",
+  "summary": "window=2026W15, oncall=P1, approved=0, deferred=2, decision=HOLD_ALL.",
+  "oncall_level": "P1",
+  "approved": [],
+  "deferred": [
+    {
+      "team": "release",
+      "change_id": "REL-001",
+      "title": "核心网关发布",
+      "risk": "high",
+      "start": "2026-04-12T20:00:00",
+      "end": "2026-04-12T21:00:00",
+      "decision": "defer",
+      "note": "oncall=P1，中高风险发布需延期"
+    },
+    {
+      "team": "ai",
+      "change_id": "AI-014",
+      "title": "模型路由策略更新",
+      "risk": "medium",
+      "start": "2026-04-12T20:30:00",
+      "end": "2026-04-12T21:30:00",
+      "decision": "defer",
+      "note": "oncall=P1，中高风险发布需延期"
+    }
+  ],
+  "conflicts": [
+    "REL-001 与 on-call 级别冲突",
+    "AI-014 与 on-call 级别冲突"
+  ],
+  "actions": [
+    "组织跨团队重排期会议，重新提交申请窗口。",
+    "对延期项生成 follow-up 计划并更新 owner。"
+  ],
+  "inputs": {
+    "policy": "docs/phase8_team_release_policy.json",
+    "requests": "docs/templates/Phase8_跨团队发布申请模板.json",
+    "oncall_report": "docs/reports/phase8_oncall_handbook_latest.json"
+  }
+}

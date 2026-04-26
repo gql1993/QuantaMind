@@ -1,0 +1,10 @@
+﻿python :   File "<string>", line 12
+所在位置 C:\Users\Huawei\AppData\Local\Temp\ps-script-e1830f55-c9e1-447f-a334-906c1588c3fc.ps1:82 字符: 25
++ Start-Sleep -Seconds 8; python -X utf8 -c "
++                         ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  File "<string>", line 12:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    print(f'  [{i*2}s] status={p[" status\]}
+          ^
+SyntaxError: unterminated string literal (detected at line 12)

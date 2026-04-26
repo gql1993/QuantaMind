@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-10T10:03:02.245588Z",
+  "inputs": {
+    "policy": "docs/phase8_alert_policy.json",
+    "guard_report": "docs/reports/phase7_observability_guard_latest.json",
+    "ops_report": "docs/reports/phase8_ops_metrics_dashboard_latest.json",
+    "dependency_report": "docs/reports/phase8_dependency_compat_latest.json",
+    "version": "v2-prod-r1",
+    "owner": "ops-manager"
+  },
+  "current_level": "P1",
+  "reasons": [
+    "ops dashboard 为 RED",
+    "observability guard 判定 rollback_now",
+    "dependency compatibility 为 BLOCK"
+  ],
+  "summary": "current_level=P1; reasons=ops dashboard 为 RED; observability guard 判定 rollback_now; dependency compatibility 为 BLOCK"
+}

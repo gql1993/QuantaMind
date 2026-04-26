@@ -1,0 +1,88 @@
+{
+  "timestamp": "2026-04-10T07:22:55.133828Z",
+  "window": {
+    "days": 14,
+    "start": "2026-03-27T07:22:55.105262Z",
+    "end": "2026-04-10T07:22:55.105262Z"
+  },
+  "inputs": {
+    "policy": "docs/phase7_observability_policy.json",
+    "guard_report": "docs/reports/phase7_observability_guard_latest.json",
+    "baseline_report": "docs/reports/phase6_v1_v2_baseline_latest.json",
+    "canary_report": "docs/reports/phase7_canary_rollout_latest.json",
+    "pre_cutover_report": "docs/reports/phase7_pre_cutover_drill_latest.json",
+    "rollback_report": "docs/reports/phase7_rollback_drill_latest.json",
+    "postmortem_dir": "docs/reports/postmortem-pack",
+    "skip_live_probes": true,
+    "v2_base": "http://127.0.0.1:18790"
+  },
+  "source_state": {
+    "guard_summary": {},
+    "baseline_timestamp": null,
+    "canary_timestamp": null,
+    "pre_cutover_timestamp": null,
+    "rollback_timestamp": null
+  },
+  "live": {
+    "health_ok": null,
+    "failed_run_ratio": null,
+    "failed_runs": null,
+    "total_runs": null,
+    "pending_approvals": null,
+    "timeout_tasks": null
+  },
+  "metrics": [
+    {
+      "name": "guard decision",
+      "value": "unknown",
+      "threshold": "ok/warn/rollback_now",
+      "result": "关注"
+    },
+    {
+      "name": "guard critical_count",
+      "value": 0,
+      "threshold": "0",
+      "result": "正常"
+    },
+    {
+      "name": "guard warn_count",
+      "value": 0,
+      "threshold": "0（理想）",
+      "result": "正常"
+    },
+    {
+      "name": "failed run ratio",
+      "value": null,
+      "threshold": "<= 0.2",
+      "result": "正常"
+    },
+    {
+      "name": "pending approvals",
+      "value": null,
+      "threshold": "<= 20",
+      "result": "正常"
+    },
+    {
+      "name": "timeout tasks",
+      "value": null,
+      "threshold": "<= 5",
+      "result": "正常"
+    },
+    {
+      "name": "postmortem artifacts count",
+      "value": 3,
+      "threshold": ">= 1",
+      "result": "正常"
+    }
+  ],
+  "assessment": {
+    "stability_level": "GREEN",
+    "summary": "窗口内 guard=unknown（critical=0, warn=0），复盘材料数=3，建议等级=GREEN。",
+    "risks": [
+      "未发现新增高风险异常。"
+    ],
+    "actions": [
+      "维持当前灰度节奏，进入下一轮复评。"
+    ]
+  }
+}

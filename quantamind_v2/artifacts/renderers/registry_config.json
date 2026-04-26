@@ -1,0 +1,5 @@
+{
+  "renderers": {
+    "coordination_report": "quantamind_v2.artifacts.renderers.coordination:render_coordination_report"
+  }
+}
