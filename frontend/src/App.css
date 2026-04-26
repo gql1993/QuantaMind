@@ -543,6 +543,38 @@ th {
   gap: 8px;
 }
 
+.knowledge-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.knowledge-card {
+  padding: 16px;
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.knowledge-card > span,
+.knowledge-card small {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.knowledge-card h3 {
+  margin: 8px 0;
+}
+
+.knowledge-card p {
+  color: #526174;
+  line-height: 1.7;
+}
+
+.knowledge-card .tag-list {
+  margin-bottom: 12px;
+}
+
 .ai-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;

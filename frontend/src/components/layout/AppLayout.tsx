@@ -10,6 +10,7 @@ const fallbackNavItems: PermissionMenuItem[] = [
   { to: '/workspace/tasks', label: '我的任务' },
   { to: '/workspace/artifacts', label: '产物中心' },
   { to: '/workspace/data', label: '数据中心' },
+  { to: '/workspace/knowledge', label: '知识库/记忆' },
   { to: '/workspace/agents', label: '智能体' },
   { to: '/admin/runs', label: '后台 Run 控制台' },
   { to: '/admin/system', label: '后台系统监控' },

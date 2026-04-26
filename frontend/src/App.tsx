@@ -9,6 +9,7 @@ import { AiWorkbenchPage } from './pages/AiWorkbenchPage'
 import { ArtifactDetailPage } from './pages/ArtifactDetailPage'
 import { ArtifactsPage } from './pages/ArtifactsPage'
 import { DataCenterPage } from './pages/DataCenterPage'
+import { KnowledgeMemoryPage } from './pages/KnowledgeMemoryPage'
 import { OverviewPage } from './pages/OverviewPage'
 import { RoleWorkspacePage } from './pages/RoleWorkspacePage'
 import { RunDetailPage } from './pages/RunDetailPage'
@@ -28,6 +29,7 @@ function App() {
           <Route path="/workspace/artifacts" element={<ArtifactsPage />} />
           <Route path="/workspace/artifacts/:artifactId" element={<ArtifactDetailPage />} />
           <Route path="/workspace/data" element={<DataCenterPage />} />
+          <Route path="/workspace/knowledge" element={<KnowledgeMemoryPage />} />
           <Route path="/workspace/agents" element={<AgentsPage />} />
           <Route path="/workspace/agents/:agentId" element={<AgentDetailPage />} />
           <Route path="/admin/runs" element={<RunsPage admin />} />
