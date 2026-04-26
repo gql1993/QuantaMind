@@ -501,6 +501,48 @@ th {
   font-size: 16px;
 }
 
+.dataset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dataset-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 14px;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.dataset-card span,
+.dataset-card small {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.dataset-card h3 {
+  margin: 6px 0;
+}
+
+.dataset-card p {
+  margin-bottom: 0;
+  color: #526174;
+}
+
+.dataset-card small {
+  grid-column: 1 / -1;
+}
+
+.dataset-meta {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .ai-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
@@ -809,6 +851,7 @@ th {
   }
 
   .admin-hero,
+  .dataset-card,
   .module-card {
     align-items: flex-start;
     flex-direction: column;

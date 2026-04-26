@@ -8,6 +8,7 @@ import { AdminSystemPage } from './pages/AdminSystemPage'
 import { AiWorkbenchPage } from './pages/AiWorkbenchPage'
 import { ArtifactDetailPage } from './pages/ArtifactDetailPage'
 import { ArtifactsPage } from './pages/ArtifactsPage'
+import { DataCenterPage } from './pages/DataCenterPage'
 import { OverviewPage } from './pages/OverviewPage'
 import { RoleWorkspacePage } from './pages/RoleWorkspacePage'
 import { RunDetailPage } from './pages/RunDetailPage'
@@ -26,6 +27,7 @@ function App() {
           <Route path="/workspace/tasks/:runId" element={<RunDetailPage />} />
           <Route path="/workspace/artifacts" element={<ArtifactsPage />} />
           <Route path="/workspace/artifacts/:artifactId" element={<ArtifactDetailPage />} />
+          <Route path="/workspace/data" element={<DataCenterPage />} />
           <Route path="/workspace/agents" element={<AgentsPage />} />
           <Route path="/workspace/agents/:agentId" element={<AgentDetailPage />} />
           <Route path="/admin/runs" element={<RunsPage admin />} />
