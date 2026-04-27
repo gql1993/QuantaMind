@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
+import { loginWithRole } from '../../api/auth'
+import { setAccessToken } from '../../api/client'
 import { fetchCurrentUserPermissions, type CurrentUserPermissions, type PermissionMenuItem } from '../../api/permissions'
+import { roleProfiles } from '../../config/roleProfiles'
 
 const fallbackNavItems: PermissionMenuItem[] = [
   { to: '/workspace', label: '工作台总览', end: true },
@@ -27,30 +30,51 @@ const fallbackNavItems: PermissionMenuItem[] = [
 export function AppLayout() {
   const [permissions, setPermissions] = useState<CurrentUserPermissions | null>(null)
   const [permissionError, setPermissionError] = useState<string | null>(null)
+  const [authLoading, setAuthLoading] = useState(false)
   const navItems = permissions?.menus ?? fallbackNavItems
 
-  useEffect(() => {
-    let ignore = false
-
+  function loadPermissions(ignore?: () => boolean) {
     fetchCurrentUserPermissions()
       .then((response) => {
-        if (ignore) {
+        if (ignore?.()) {
           return
         }
         setPermissions(response.data)
         setPermissionError(null)
       })
       .catch((error: unknown) => {
-        if (ignore) {
+        if (ignore?.()) {
           return
         }
         setPermissionError(error instanceof Error ? error.message : 'Unknown permission error')
       })
+  }
+
+  useEffect(() => {
+    let ignore = false
+
+    loadPermissions(() => ignore)
 
     return () => {
       ignore = true
     }
   }, [])
+
+  async function handleRoleChange(roleId: string) {
+    setAuthLoading(true)
+    try {
+      const response = await loginWithRole(roleId)
+      setAccessToken(response.data.access_token)
+      await fetchCurrentUserPermissions().then((permissionResponse) => {
+        setPermissions(permissionResponse.data)
+        setPermissionError(null)
+      })
+    } catch (error) {
+      setPermissionError(error instanceof Error ? error.message : 'Unknown login error')
+    } finally {
+      setAuthLoading(false)
+    }
+  }
 
   return (
     <div className="app-shell">
@@ -59,6 +83,17 @@ export function AppLayout() {
         <div className="user-card">
           <span>{permissions?.user.role_label ?? '权限加载中'}</span>
           <strong>{permissions?.user.display_name ?? 'Demo User'}</strong>
+          <select
+            value={permissions?.user.role_id ?? 'project-manager'}
+            disabled={authLoading}
+            onChange={(event) => handleRoleChange(event.target.value)}
+          >
+            {roleProfiles.map((role) => (
+              <option value={role.roleId} key={role.roleId}>
+                {role.name}
+              </option>
+            ))}
+          </select>
           {permissionError && <small>使用本地菜单：{permissionError}</small>}
         </div>
         <nav>

@@ -1,10 +1,15 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 
+from backend.quantamind_api.routes.dependencies import require_permission
 from quantamind_v2.agents import AgentRegistry
 
-router = APIRouter(prefix="/api/v1/agents", tags=["agents"])
+router = APIRouter(
+    prefix="/api/v1/agents",
+    tags=["agents"],
+    dependencies=[Depends(require_permission("agent:read"))],
+)
 
 
 def _registry(request: Request) -> AgentRegistry:

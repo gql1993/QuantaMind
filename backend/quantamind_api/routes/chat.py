@@ -2,13 +2,18 @@ from __future__ import annotations
 
 import json
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
+from backend.quantamind_api.routes.dependencies import require_permission
 from backend.quantamind_api.services.chat_service import ChatService
 
-router = APIRouter(prefix="/api/v1/chat", tags=["chat"])
+router = APIRouter(
+    prefix="/api/v1/chat",
+    tags=["chat"],
+    dependencies=[Depends(require_permission("chat:use"))],
+)
 
 
 class ChatRequest(BaseModel):

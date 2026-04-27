@@ -11,6 +11,7 @@ import {
   type ArtifactPreview,
   type ArtifactRecord,
 } from '../api/artifacts'
+import { useCurrentPermissions } from '../hooks/useCurrentPermissions'
 
 export function ArtifactDetailPage() {
   const { artifactId } = useParams<{ artifactId: string }>()
@@ -20,6 +21,11 @@ export function ArtifactDetailPage() {
   const [error, setError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
   const [loadingAction, setLoadingAction] = useState<string | null>(null)
+  const { permissions, hasPermission } = useCurrentPermissions()
+  const canPreviewArtifact = hasPermission('artifact:read')
+  const canExportArtifact = hasPermission('artifact:export')
+  const canShareArtifact = hasPermission('artifact:share')
+  const canArchiveArtifact = hasPermission('artifact:archive')
 
   useEffect(() => {
     if (!artifactId) {
@@ -102,20 +108,43 @@ export function ArtifactDetailPage() {
           </div>
           <div className="detail-actions">
             <span className="badge">{artifact.artifact_type}</span>
-            <button type="button" className="secondary-action" onClick={() => runAction('preview')}>
+            <button
+              type="button"
+              className="secondary-action"
+              disabled={!canPreviewArtifact || loadingAction !== null}
+              onClick={() => runAction('preview')}
+            >
               {loadingAction === 'preview' ? '预览中...' : '预览'}
             </button>
-            <button type="button" className="secondary-action" onClick={() => runAction('export')}>
+            <button
+              type="button"
+              className="secondary-action"
+              disabled={!canExportArtifact || loadingAction !== null}
+              onClick={() => runAction('export')}
+            >
               {loadingAction === 'export' ? '导出中...' : '导出'}
             </button>
-            <button type="button" className="secondary-action" onClick={() => runAction('share')}>
+            <button
+              type="button"
+              className="secondary-action"
+              disabled={!canShareArtifact || loadingAction !== null}
+              onClick={() => runAction('share')}
+            >
               {loadingAction === 'share' ? '分享中...' : '分享'}
             </button>
-            <button type="button" className="primary-action" onClick={() => runAction('archive')}>
+            <button
+              type="button"
+              className="primary-action"
+              disabled={!canArchiveArtifact || loadingAction !== null}
+              onClick={() => runAction('archive')}
+            >
               {loadingAction === 'archive' ? '归档中...' : '归档'}
             </button>
           </div>
         </div>
+        {permissions && (!canExportArtifact || !canShareArtifact || !canArchiveArtifact) && (
+          <div className="info-banner">当前角色缺少部分产物操作权限，相关按钮已禁用。</div>
+        )}
         {actionError && <div className="error-banner">产物操作失败：{actionError}</div>}
         {actionResult && (
           <div className="info-banner">

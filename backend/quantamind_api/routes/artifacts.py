@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 
+from backend.quantamind_api.routes.dependencies import require_permission
 from backend.quantamind_api.services.runtime_state import RuntimeStateService
 
 router = APIRouter(prefix="/api/v1/artifacts", tags=["artifacts"])
@@ -32,7 +33,7 @@ def get_artifact(request: Request, artifact_id: str) -> dict:
     return {"success": True, "data": artifact, "error": None}
 
 
-@router.get("/{artifact_id}/preview")
+@router.get("/{artifact_id}/preview", dependencies=[Depends(require_permission("artifact:read"))])
 def preview_artifact(request: Request, artifact_id: str) -> dict:
     artifact = _runtime_state(request).get_artifact(artifact_id)
     if artifact is None:
@@ -49,7 +50,7 @@ def preview_artifact(request: Request, artifact_id: str) -> dict:
     }
 
 
-@router.post("/{artifact_id}/export")
+@router.post("/{artifact_id}/export", dependencies=[Depends(require_permission("artifact:export"))])
 def export_artifact(request: Request, artifact_id: str) -> dict:
     artifact = _runtime_state(request).get_artifact(artifact_id)
     if artifact is None:
@@ -66,7 +67,7 @@ def export_artifact(request: Request, artifact_id: str) -> dict:
     }
 
 
-@router.post("/{artifact_id}/share")
+@router.post("/{artifact_id}/share", dependencies=[Depends(require_permission("artifact:share"))])
 def share_artifact(request: Request, artifact_id: str) -> dict:
     artifact = _runtime_state(request).get_artifact(artifact_id)
     if artifact is None:
@@ -83,7 +84,7 @@ def share_artifact(request: Request, artifact_id: str) -> dict:
     }
 
 
-@router.post("/{artifact_id}/archive")
+@router.post("/{artifact_id}/archive", dependencies=[Depends(require_permission("artifact:archive"))])
 def archive_artifact(request: Request, artifact_id: str) -> dict:
     artifact = _runtime_state(request).get_artifact(artifact_id)
     if artifact is None:

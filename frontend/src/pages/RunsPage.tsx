@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 
 import { createRun, fetchRuns, type CreateRunPayload, type RunRecord } from '../api/runs'
 import { RunsTable } from '../components/RunsTable'
+import { useCurrentPermissions } from '../hooks/useCurrentPermissions'
 
 type RunsPageProps = {
   admin?: boolean
@@ -13,6 +14,8 @@ export function RunsPage({ admin = false }: RunsPageProps) {
   const [error, setError] = useState<string | null>(null)
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [creating, setCreating] = useState(false)
+  const { permissions, hasPermission } = useCurrentPermissions()
+  const canCreateRun = hasPermission('run:create')
   const [form, setForm] = useState<CreateRunPayload>({
     run_type: 'chat_run',
     origin: admin ? 'admin_console' : 'workspace',
@@ -74,17 +77,23 @@ export function RunsPage({ admin = false }: RunsPageProps) {
   return (
     <>
       {error && <div className="error-banner">Run 数据加载失败：{error}</div>}
+      {permissions && !canCreateRun && <div className="info-banner">当前角色仅可查看 Run，暂无新建权限。</div>}
       <RunsTable
         runs={runs}
         title={admin ? '后台 Run 控制台' : '我的任务'}
         admin={admin}
         action={
-          <button type="button" className="primary-action" onClick={() => setShowCreateForm((value) => !value)}>
+          <button
+            type="button"
+            className="primary-action"
+            disabled={!canCreateRun}
+            onClick={() => setShowCreateForm((value) => !value)}
+          >
             {showCreateForm ? '收起' : '新建 Run'}
           </button>
         }
       />
-      {showCreateForm && (
+      {showCreateForm && canCreateRun && (
         <section className="panel form-panel">
           <div className="panel-head">
             <div>

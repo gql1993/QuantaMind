@@ -1,8 +1,14 @@
 from __future__ import annotations
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-router = APIRouter(prefix="/api/v1/admin/audit", tags=["admin-audit"])
+from backend.quantamind_api.routes.dependencies import require_permission
+
+router = APIRouter(
+    prefix="/api/v1/admin/audit",
+    tags=["admin-audit"],
+    dependencies=[Depends(require_permission("admin:read"))],
+)
 
 
 APPROVALS = [

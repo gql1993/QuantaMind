@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 
+from backend.quantamind_api.routes.dependencies import require_permission
 from backend.quantamind_api.services.runtime_state import RuntimeStateService
 from quantamind_v2.contracts.run import RunState, RunType
 from quantamind_v2.core.runs.coordinator import RunCoordinator
@@ -33,7 +34,7 @@ def list_runs(request: Request, state: str | None = Query(default=None)) -> dict
     }
 
 
-@router.post("")
+@router.post("", dependencies=[Depends(require_permission("run:create"))])
 def create_run(request: Request, payload: dict | None = None) -> dict:
     data = payload or {}
     run_type = RunType(data.get("run_type", RunType.CHAT.value))
@@ -66,7 +67,7 @@ def list_run_events(request: Request, run_id: str) -> dict:
     }
 
 
-@router.post("/{run_id}/cancel")
+@router.post("/{run_id}/cancel", dependencies=[Depends(require_permission("run:cancel"))])
 def cancel_run(request: Request, run_id: str) -> dict:
     if run_id.startswith("v1-"):
         raise HTTPException(status_code=409, detail="V1 compatible runs are read-only from separated API")
@@ -82,7 +83,7 @@ def cancel_run(request: Request, run_id: str) -> dict:
     return {"success": True, "data": run.model_dump(), "error": None}
 
 
-@router.post("/{run_id}/retry")
+@router.post("/{run_id}/retry", dependencies=[Depends(require_permission("run:retry"))])
 def retry_run(request: Request, run_id: str) -> dict:
     if run_id.startswith("v1-"):
         raise HTTPException(status_code=409, detail="V1 compatible runs are read-only from separated API")

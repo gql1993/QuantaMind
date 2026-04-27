@@ -39,6 +39,17 @@
   font-size: 14px;
 }
 
+.user-card select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid rgba(147, 164, 189, 0.35);
+  border-radius: 8px;
+  background: #172033;
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+}
+
 .sidebar nav {
   display: flex;
   flex-direction: column;
@@ -724,6 +735,11 @@ th {
   background: #eff6ff;
   color: #1d4ed8;
   font-weight: 700;
+}
+
+.access-denied p {
+  margin: 8px 0 0;
+  color: #64748b;
 }
 
 .form-panel {

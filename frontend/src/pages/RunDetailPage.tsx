@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import { cancelRun, fetchRun, fetchRunEvents, retryRun, type RunEvent, type RunRecord } from '../api/runs'
+import { useCurrentPermissions } from '../hooks/useCurrentPermissions'
 
 type RunDetailPageProps = {
   admin?: boolean
@@ -15,6 +16,7 @@ export function RunDetailPage({ admin = false }: RunDetailPageProps) {
   const [error, setError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState<'cancel' | 'retry' | null>(null)
+  const { permissions, hasPermission } = useCurrentPermissions()
 
   async function loadRunDetails(currentRunId: string) {
     try {
@@ -57,6 +59,8 @@ export function RunDetailPage({ admin = false }: RunDetailPageProps) {
 
   const backPath = admin ? '/admin/runs' : '/workspace/tasks'
   const isReadOnlyV1 = run?.run_id.startsWith('v1-') ?? false
+  const canCancelRun = hasPermission('run:cancel')
+  const canRetryRun = hasPermission('run:retry')
 
   async function handleCancel() {
     if (!runId) {
@@ -128,7 +132,7 @@ export function RunDetailPage({ admin = false }: RunDetailPageProps) {
             <button
               type="button"
               className="secondary-action"
-              disabled={isReadOnlyV1 || actionLoading !== null || run.state === 'cancelled'}
+              disabled={!canCancelRun || isReadOnlyV1 || actionLoading !== null || run.state === 'cancelled'}
               onClick={handleCancel}
             >
               {actionLoading === 'cancel' ? '取消中...' : '取消 Run'}
@@ -136,7 +140,7 @@ export function RunDetailPage({ admin = false }: RunDetailPageProps) {
             <button
               type="button"
               className="primary-action"
-              disabled={isReadOnlyV1 || actionLoading !== null}
+              disabled={!canRetryRun || isReadOnlyV1 || actionLoading !== null}
               onClick={handleRetry}
             >
               {actionLoading === 'retry' ? '重试中...' : '重试'}
@@ -144,6 +148,9 @@ export function RunDetailPage({ admin = false }: RunDetailPageProps) {
           </div>
         </div>
         {isReadOnlyV1 && <div className="info-banner">V1 兼容 Run 当前为只读，暂不支持取消或重试。</div>}
+        {permissions && (!canCancelRun || !canRetryRun) && (
+          <div className="info-banner">当前角色缺少取消或重试权限，相关操作已禁用。</div>
+        )}
         {actionError && <div className="error-banner">Run 操作失败：{actionError}</div>}
 
         <div className="detail-fields">

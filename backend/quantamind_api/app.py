@@ -8,6 +8,7 @@ from backend.quantamind_api.routes.admin_agents import router as admin_agents_ro
 from backend.quantamind_api.routes.agents import router as agents_router
 from backend.quantamind_api.routes.artifacts import router as artifacts_router
 from backend.quantamind_api.routes.audit import router as audit_router
+from backend.quantamind_api.routes.auth import router as auth_router
 from backend.quantamind_api.routes.chat import router as chat_router
 from backend.quantamind_api.routes.data import router as data_router
 from backend.quantamind_api.routes.health import router as health_router
@@ -15,6 +16,7 @@ from backend.quantamind_api.routes.knowledge import router as knowledge_router
 from backend.quantamind_api.routes.permissions import router as permissions_router
 from backend.quantamind_api.routes.runs import router as runs_router
 from backend.quantamind_api.routes.system import router as system_router
+from backend.quantamind_api.services.auth_service import AuthService
 from backend.quantamind_api.services.chat_service import ChatService
 from backend.quantamind_api.services.runtime_state import RuntimeStateService
 from backend.quantamind_api.settings import ApiSettings
@@ -42,6 +44,7 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     _configure_state(app)
     app.include_router(health_router)
     app.include_router(system_router)
+    app.include_router(auth_router)
     app.include_router(admin_agents_router)
     app.include_router(audit_router)
     app.include_router(permissions_router)
@@ -63,6 +66,7 @@ def _configure_state(app: FastAPI) -> None:
     app.state.artifact_store = artifacts
     app.state.agent_registry = agents
     app.state.runtime_state = RuntimeStateService(coordinator, artifacts)
+    app.state.auth_service = AuthService()
     app.state.chat_service = ChatService(coordinator)
 
 

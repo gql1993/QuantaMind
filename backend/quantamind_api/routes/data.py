@@ -1,8 +1,14 @@
 from __future__ import annotations
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-router = APIRouter(prefix="/api/v1/data", tags=["data"])
+from backend.quantamind_api.routes.dependencies import require_permission
+
+router = APIRouter(
+    prefix="/api/v1/data",
+    tags=["data"],
+    dependencies=[Depends(require_permission("data:read"))],
+)
 
 
 DATASETS = [
